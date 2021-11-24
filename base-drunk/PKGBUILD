@@ -1,0 +1,30 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=base-drunk
+pkgver=2021.4
+pkgrel=1
+arch=('x86_64')
+source=(https://download.savannah.gnu.org/releases/$pkgname/$pkgname-$pkgver.tar.gz)
+depends=('glibc' 'acl' 'attr' 'autoconf' 'automake' 'pacman')
+
+build() {
+        cd $pkgname-$pkgver
+
+	mkdir temp
+}
+
+package() {
+	cd $pkgname-$pkgver
+	
+	# Make rootfs structure
+	mkdir -vp $pkgdir/etc/systemd/system/
+	mkdir -vp $pkgdir/usr/bin
+
+	# Copy over needed files
+	cp -rf ../../os-release $pkgdir/etc
+	cp -rf ../../neofetch $pkgdir/usr/bin && chmod +x $pkgdir/usr/bin/neofetch
+	cp -f ../../dhcpcd.service $pkgdir/etc/systemd/system/
+}

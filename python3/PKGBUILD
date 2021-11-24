@@ -1,0 +1,28 @@
+# Description: Next generation of the python high-level scripting language
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  libffi
+
+pkgname=python3
+pkgver=3.11.0
+pkgrel=1
+arch=('x86_64')
+extraver=a2
+source=(https://www.python.org/ftp/python/$pkgver/Python-${pkgver}${extraver}.tar.xz)
+
+build() {
+        cd Python-${pkgver}${extraver}
+
+        ./configure --prefix=/usr       \
+                    --enable-shared     \
+                    --with-system-expat \
+                    --with-system-ffi   \
+                    --without-ensurepip
+        make
+}
+
+package() {
+        cd Python-${pkgver}${extraver}
+        make DESTDIR=$pkgdir install
+	ln -sf /usr/bin/python3 $pkgdir/usr/bin/python
+}

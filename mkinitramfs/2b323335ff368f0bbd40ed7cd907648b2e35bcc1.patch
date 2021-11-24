@@ -1,0 +1,26 @@
+From 2b323335ff368f0bbd40ed7cd907648b2e35bcc1 Mon Sep 17 00:00:00 2001
+From: emmett1 <emmett1.2miligrams@gmail.com>
+Date: Mon, 23 Mar 2020 11:56:02 +0800
+Subject: [PATCH] fix
+
+---
+ mkinitramfs | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/mkinitramfs b/mkinitramfs
+index 8e39767..14cce99 100755
+--- a/mkinitramfs
++++ b/mkinitramfs
+@@ -34,8 +34,10 @@ add_binary() {
+ add_module() {
+ 	local modname modpath
+ 	if modinfo -k $KERNEL $1 &>/dev/null; then
+-		modname=$(modinfo -k $KERNEL -F name $1)
+-		modpath=$(modinfo -k $KERNEL -F filename $1)
++		modname=$(modinfo -k $KERNEL -F name $1 | cut -d ' ' -f1 | head -n1)
++		[ "$modname" = "name:" ] && return 0
++		modpath=$(modinfo -k $KERNEL -F filename $1 | cut -d ' ' -f1 | head -n1)
++		[ "$modpath" = "name:" ] && return 0
+ 	else
+ 		msg "missing module: $1"
+ 		return

@@ -1,0 +1,21 @@
+# Description: Asynchronous event notification software library
+# URL:         http://libevent.org/
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+
+pkgname=libevent
+pkgver=2.1.12
+pkgrel=1
+arch=('x86_64')
+source=(https://github.com/libevent/libevent/releases/download/release-$pkgver-stable/libevent-$pkgver-stable.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver-stable
+
+	./configure --prefix=/usr --disable-static
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver-stable
+	make DESTDIR=$pkgdir install
+}

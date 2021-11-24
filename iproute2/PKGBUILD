@@ -1,0 +1,26 @@
+# Description: Programs for basic and advanced IPV4-based networking
+# URL:         https://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=iproute2
+pkgver=5.12.0
+pkgrel=1
+arch=('x86_64')
+source=(https://www.kernel.org/pub/linux/utils/net/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        sed -i /ARPD/d Makefile
+        rm -fv man/man8/arpd.8
+
+        [ -e /usr/lib/pkgconfig/xtables.pc ] || sed -i 's/m_ipt.o//' tc/Makefile
+
+        make
+}
+
+package() {
+	cd $pkgname-$pkgver
+        make DESTDIR=$pkgdir install
+}

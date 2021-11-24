@@ -1,0 +1,23 @@
+# Description: Programs for compressing and decompressing files
+# URL:         https://tukaani.org/xz/
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=xz
+pkgver=5.2.5
+pkgrel=1
+source=(https://tukaani.org/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        ./configure --prefix=/usr \
+                    --disable-static
+        make
+        make DESTDIR=$pkgdir install
+
+        mkdir -pv $pkgdir/{bin,lib}
+        mv -v   $pkgdir/usr/bin/{lzma,unlzma,lzcat,xz,unxz,xzcat} $pkgdir/bin
+        mv -v $pkgdir/usr/lib/liblzma.so.* $pkgdir/lib
+        ln -svf ../../lib/$(readlink $pkgdir/usr/lib/liblzma.so) $pkgdir/usr/lib/liblzma.so
+}

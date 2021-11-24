@@ -1,0 +1,26 @@
+# Description: GNU stream editor
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=sed
+pkgver=4.8
+pkgrel=1
+arch=('x86_64')
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+        cd $pkgname-$pkgver
+
+	sed -i 's/usr/tools/'                 build-aux/help2man
+	sed -i 's/testsuite.panic-tests.sh//' Makefile.in
+
+        ./configure --prefix=/usr --bindir=/bin
+        make
+}
+
+package() {
+        cd $pkgname-$pkgver
+
+        make DESTDIR=$pkgdir install
+}

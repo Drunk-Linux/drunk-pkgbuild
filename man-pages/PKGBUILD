@@ -1,0 +1,19 @@
+# Description: Linux man pages
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=man-pages
+pkgver=5.11
+pkgrel=1
+arch=('x86_64')
+source=(https://www.kernel.org/pub/linux/docs/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+	echo "build"
+}
+
+package() {
+        cd $pkgname-$pkgver
+        make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,55 @@
+# Description: The systemd package contains programs for controlling the startup, running, and shutdown of the system. 
+# URL:         https://systemd.io
+# Maintainer:  none
+# Depends on:  
+
+pkgname=systemd
+pkgver=249
+pkgrel=1
+arch=('x86_64')
+source=(https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        wget https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-249-upstream_fixes-1.patch
+        patch -Np1 -i systemd-249-upstream_fixes-1.patch
+        rm -f systemd-249-upstream_fixes-1.patch
+        
+        sed -i -e 's/GROUP="render"/GROUP="video"/' \
+        -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
+        
+        sed -i 's/+ want_libfuzzer.*$/and want_libfuzzer/' meson.build
+        sed -i '/ARPHRD_CAN/a#define ARPHRD_MCTP        290' src/basic/linux/if_arp.h
+        
+        mkdir -p build
+	cd build
+	
+	LANG=en_US.UTF-8                    \
+	meson --prefix=/usr                 \
+		--sysconfdir=/etc             \
+		--localstatedir=/var          \
+		--buildtype=release           \
+		-Dblkid=true                  \
+		-Ddefault-dnssec=no           \
+		-Dfirstboot=false             \
+		-Dinstall-tests=false         \
+		-Dldconfig=false              \
+		-Dsysusers=false              \
+		-Db_lto=false                 \
+		-Drpmmacrosdir=no             \
+		-Dhomed=false                 \
+		-Duserdb=false                \
+		-Dman=false                   \
+		-Dmode=release                \
+		-Ddocdir=/usr/share/doc/systemd-249 \
+		..
+}
+
+package() {
+        cd $pkgname-$pkgver
+	cd build
+	
+	LANG=en_US.UTF-8 ninja
+	LANG=en_US.UTF-8 DESTDIR=$pkgdir/usr PREFIX=$pkgdir/usr ninja install
+}

@@ -1,0 +1,43 @@
+# Description: Message bus system, a simple way for applications to talk to one another
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=dbus
+pkgver=1.12.20
+pkgrel=1
+arch=('x86_64')
+source=(https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure --prefix=/usr                        \
+	            --sysconfdir=/etc                    \
+	            --localstatedir=/var                 \
+	            --enable-user-session                \
+	            --disable-doxygen-docs               \
+	            --disable-xml-docs                   \
+	            --disable-static                     \
+	            --with-systemduserunitdir=no         \
+	            --with-systemdsystemunitdir=no       \
+	            --with-console-auth-dir=/run/console \
+	            --with-system-pid-file=/run/dbus/pid \
+        	    --with-system-socket=/run/dbus/system_bus_socket
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+
+	mkdir -p $pkgdir/lib
+	mv -v $pkgdir/usr/lib/libdbus-1.so.* $pkgdir/lib
+	ln -sfv ../../lib/$(readlink $pkgdir/usr/lib/libdbus-1.so) $pkgdir/usr/lib/libdbus-1.so
+
+	chown -v root:messagebus $pkgdir/usr/libexec/dbus-daemon-launch-helper
+	chmod -v      4750       $pkgdir/usr/libexec/dbus-daemon-launch-helper
+
+	# if build logind support
+	#ln -sv $pkgdir/var/lib/dbus/machine-id $pkgdir/etc
+}

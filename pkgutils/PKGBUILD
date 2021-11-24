@@ -1,0 +1,76 @@
+# Description: A set of utilities to manage software packages 
+# URL:         http://crux.nu/gitweb/?p=tools/pkgutils.git
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  libarchive
+
+pkgname=pkgutils
+pkgver=5.40.7
+pkgrel=1
+arch=('x86_64')
+source=(http://crux.nu/files/$pkgname-$pkgver.tar.xz
+	pkgmk.conf
+	pkgutils_ignore-conflict.patch
+	pkgutils_remove-libtool.patch
+	pkgutils_add-compress-infopages.patch
+	pkgutils_fix-build-needed-trigger.patch)
+
+build () {
+	cd $pkgname-$pkgver
+
+#	for p in ../../*.patch; do
+#		patch -Np1 -i $p
+#	done
+
+	sed -i -e 's/ --static//' \
+	       -e 's/ -static//' Makefile
+}
+
+package() {
+        cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+	#install -m644 ../../pkgmk.conf $pkgdir/etc/pkgmk.conf
+
+	cat > $pkgdir/etc/pkgmk.conf << EOF
+#
+# /etc/pkgmk.conf: pkgmk(8) configuration
+#
+
+export CFLAGS="$CFLAGS"
+export CXXFLAGS="\${CFLAGS}"
+
+export MAKEFLAGS="$MAKEFLAGS"
+
+case ${PKGMK_ARCH} in
+	"64"|"")
+		;;
+	"32")
+		export CFLAGS="\${CFLAGS} -m32"
+		export CXXFLAGS="\${CXXFLAGS} -m32"
+		export LDFLAGS="\${LDFLAGS} -m32"
+		export PKG_CONFIG_LIBDIR="/usr/lib32/pkgconfig"
+		;;
+	*)
+		echo "Unknown architecture selected! Exiting."
+		exit 1
+		;;
+esac
+
+# PKGMK_SOURCE_MIRRORS=()
+PKGMK_SOURCE_DIR="/var/lib/pkg/src"
+PKGMK_PACKAGE_DIR="/var/lib/pkg/pkg"
+PKGMK_WORK_DIR="/var/lib/pkg/work/\$pkgname"
+PKGMK_DOWNLOAD="yes"
+# PKGMK_IGNORE_SIGNATURE="no"
+# PKGMK_IGNORE_MD5SUM="no"
+# PKGMK_IGNORE_FOOTPRINT="no"
+# PKGMK_IGNORE_NEW="no"
+# PKGMK_NO_STRIP="no"
+PKGMK_DOWNLOAD_PROG="curl"
+# PKGMK_WGET_OPTS=""
+# PKGMK_CURL_OPTS=""
+PKGMK_COMPRESSION_MODE="xz"
+
+# End of file
+EOF
+}
+
