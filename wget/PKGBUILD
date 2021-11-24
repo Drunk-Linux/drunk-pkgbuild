@@ -6,6 +6,7 @@
 pkgname=wget
 pkgver=1.21.1
 pkgrel=1
+arch=('x86_64')
 source=(https://ftp.gnu.org/gnu/wget/wget-$pkgver.tar.gz)
 
 build() {
@@ -15,5 +16,9 @@ build() {
 	            --sysconfdir=/etc  \
 	            --with-ssl=openssl
 	make
+}
+
+package() {
+	cd $pkgname-$pkgver
 	make DESTDIR=$pkgdir install
 }

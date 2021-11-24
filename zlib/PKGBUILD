@@ -6,6 +6,7 @@
 pkgname=zlib
 pkgver=1.2.11
 pkgrel=1
+arch=('x86_64')
 source=(https://zlib.net/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -13,6 +14,10 @@ build() {
 
         ./configure --prefix=/usr
         make
+}
+
+package() {
+        cd $pkgname-$pkgver
         make DESTDIR=$pkgdir install
 
         mkdir -p $pkgdir/lib

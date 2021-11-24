@@ -7,11 +7,15 @@ pkgname=wpa_supplicant
 pkgver=2.9
 bootscriptspkgver=20210110
 pkgrel=1
+arch=('x86_64')
 source=(https://w1.fi/releases/wpa_supplicant-$pkgver.tar.gz
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$bootscriptsversion.tar.xz
 	wpa_supplicant.conf)
 
 build() {
+	echo "build"
+}
+
+package() {
 	cd $pkgname-$pkgver
 
 	cat > wpa_supplicant/.config << "EOF"
@@ -59,11 +63,7 @@ EOF
         install -m644 dbus/dbus-wpa_supplicant.conf $pkgdir/etc/dbus-1/system.d/wpa_supplicant.conf
 
         # wpa_supplicant.conf
-        install -Dm 600 $SRC/wpa_supplicant.conf $pkgdir/etc/wpa_supplicant.conf
-
-        # rc service
-        cd ../../blfs-bootscripts-$bootscriptsversion
-	make DESTDIR=$pkgdir install-service-wpa
+        install -Dm 600 ../../wpa_supplicant.conf $pkgdir/etc/wpa_supplicant.conf
 
 	mkdir -p $pkgdir/etc/sysconfig
 	cat > $pkgdir/etc/sysconfig/ifconfig.wifi0 << "EOF"

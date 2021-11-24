@@ -6,6 +6,7 @@
 pkgname=xz
 pkgver=5.2.5
 pkgrel=1
+arch=('x86_64')
 source=(https://tukaani.org/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -14,6 +15,10 @@ build() {
         ./configure --prefix=/usr \
                     --disable-static
         make
+}
+
+package() {
+        cd $pkgname-$pkgver
         make DESTDIR=$pkgdir install
 
         mkdir -pv $pkgdir/{bin,lib}

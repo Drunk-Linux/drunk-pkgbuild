@@ -6,6 +6,7 @@
 pkgname=vim
 pkgver=8.2.2984
 pkgrel=1
+arch=('x86_64')
 source=(https://github.com/vim/vim/archive/v$pkgver.tar.gz)
 
 build() {
@@ -15,11 +16,16 @@ build() {
 
         ./configure --prefix=/usr --enable-multibyte --disable-gui
         make
+}
+
+package() {
+        cd vim-$pkgver
+
         make DESTDIR=$pkgdir install
 
-        mv $pkgdir/usr/share/man/man1 $SRC/man1
+        mv $pkgdir/usr/share/man/man1 ../../man1
         rm -r $pkgdir/usr/share/man/*
-        mv $SRC/man1 $pkgdir/usr/share/man/man1
+        mv ../../man1 $pkgdir/usr/share/man/man1
 
         # no desktop files and icons
         rm -r $pkgdir/usr/share/{applications,icons}
