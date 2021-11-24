@@ -1,0 +1,8 @@
+NAME="Drunk"
+VERSION="2021.4 Bleeding-Edge"
+ID=drunk
+ID_LIKE=drunk
+PRETTY_NAME="Drunk 2021.4"
+VERSION_ID="2021.4"
+VERSION_CODENAME=sober
+UBUNTU_CODENAME=sober
