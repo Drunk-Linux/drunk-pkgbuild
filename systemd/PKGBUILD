@@ -5,7 +5,7 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-$pkgver.tar.gz)
 
@@ -13,7 +13,7 @@ build() {
         cd $pkgname-$pkgver
 
         wget https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-249-upstream_fixes-1.patch
-        patch -Np1 -i systemd-249-upstream_fixes-1.patch
+#        patch -Np1 -i systemd-249-upstream_fixes-1.patch
         rm -f systemd-249-upstream_fixes-1.patch
         
         sed -i -e 's/GROUP="render"/GROUP="video"/' \
@@ -49,6 +49,9 @@ build() {
 package() {
         cd $pkgname-$pkgver
 	cd build
+	
+	mkdir -p $pkgdir/usr/lib/systemd/boot
+	cp -rf ../../../efi $pkgdir/usr/lib/systemd/boot/
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir/usr PREFIX=$pkgdir/usr ninja install

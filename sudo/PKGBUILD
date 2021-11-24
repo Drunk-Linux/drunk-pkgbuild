@@ -1,0 +1,31 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=sudo
+pkgver=1.9.8p2
+pkgrel=1
+arch=('x86_64')
+source=(https://github.com/sudo-project/sudo/archive/refs/tags/SUDO_1_9_8p2.tar.gz)
+
+build() {
+        cd sudo-SUDO_1_9_8p2
+
+	./configure --prefix=/usr         \
+	            --bindir=/bin         \
+	            --disable-static      \
+	            --libexecdir=/usr/lib \
+		    --with-secure-path	  \
+		    --with-all-insults	  \
+		    --docdir=/usr/share/doc/sudo \
+		    --with-passprompt="[sudo]: password for %p: "
+        make
+}
+
+package() {
+	cd sudo-SUDO_1_9_8p2
+
+	mkdir -p $pkgdir/usr/share/doc/sudo
+	make DESTDIR=$pkgdir install
+}

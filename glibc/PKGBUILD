@@ -18,7 +18,6 @@ build() {
 	mkdir -pv build
 	cd       build
 
-	CC="gcc -ffile-prefix-map=/tools=/usr" \
 	../configure                                        \
 	             --prefix=/usr                          \
 	             --disable-werror                       \
@@ -34,6 +33,10 @@ package() {
 	# 64bit install
 	cd $pkgname-$pkgver
 	cd build
+
+	mkdir -p $pkgdir/lib64
+	ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64
+	ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64/ld-lsb-x86-64.so.3
 	
 	touch $pkgdir/etc/ld.so.conf
 	make install_root=$pkgdir install

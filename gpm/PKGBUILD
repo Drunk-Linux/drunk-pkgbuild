@@ -9,8 +9,7 @@ bootscriptspkgver=20210110
 pkgrel=1
 arch=('x86_64')
 source=(https://www.nico.schottelius.org/software/gpm/archives/$pkgname-$pkgver.tar.bz2
-	gpm-1.20.7-consolidated-1.patch
-	http://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-$bootscriptsversion.tar.xz)
+	gpm-1.20.7-consolidated-1.patch)
 
 build() {
 	cd $pkgname-$pkgver
@@ -28,6 +27,7 @@ package() {
 
 	ln -sfv libgpm.so.2.1.0 $pkgdir/usr/lib/libgpm.so
         install -v -m644 conf/gpm-root.conf $pkgdir/etc
+	mkdir -p $pkgdir/usr/lib/systemd/system/
 	cp -f ../../gpm.service $pkgdir/usr/lib/systemd/system/gpm.service
 
 	mkdir -p $pkgdir/etc/sysconfig

@@ -5,7 +5,7 @@
 
 pkgname=dbus
 pkgver=1.12.20
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz)
 
@@ -40,4 +40,5 @@ package() {
 
 	# if build logind support
 	#ln -sv $pkgdir/var/lib/dbus/machine-id $pkgdir/etc
+	rm -rf $pkgdir/var/run $pkgdir/run
 }

@@ -6,6 +6,7 @@
 pkgname=findutils
 pkgver=4.8.0
 pkgrel=1
+arch=('x86_64')
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -15,6 +16,10 @@ build() {
                 --prefix=/usr \
                 --localstatedir=/var/lib/locate
         make
+}
+
+package() {
+	cd $pkgname-$pkgver
         make DESTDIR=$pkgdir install
 
         mkdir -pv $pkgdir/bin
