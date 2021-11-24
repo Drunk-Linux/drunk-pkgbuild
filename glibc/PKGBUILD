@@ -5,7 +5,7 @@
 
 pkgname=glibc
 pkgver=2.33
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz
 	$pkgname-fhs-1.patch)
@@ -51,8 +51,8 @@ package() {
         cd build
 
         mkdir -p $pkgdir/lib64
-        ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64
-        ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64/ld-lsb-x86-64.so.3
+        ln -sfv ../lib/ld-linux-x86-64.so.2 $pkgdir/lib64/ld-linux-x86-64.so.2
+        ln -sfv ../lib/ld-linux-x86-64.so.2 $pkgdir/lib64/ld-lsb-x86-64.so.3
 
         mkdir -p $pkgdir/etc
         touch $pkgdir/etc/ld.so.conf

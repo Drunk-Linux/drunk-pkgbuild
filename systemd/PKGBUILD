@@ -5,9 +5,11 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
-source=(https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-$pkgver.tar.gz)
+source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
+	'drunk.conf'
+	'loader.conf')
 
 build() {
         cd $pkgname-$pkgver
@@ -24,29 +26,21 @@ build() {
         
         mkdir -p build
 	cd build
-	
+	export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH	
 	LANG=en_US.UTF-8                    \
 	meson --prefix=/usr                 \
 		--sysconfdir=/etc             \
 		--localstatedir=/var          \
 		--buildtype=release           \
 		-Dblkid=true                  \
-		-Ddefault-dnssec=no           \
-		-Dfirstboot=false             \
-		-Dinstall-tests=false         \
-		-Dldconfig=false              \
-		-Dsysusers=false              \
-		-Db_lto=false                 \
-		-Drpmmacrosdir=no             \
-		-Dhomed=false                 \
-		-Duserdb=false                \
-		-Dman=false                   \
 		-Dmode=release                \
 		-Ddocdir=/usr/share/doc/systemd-249 \
 		..
 }
 
 package() {
+	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
+        install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
         cd $pkgname-$pkgver
 	cd build
 	
@@ -54,5 +48,9 @@ package() {
 	cp -rf ../../../efi $pkgdir/usr/lib/systemd/boot/
 	
 	LANG=en_US.UTF-8 ninja
-	LANG=en_US.UTF-8 DESTDIR=$pkgdir/usr PREFIX=$pkgdir/usr ninja install
+	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install
+
+	# Copy example .config files
+	#install -D -m0644 ../../drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
+	#install -D -m0644 ../../loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
 }
