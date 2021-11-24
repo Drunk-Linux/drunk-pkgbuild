@@ -38,10 +38,13 @@ package() {
 	ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64
 	ln -sfv ../lib64/ld-linux-x86-64.so.2 $pkgdir/lib64/ld-lsb-x86-64.so.3
 	
+	mkdir -p $pkgdir/etc
 	touch $pkgdir/etc/ld.so.conf
 	make install_root=$pkgdir install
+
 	cp -v ../nscd.conf $pkgdir/etc/nscd.conf
 	mkdir -pv $pkgdir/var/cache/nscd
+
 	mkdir -pv $pkgdir/usr/lib/locale
 	make install_root=$pkgdir localedata/install-locales
 }
@@ -59,7 +62,7 @@ build() {
 	             --enable-multi-arch             \
 	             --enable-stack-protector=strong \
 	             --libdir=/usr/lib32             \
-		     --libexecdir=/usr/lib32         \
+		     	 --libexecdir=/usr/lib32         \
 	             libc_cv_slibdir=/usr/lib32      \
 	             i686-pc-linux-gnu
 	make
@@ -70,10 +73,14 @@ package() {
 	# 32bit
 	cd $pkgname-$pkgver
 	cd build32	
-	make install_root=$pkgdir install
+	make install_root=DESTDIR install
+
 	install -vdm755 $pkgdir/usr/lib32
 	install -vdm755 $pkgdir/include/gnu
 	install -vdm755 $pkgdir/etc/ld.so.conf.d
+
+	mkdir $pkgdir/usr/lib32/
+	cp -Rv DESTDIR/usr/lib32/* $pkgdir/usr/lib32/
 
 	mkdir -vp $pkgdir/etc/ld.so.conf.d
 	mkdir -vp $pkgdir/lib/
