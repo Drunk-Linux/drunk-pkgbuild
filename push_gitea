@@ -1,7 +1,7 @@
 git add */PKGBUILD -A -f
 git add */*.patch -A -f
 git add */update -A -f
-git add */post-install -A -f
+git add */scripts/ -A -f
 
 git commit -a -m "Changes here and there"
 git push -u origin sober
