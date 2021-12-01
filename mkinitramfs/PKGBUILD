@@ -4,19 +4,22 @@
 # Depends on:  libarchive bash
 
 pkgname=mkinitramfs
-pkgver=20200118
-pkgrel=1
+pkgver=2021.11.29
+pkgrel=2
 arch=('x86_64')
-source=(https://github.com/venomlinux/mkinitramfs/archive/$pkgver/$pkgname-$pkgver.tar.gz
-        https://github.com/venomlinux/mkinitramfs/commit/2b323335ff368f0bbd40ed7cd907648b2e35bcc1.patch)
+source=("mkinitramfs"
+	"init.in")
 
 build() {
-        cd $pkgname-$pkgver
-        patch -Np1 -i ../../2b323335ff368f0bbd40ed7cd907648b2e35bcc1.patch
+        echo "done"
 }
 
 package() {
-        cd $pkgname-$pkgver
+	mkdir -p $pkgdir/usr/sbin/
+	mkdir -p $pkgdir/usr/share/mkinitramfs/
 
-        DESTDIR=$pkgdir ./INSTALL.sh
+	cp -f mkinitramfs $pkgdir/usr/sbin/mkinitramfs
+	cp -f init.in $pkgdir/usr/share/mkinitramfs/init.in
+
+	chmod 0755 $pkgdir/usr/sbin/mkinitramfs
 }
