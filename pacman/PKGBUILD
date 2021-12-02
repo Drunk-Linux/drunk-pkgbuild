@@ -5,7 +5,7 @@
 
 pkgname=pacman
 pkgver=v6.0.1
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
 source=(https://gitlab.archlinux.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz)
 
@@ -16,7 +16,7 @@ build() {
 		-Ddoxygen=enabled \
 		-Dscriptlet-shell=/bin/bash \
 		-Dldconfig=/usr/bin/ldconfig \
-	build
+		build
 	ninja -C build
 }
 

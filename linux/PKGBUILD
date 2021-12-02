@@ -4,8 +4,8 @@
 # Depends on:  elfutils mkinitramfs openssl linux-firmware
 
 pkgname=linux
-pkgver=5.12.10
-pkgrel=3
+pkgver=5.15.6
+pkgrel=1
 arch=('x86_64')
 source=(https://www.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         config)
@@ -15,7 +15,7 @@ build() {
 
 #	make mrproper
 	
-	cp -f ../../config ./.config
+	cp -f $srcdir/config ./.config
 	make menuconfig
 	make bzImage -j3
 	make modules -j3

@@ -5,11 +5,14 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
 source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
 	'drunk.conf'
-	'loader.conf')
+	'initrd-drunk.conf'
+	'loader.conf'
+	'BOOTX64.EFI'
+	'systemd-bootx64.efi')
 
 build() {
         cd $pkgname-$pkgver
@@ -34,18 +37,23 @@ build() {
 		--buildtype=release           \
 		-Dblkid=true                  \
 		-Dmode=release                \
+		-Dinstall-tests=false	      \
 		-Ddocdir=/usr/share/doc/systemd-249 \
 		..
 }
 
 package() {
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
+	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/initrd-drunk.conf
         install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
+
+
         cd $pkgname-$pkgver
 	cd build
 	
-	mkdir -p $pkgdir/usr/lib/systemd/boot
-	cp -rf ../../../efi $pkgdir/usr/lib/systemd/boot/
+	mkdir -p $pkgdir/usr/lib/systemd/boot/efi
+	cp -rf $srcdir/BOOTX64.EFI $pkgdir/usr/lib/systemd/boot/
+	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install

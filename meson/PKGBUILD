@@ -4,10 +4,10 @@
 # Depends on:  ninja
 
 pkgname=meson
-pkgver=0.59.1
+pkgver=0.60.2
 pkgrel=1
 arch=('x86_64')
-source=(https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/meson-$pkgver.tar.gz)
+source=(https://github.com/mesonbuild/meson/releases/download/$pkgver/meson-$pkgver.tar.gz)
 depends=('python3' 'ninja')
 
 build() {
