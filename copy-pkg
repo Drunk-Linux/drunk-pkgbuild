@@ -1,9 +1,0 @@
-#!/bin/bash
-set +e
-
-
-echo "[*]: Making backup of prebuilt packages"
-mkdir -vp ../../pkgs
-touch ignore/ignore.pkg.tar.xz
-cp -rvf */*.pkg* ../pkgs/
-

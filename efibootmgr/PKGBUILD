@@ -13,9 +13,9 @@ source=(https://github.com/rhboot/efibootmgr/archive/$pkgver/$pkgname-$pkgver.ta
 build() {
 	cd $pkgname-$pkgver
 
-	patch -Np1 -i ../../efivar.patch
+	patch -Np1 -i $srcdir/efivar.patch
 
-	EFIDIR=/boot/efi make
+	EFIDIR=/boot/efi CFLAGS="-w" make
 }
 
 package() {
