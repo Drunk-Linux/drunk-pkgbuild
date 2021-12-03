@@ -5,8 +5,29 @@
 
 pkgname=filesystem
 pkgver=1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
+backup=(bash_logout.skel
+        bash_profile.skel
+        bashrc
+        bashrc.skel
+        dircolors.sh
+        extrapaths.sh
+        fstab
+        hostname
+        hosts
+        i18n.sh
+        inputrc
+        profile
+        profile.skel
+        readline.sh
+        resolv.conf
+        shells
+        umask.sh
+        usb.conf
+        passwd
+        group
+        issue)
 source=(bash_logout.skel
 	bash_profile.skel
 	bashrc

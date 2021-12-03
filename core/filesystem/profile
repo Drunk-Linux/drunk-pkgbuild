@@ -40,10 +40,10 @@ pathappend () {
 export -f pathremove pathprepend pathappend
 
 # Set the initial path
-export PATH=/bin:/usr/bin
+export PATH=/bin:/usr/bin:/usr/local/bin
 
 if [ $EUID -eq 0 ] ; then
-        pathappend /sbin:/usr/sbin
+        pathappend /sbin:/usr/sbin:/usr/local/sbin
         unset HISTFILE
 fi
 
