@@ -4,8 +4,8 @@
 # Depends on:  libarchive bash
 
 pkgname=mkinitramfs
-pkgver=2021.11.29
-pkgrel=2
+pkgver=2021.12.02
+pkgrel=1
 arch=('x86_64')
 source=("mkinitramfs"
 	"init.in")

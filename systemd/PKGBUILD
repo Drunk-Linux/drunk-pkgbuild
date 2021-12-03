@@ -5,13 +5,13 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
 	'drunk.conf'
 	'initrd-drunk.conf'
 	'loader.conf'
-	'BOOTX64.EFI'
+	'linuxx64.efi.stub'
 	'systemd-bootx64.efi')
 
 build() {
@@ -52,8 +52,8 @@ package() {
 	cd build
 	
 	mkdir -p $pkgdir/usr/lib/systemd/boot/efi
-	cp -rf $srcdir/BOOTX64.EFI $pkgdir/usr/lib/systemd/boot/
-	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/
+	cp -rf $srcdir/linuxx64.efi.stub $pkgdir/usr/lib/systemd/boot/efi/
+	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/efi/
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install

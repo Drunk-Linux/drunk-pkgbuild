@@ -5,7 +5,7 @@
 
 pkgname=base-drunk
 pkgver=2021.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(os-release)
 depends=('acl' 'attr' 'autoconf' 'automake' 'bash' 'bc' 'binutils' 'bison' 'bzip2' 'ca-certificates' 'coreutils'
@@ -15,7 +15,7 @@ depends=('acl' 'attr' 'autoconf' 'automake' 'bash' 'bc' 'binutils' 'bison' 'bzip
 	'libcap' 'libevent' 'libffi' 'libnl' 'libpipeline' 'libpng' 'libtasn1' 'libtool' 'libxml2' 'links' 'linux'
 	'linux-api-headers' 'linux-firmware' 'lz4' 'lzo' 'm4' 'make' 'man-db' 'man-pages' 'meson' 'mkinitramfs' 'mpc'
 	'mpfr' 'mtools' 'ncurses' 'ninja' 'openssl' 'p11-kit' 'pacman' 'patch' 'pciutils' 'perl' 'perl-xml-parser' 'pkgconf'
-	'pkgutils' 'popt' 'ports' 'procps-ng' 'psmisc' 'python3' 'readline' 'sed' 'shadow' 'squashfs-tools' 'sudo' 'sysklogd'
+	'popt' 'ports' 'procps-ng' 'psmisc' 'python3' 'readline' 'sed' 'shadow' 'squashfs-tools' 'sudo' 'sysklogd'
 	'syslinux' 'systemd' 'tar' 'texinfo' 'tzdata' 'util-linux' 'vim' 'wget' 'which' 'wpa_supplicant' 'xz' 'zlib' )
 
 build() {
