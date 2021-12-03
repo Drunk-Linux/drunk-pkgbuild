@@ -1,0 +1,82 @@
+# pack-refs with: peeled fully-peeled sorted 
+4a74c106e7367117e0adefb59a0f6c8a4389d83a refs/heads/master
+30d917223f8a7a8c0d7bac2743bc75f2bc65f528 refs/heads/upstream
+f5e0a89ab6f0024f3d3bec5fd9cf631676b44f6c refs/merge-requests/10/head
+aaaa66441caedeebf68d6a249cabb69cdfe24309 refs/merge-requests/10/merge
+8090dffdad8fda86dccd47ce7a7db8840bdf7d7b refs/merge-requests/11/head
+b62385f4c60d63fe0deb0a4ef6304b366e64cb69 refs/merge-requests/11/merge
+57731fb5071b86d70d5a3e207addaabdde23111e refs/merge-requests/12/head
+7710642ff326652bc15ab9a9455f63a16a9f9a03 refs/merge-requests/12/merge
+18c1bc315ca7a62283fbe70c73fd72257ae84dfb refs/merge-requests/4/head
+4a74c106e7367117e0adefb59a0f6c8a4389d83a refs/merge-requests/4/merge
+0a9d1db5b3517c9993c7ab98fc42058468c21c9b refs/merge-requests/7/head
+781239a934ba7cee1b98cbb9ae2b7cd30ec04ace refs/merge-requests/7/merge
+1ac432a565c7ae18dc191befc3b9cfd792c5d1f6 refs/merge-requests/8/head
+c7ef8bae8725ae9bcec7db069694a4205a31b18e refs/merge-requests/8/merge
+970051615ec38148ed40777f70d92d7253828400 refs/merge-requests/9/head
+81c6f96e9fadd32768be212fdabef1d1eece6c90 refs/merge-requests/9/merge
+74666e8f1e38a0ac1fba6f667965c1253e468323 refs/tags/debian/1.10
+^ce62b47ad53118bbbcfb30c117ee398f23f6c89a
+932d27dda5414ef9e14ea781f7bb067d6e886b3b refs/tags/debian/1.10.1
+^b5a4dc7c736abac073b0a37f769340bb3a5ecf18
+3fd69386d338eb1c6198864bc6662d1022f48ffd refs/tags/debian/1.11
+^1cedd69c0c186aa0f3c1151d8276bd0577adfc1b
+cda3cf4aeab4dddcea5a9a18860894a0bd32776d refs/tags/debian/1.11.1
+^4f12f83a075fa876563a95da335ca3c3dcf4906c
+82cbda398134ad4e404790c3dca98e87f0686822 refs/tags/debian/1.11.2
+^160ade91a917b8e22e8cdc32b08f568fe3638322
+3d6203676f2cf5191882179a5e9e1ae0cd386494 refs/tags/debian/1.11.3
+^12048ba92599f814f46956274422eedff80339e0
+9f0bfd2f15bf1eff63e29eea001ab5305dee2e30 refs/tags/debian/1.11.4
+^0ea1806f7e32a8cb55e215ab198a4f4de8a37870
+c12484cc6b9983e75c2a5f7d9e5db6545e9faafd refs/tags/debian/1.12
+^d43073e97fc2b53f900254434e4337651543ae0b
+0f1d9253488f20bf6a3d09266af2ee9a1b63b0e8 refs/tags/debian/1.12.1
+^2e1fd53c2433817716c58b17ad52f422294a346f
+174196d5d4351dd8f5ac6b700f6449e9f8957651 refs/tags/debian/1.12.2
+^f886f8a68d984df3a006331dfc23f263773a381a
+334b1e757e1e02ad1ddb20701fb506bbfe6d4dbb refs/tags/debian/1.12.3
+^9ccdeff63b012b8895afa5ce981a1c9f258c1fa4
+adec531672f22ae45736d0bbf3f10cfdd60b23fa refs/tags/debian/1.12.4
+^0850f0e793d7a0f264da5e42a4952294c8b504f1
+fc26f3a540b5f0c08eeaddbc2a24f552a94ecfe0 refs/tags/debian/1.12.5
+^2860615016274d28528ec0a4a8fda0f1617b78be
+7fcb96d520c38479209f52c5d69ef5c37e1f93a6 refs/tags/debian/1.13
+^f28428a74061456ff63bc459b6231b08ea6ad1ba
+7029ac6309581e8fd2a686d4bff774ed196808ea refs/tags/debian/1.13.1
+^23dbeacd5143d6dae9453237a21b154f20644bd6
+60792509acd561d1eecb5106dbb37ee0008a5add refs/tags/debian/1.13.2
+^ec223ed281f38110947e3232459fa77c3eecfbfe
+9e308b6af92b1825f4c607dcd0b4802dfc1aed36 refs/tags/debian/1.14
+^f4af13d339868a06918cb2dec28e8551f704f313
+37fa52f6ae4b639cf6e30d172b179255daa8ce59 refs/tags/debian/1.14.1
+^604d9ce2a5a0f456629e888c5495b35e930f6cb7
+31b1bea16e53d54daf4398d7544daa38e11a7234 refs/tags/debian/1.14.2
+^b91ccf82bdf926f8118dd457fcf7e7c5fe0f731f
+e91698892422ce3494e1517181ea8a6ab397f39b refs/tags/debian/1.14.3
+^2a03159204b91c35f0a6c01e1e701ae4eba1a2e6
+fcaffaa25e0bebaa8a2c4c35980dc89d23611707 refs/tags/debian/1.14.4-1
+f2f63a81053ccf833e0ce2be9e6dbd6c5f33561a refs/tags/debian/1.21-3.1
+^d196c0f3203199a63b7ac7ad403fc67763ee40a3
+1032a49b080614235187cd2d556ccff80cb2c6d7 refs/tags/debian/1.25.1-1
+^7fba8f766ce80914cb75efb4d6703af425075255
+1538d4a8f710059d29a9e7a412787551314d86f0 refs/tags/debian/1.25.2-1
+^78f0b8861fe19d15d59cd4c75cf3b696bc450a72
+c9bcc1f69a7649d973d764e8be31e3b34be8594b refs/tags/debian/1.26-1
+^4a74c106e7367117e0adefb59a0f6c8a4389d83a
+a6dbcfeb6072fc8d6194bb6a9fce43e67a14a530 refs/tags/debian/1.9.7
+^7dc6a5c00bbcc9923862d69d897b149a3b25400a
+2f539b1a11eb1d3fae894b64a47b6371e92dae14 refs/tags/fakeroot@packages.debian.org--fakeroot,fakeroot--main--0.0--base-0
+6344c0b7b8120db0e11c4a1e7485c2a494425e5a refs/tags/macosx-v1.0
+b232f8a63120e39dcbbae20e1b60ff4ac06f1d60 refs/tags/macosx-v2.0
+1f42602a60deb702f276732b478fb5ce695d82d8 refs/tags/macosx-v3.0
+827fcb2cc6a7dc57afc750ffb810bd1729931ddf refs/tags/macosx-v3.1
+d6477a457f0ed11be5caa8f1c57e08947cbb8dc8 refs/tags/macosx-v3.2
+4b70a81cd4951a54928774a87ebabce0f2108d3c refs/tags/macosx-v3.3
+08ed00124d8b6b445d3b91a9aa15eec638b02f05 refs/tags/upstream/1.14.4
+03f3ebf1be914b5a16a3ff02f3fee4687cd08262 refs/tags/upstream/1.24.1
+0f064271c38b5fc12562d1f2a5e83dccab9eea96 refs/tags/upstream/1.25
+f7a80c9f7f92440ca73a32575864429d3eed8342 refs/tags/upstream/1.25.1
+204e4f4928b8b7a230278e711628dbf26ede1f33 refs/tags/upstream/1.25.2
+f99ca6d5d57e460e87e60add491c2fb2b29780a5 refs/tags/upstream/1.26
+^ea9d0e9293ab81fc300be122dc6a1c8d224ba64f
