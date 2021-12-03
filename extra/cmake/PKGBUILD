@@ -3,28 +3,28 @@
 # Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
 # Depends on:  
 
-pkgname=wayland
-pkgver=1.19.93
-pkgrel=2
+pkgname=cmake
+pkgver=3.21.2
+pkgrel=1
 arch=('x86_64')
-depends=('base-drunk')
-source=(https://wayland.freedesktop.org/releases/$pkgname-$pkgver.tar.xz)
+depends=('libuv' 'libarchive' 'gcc')
+source=(https://cmake.org/files/v3.21/$pkgname-$pkgver.tar.gz)
 
 build() {
         cd $pkgname-$pkgver
+	
+	sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
+	
+	./configure		\
+	--prefix=/usr		\
+	--system-libs		\
+	--no-system-jsoncpp	\
+	--no-system-librhash
 
-        mkdir -p build && cd build
-
-	meson		\
-	--prefix=/usr	\
-	--buildtype=release	\
-	-Ddocumentation=false	\
-
-	ninja
+        make
 }
 
 package() {
 	cd $pkgname-$pkgver
-	cd build
-	DESTDIR=$pkgdir ninja install
+	make DESTDIR=$pkgdir install
 }

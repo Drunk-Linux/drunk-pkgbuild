@@ -3,11 +3,11 @@
 # Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
 # Depends on:  
 
-pkgname=wayland
-pkgver=1.19.93
+pkgname=wayland-protocols
+pkgver=1.24
 pkgrel=2
 arch=('x86_64')
-depends=('base-drunk')
+depends=('base-drunk' 'wayland')
 source=(https://wayland.freedesktop.org/releases/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -17,8 +17,7 @@ build() {
 
 	meson		\
 	--prefix=/usr	\
-	--buildtype=release	\
-	-Ddocumentation=false	\
+	--buildtype=release
 
 	ninja
 }

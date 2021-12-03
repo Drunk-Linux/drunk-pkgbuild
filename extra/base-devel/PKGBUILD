@@ -3,28 +3,18 @@
 # Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
 # Depends on:  
 
-pkgname=wayland
-pkgver=1.19.93
-pkgrel=2
+pkgname=base-devel
+pkgver=1.0
+pkgrel=1
 arch=('x86_64')
-depends=('base-drunk')
-source=(https://wayland.freedesktop.org/releases/$pkgname-$pkgver.tar.xz)
+source=(tmpfile)
+depends=('autoconf' 'automake' 'make' 'meson' 'ninja' 'perl' 'ruby3')
 
 build() {
+	mkdir -p $pkgname-$pkgver
         cd $pkgname-$pkgver
-
-        mkdir -p build && cd build
-
-	meson		\
-	--prefix=/usr	\
-	--buildtype=release	\
-	-Ddocumentation=false	\
-
-	ninja
 }
 
 package() {
 	cd $pkgname-$pkgver
-	cd build
-	DESTDIR=$pkgdir ninja install
 }

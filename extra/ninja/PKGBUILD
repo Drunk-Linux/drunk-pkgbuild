@@ -5,8 +5,9 @@
 
 pkgname=ninja
 pkgver=1.10.2
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=('python3')
 source=(https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/ninja-$pkgver.tar.gz)
 
 build() {

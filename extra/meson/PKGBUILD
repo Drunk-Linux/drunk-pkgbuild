@@ -5,8 +5,9 @@
 
 pkgname=meson
 pkgver=0.60.2
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=('python3')
 source=(https://github.com/mesonbuild/meson/releases/download/$pkgver/meson-$pkgver.tar.gz)
 depends=('python3' 'ninja')
 
