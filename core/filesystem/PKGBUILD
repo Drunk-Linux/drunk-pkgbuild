@@ -5,13 +5,9 @@
 
 pkgname=filesystem
 pkgver=1
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
-backup=(etc/bash_logout.skel
-        etc/bash_profile.skel
-        etc/bashrc
-        etc/bashrc.skel
-        etc/dircolors.sh
+backup=(etc/dircolors.sh
         etc/extrapaths.sh
         etc/fstab
         etc/hostname
@@ -28,11 +24,7 @@ backup=(etc/bash_logout.skel
         etc/passwd
         etc/group
         etc/issue)
-source=(bash_logout.skel
-	bash_profile.skel
-	bashrc
-	bashrc.skel
-	dircolors.sh
+source=(dircolors.sh
 	extrapaths.sh
 	fstab
 	hostname
@@ -96,7 +88,7 @@ package() {
 
 	# /etc
 	install -d $pkgdir/etc
-	for p in profile bashrc resolv.conf inputrc fstab hostname hosts passwd group issue; do
+	for p in profile resolv.conf inputrc fstab hostname hosts passwd group issue; do
 		install -m0644 $p $pkgdir/etc
 	done
 
