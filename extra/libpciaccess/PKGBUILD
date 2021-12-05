@@ -1,0 +1,24 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=libpciaccess
+pkgver=0.16
+pkgrel=1
+arch=('x86_64')
+depends=('fontconfig' 'libxcb')
+source=(https://x.org/releases/individual/lib/$pkgname-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname-$pkgver
+	./configure --prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

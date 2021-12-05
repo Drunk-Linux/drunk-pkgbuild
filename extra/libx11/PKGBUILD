@@ -1,0 +1,29 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=libx11
+pkgver=1.7.2
+pkgrel=1
+arch=('x86_64')
+depends=('libxau' 'xcb-proto' 'libxtrans' 'xorgproto')
+source=(https://x.org/releases/individual/lib/libX11-$pkgver.tar.gz)
+
+build() {
+        cd libX11-$pkgver
+
+	./configure --prefix=/usr --disable-static --disable-xf86bigfont
+#	sed -i -e 's/ -shared / -W1,-01,--as-needed\0/g' libtool
+	make
+}
+
+check() {
+	cd libX11-$pkgver
+	make check
+}
+
+package() {
+	cd libX11-$pkgver
+	make DESTDIR=$pkgdir install
+}

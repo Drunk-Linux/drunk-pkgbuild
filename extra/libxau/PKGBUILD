@@ -1,0 +1,23 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=libxau
+pkgver=1.0.9
+pkgrel=1
+arch=('x86_64')
+depends=('xorgproto')
+source=(https://x.org/pub/individual/lib/libXau-$pkgver.tar.bz2)
+
+build() {
+        cd libXau-$pkgver
+
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd libXau-$pkgver
+	make DESTDIR=$pkgdir install
+}
