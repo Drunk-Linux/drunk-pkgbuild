@@ -1,0 +1,37 @@
+pkgname=qt5-webkit
+_pkgver=5.212.0-alpha4
+pkgver=${_pkgver/-/}
+pkgrel=1
+arch=('x86_64')
+depends=('ruby3')
+source=("https://github.com/qtwebkit/qtwebkit/releases/download/qtwebkit-$_pkgver/qtwebkit-$_pkgver.tar.xz"
+	"icu68.patch"
+	"glib-2.68.patch"
+	"qt5-webkit-python-3.9.patch"::"https://github.com/qtwebkit/qtwebkit/commit/78360c01.patch"
+	"qt5-webkit-bison-3.7.patch"::"https://github.com/qtwebkit/qtwebkit/commit/d92b11fe.patch")
+
+
+prepare() {
+	cd qtwebkit-$_pkgver
+
+	patch -p0 -i ../icu68.patch
+	patch -p1 -i ../glib-2.68.patch
+	patch -p1 -i ../qt5-webkit-python-3.9.patch
+	patch -p1 -i ../qt5-webkit-bison-3.7.patch
+}
+
+build() {
+	cmake						\
+	-B build					\
+	-S qtwebkit-$_pkgver				\
+	-D CMAKE_INSTALL_PREFIX=/usr			\
+	-D CMAKE_CXX_FLAGS="${CXXFLAGS} -DNDEBUG"	\
+	-D PORT=Qt					\
+	-D ENABLE_TOOLS=OFF
+
+	cmake --build build
+}
+
+package() {
+	DESTDIR=$pkgdir cmake --install build
+}

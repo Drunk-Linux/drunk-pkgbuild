@@ -1,0 +1,57 @@
+pkgname=qt5-base
+pkgver=5.15.2+kde+r262
+pkgrel=1
+arch=('x86_64')
+depends=('libxrender' 'mesa' 'libx11')
+source=("git+https://invent.kde.org/qt/qt/qtbase"
+	"qt5-base-cflags.patch"
+	"qt5-base-nostrip.patch")
+
+prepare() {
+	cd qtbase
+
+	patch -p1 -i ../qt5-base-cflags.patch
+	patch -p1 -i ../qt5-base-nostrip.patch
+}
+
+build() {
+	cd qtbase
+
+	./configure			\
+	-confirm-license		\
+	-opensource 			\
+	-prefix /usr			\
+	-docdir /usr/share/doc/qt	\
+	-headerdir /usr/include/qt	\
+	-archdatadir /usr/lib/qt	\
+	-datadir /usr/share/qt		\
+	-sysconfdir /etc/xdg		\
+	-examplesdir /usr/share/doc/qt/examples	\
+	-openssl-linked			\
+	-nomake examples		\
+	-no-rpath			\
+	-dbus-linked			\
+	-journald			\
+	-no-use-gold-linker		\
+	-reduce-relocations		\
+	-no-strip
+
+	ninja
+}
+
+package() {
+	cd qtbase
+	DESTDIR=$pkgdir ninja install
+
+	find $pkgdir/usr/lib -type f -name '*.prl' -exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
+
+	sed -i "s|$srcdir/qtbase/usr" \
+	$pkgdir/usr/lib/qt/mkspecs/modules/qt_lib_bootstrap_private.pri
+
+	for b in $pkgdir/usr/bin*; do
+		ln -s $(basename $b) $pkgdir/usr/bin/$(basename $b)-qt5
+	done
+
+	install -d -m755 $pkgdir/usr/include/qtxcb-private
+	cp -rf src/plugins/platforms/xcb/*.h $pkgdir/usr/include/qtxcb-private/
+}

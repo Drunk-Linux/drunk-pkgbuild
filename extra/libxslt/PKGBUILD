@@ -1,0 +1,20 @@
+pkgname=libxslt
+pkgver=master
+pkgrel=1
+arch=('x86_64')
+depends=(base-drunk)
+source=(git+https://gitlab.gnome.org/GNOME/libxslt.git)
+
+build() {
+	cd $pkgname
+
+	./autogen.sh
+	./configure --prefix=/usr
+	make
+}
+
+package() {
+	cd $pkgname
+
+	make DESTDIR=$pkgdir install
+}
