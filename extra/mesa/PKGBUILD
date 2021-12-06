@@ -8,8 +8,17 @@ pkgver=21.2.1
 pkgrel=1
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
-	'wayland' 'wayland-protocols' 'clang' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio')
-source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz)
+	'wayland' 'wayland-protocols' 'clang' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc' 'valgrind')
+source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz
+	swr-llvm13-patch1.patch
+	swr-llvm13-patch2.patch)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	patch -Np1 -i $srcdir/swr-llvm13-patch1.patch
+	patch -Np1 -i $srcdir/swr-llvm13-patch2.patch
+}
 
 build() {
         cd $pkgname-$pkgver
@@ -23,7 +32,6 @@ build() {
 	--buildtype=release	\
 	-D gallium-nine=true	\
 	-D glx=dri		\
-	-D valgrind=disabled	\
 	-D libunwind=disabled	\
 	-D platforms=wayland,x11 \
 	-D gles1=enabled	\
@@ -39,8 +47,8 @@ build() {
 	-D gallium-extra-hud=true			\
 	-D gallium-omx=bellagio	\
 	-D gallium-opencl=icd	\
-	-D gallium-va=enabled	\
-	-D gallium-xa=enabled	\
+	-D gallium-va=disabled	\
+	-D gallium-xa=disabled	\
 	-D gallium-xvmc=disabled	\
 	..
 
