@@ -1,6 +1,6 @@
 pkgname=glib2
 pkgver=2.70.2
-pkgrel=2
+pkgrel=4
 arch=('x86_64')
 depends=('base-drunk' 'libxslt')
 source=(git+https://gitlab.gnome.org/GNOME/glib.git#tag=$pkgver)
@@ -12,7 +12,9 @@ build() {
 	-D glib_debug=disabled		\
 	-D selinux=disabled		\
 	-D man=false			\
-	-D gtk_doc=false
+	-D gtk_doc=false		\
+	--prefix=/usr			\
+	--libdir=/usr/lib
 
 	meson compile -C build
 }
@@ -26,7 +28,6 @@ package() {
 	python3 -O -m compileall -d /usr/share/glib-2.0/codegen \
         $pkgdir/usr/share/glib-2.0/codegen
 
-	mkdir -p $pkgdir/usr/lib
-	mv $pkgdir/usr/local/lib/pkgconfig $pkgdir/usr/lib/
-
+	mkdir -p $pkgdir/usr/lib/pkgconfig
+	cp -f build/meson-private/*.pc $pkgdir/usr/lib/pkgconfig
 }
