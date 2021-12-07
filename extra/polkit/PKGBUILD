@@ -1,0 +1,22 @@
+pkgname=polkit
+pkgver=master
+pkgrel=1
+arch=('x86_64')
+depends=(glib2 systemd)
+makedepends=(meson gtk-doc gobject-introspection git)
+source=(git+https://gitlab.freedesktop.org/polkit/polkit.git)
+
+build() {
+	meson build $pkgname	\
+	--prefix=/usr		\
+	--libdir=/usr/lib	\
+	-D tests=false		\
+	-D man=false		\
+	-D session_tracking=libsystemd-login
+
+	meson compile -C build
+}
+
+package() {
+	meson install -C build --destdir $pkgdir
+}

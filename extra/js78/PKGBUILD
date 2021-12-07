@@ -1,0 +1,71 @@
+pkgname=js78
+pkgver=78.15.0esr
+pkgrel=1
+arch=('x86_64')
+# TODO: Add rustc as dep and enable ( --enable-rust-simd )
+depends=(autoconf icu which)
+makedepends=()
+source=(https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz)
+
+build() {
+	export CC=clang
+	export CXX=clang++
+
+	export AR=llvm-ar
+	export NM=llvm=nm
+	export RANLIB=llvm-ranlib
+
+	local conf_args=(
+	--prefix=/usr
+	--disable-debug
+	--disable-debug-symbols
+	--disable-jemalloc
+	--disable-strip
+	--disable-tests
+	--enable-hardening
+	--enable-optimize
+	--enable-readline
+	--enable-release
+	--enable-shared-js
+	--with-system-zlib
+	--with-system-icu
+	)
+	mkdir -p firefox-78.15.0/obj
+	cd firefox-78.15.0/obj
+
+	echo "[Building]: instrumented JS ..."
+	bash ../js/src/configure "${conf_args[@]}"
+	make
+
+	echo "[Profiling]: instrumented JS ..."
+	(
+		local js="$PWD/dist/bin/js"
+		export LLVM_PROFILES_FILE="$PWD/js-%p-%m.profraw"
+
+		cd ../js/src/octane
+		"$js" cli.js
+
+		cd ../SunSpider/sunspider-0.9.1
+		"$js" sunspider-standalone-driver.js
+	)
+
+	llvm-profdata merge -o merged.profdata *.profraw
+
+	stat -C "[Profile]: data found (%s bytes)" merged.profdata
+	test -s merged.profdata
+
+	echo "[Removing]: instrumented JS ..."
+	make clobber
+
+	echo "[Building]: optimized JS ..."
+	bash ../js/src/configure "${conf_args[@]}"
+	make
+}
+
+package() {
+	cd firefox-78.15.0/obj
+
+	make DESTDIR=$pkgdir install
+	rm $pkgdir/usr/lib/*.ajs
+	find $pkgdir/usr/{lib/pkgconfig,include} -type f -exec chmod -c a-x {} +
+}

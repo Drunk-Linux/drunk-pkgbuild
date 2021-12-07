@@ -1,0 +1,33 @@
+pkgname=cups
+pkgver=2.4.0
+pkgrel=1
+arch=('x86_64')
+makedepends=(libtiff libpng acl colord gzip autoconf libusb systemd git)
+source=(https://github.com/OpenPrinting/cups/releases/download/v$pkgver/cups-$pkgver-source.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	aclocal -I config-scripts
+	autoconf -I config-scripts
+
+	export DSOFLAGS=${LDFLAGS}
+
+	./configure				\
+	--sysconfdir=/etc			\
+	--localstatedir=/var			\
+	--libdir=/usr/lib			\
+	--sbindir=/usr/sbin			\
+	--with-logdir=/var/log/cups		\
+	--with-docdir=/var/share/cups/etc	\
+	--with-exe-file-perm=0755		\
+	--enable-dbus
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make BUILDROOT=$pkgdir install install-data install-exec install-headers install-libs
+}
