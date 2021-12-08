@@ -7,12 +7,12 @@ pkgname=autoconf
 pkgver=2.71
 arch=('x86_64')
 pkgrel=1
-source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {
         cd $pkgname-$pkgver
 
-        ./configure --prefix=/usr
+        ./configure --prefix=/usr --libdir=/usr/lib
         make
 }
 package() {

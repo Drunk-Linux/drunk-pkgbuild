@@ -1,19 +1,17 @@
-pkgname=libxslt
-pkgver=1.1.32
+pkgname=xmlto
+pkgver=0.0.28
 pkgrel=1
 arch=('x86_64')
-depends=(base-drunk libxml2)
-source=(http://xmlsoft.org/sources/libxslt-1.1.32.tar.gz)
+depends=(docbook-xml docbook-xsl libxslt)
+source=(https://releases.pagure.org/$pkgname/$pkgname-$pkgver.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver
-
 	./configure --prefix=/usr --libdir=/usr/lib
 	make
 }
 
 package() {
 	cd $pkgname-$pkgver
-
 	make DESTDIR=$pkgdir install
 }

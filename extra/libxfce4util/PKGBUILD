@@ -1,0 +1,20 @@
+pkgname=libxfce4util
+pkgver=4.16.0
+pkgrel=1
+arch=('x86_64')
+depends=(glib2 gobject-introspection)
+makedepends=(glib2 gobject-introspection vala gtk-doc)
+source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--libdir=/usr/lib
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+}
