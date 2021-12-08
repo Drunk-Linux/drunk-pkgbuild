@@ -1,0 +1,23 @@
+pkgname=xorg-server
+pkgver=1.20.13
+pkgrel=1
+arch=('x86_64')
+depends=(pixman font-util xkeyboard-config libepoxy wayland wayland-protocols systemd libfontenc libxfont2)
+source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--enable-glamor		\
+	--with-xkb-output=/var/lib/xkb
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+	mkdir -p $pkgdir/etc/X11/xorg.conf.d
+}

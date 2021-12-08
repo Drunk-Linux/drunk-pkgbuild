@@ -3,27 +3,21 @@
 # Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
 # Depends on:  
 
-pkgname=libx11
-pkgver=1.7.2
+pkgname=xinit
+pkgver=1.4.1
 pkgrel=2
 arch=('x86_64')
 depends=('libxau' 'xcb-proto' 'libxtrans' 'xorgproto')
-source=(https://x.org/releases/individual/lib/libX11-$pkgver.tar.gz)
+source=(https://x.org/releases/individual/app/$pkgname-$pkgver.tar.bz2)
 
 build() {
-        cd libX11-$pkgver
+        cd $pkgname-$pkgver
 
-	./configure --prefix=/usr --disable-static --disable-xf86bigfont
-#	sed -i -e 's/ -shared / -W1,-01,--as-needed\0/g' libtool
+	./configure --prefix=/usr
 	make
 }
 
-check() {
-	cd libX11-$pkgver
-	make check
-}
-
 package() {
-	cd libX11-$pkgver
+	cd $pkgname-$pkgver
 	make DESTDIR=$pkgdir install
 }

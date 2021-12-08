@@ -1,6 +1,11 @@
 #!/bin/bash
 set +e
 
+echo " "
+echo "[*]: Moving pkg's to pkg dir"
+echo " "
+mv */*/*pkg.t* ../pkgs/
+
 set -e
 echo " "
 echo "[*]: Cleaning up core"

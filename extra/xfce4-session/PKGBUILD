@@ -1,0 +1,22 @@
+pkgname=xfce4-session
+pkgver=4.16.0
+pkgrel=1
+arch=('x86_64')
+depends=(libwnck libxfce4ui xfdesktop iceauth libsm xinit xfwm4 xorg-server)
+source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--sysconfdir=/etc LIBS=-lX11
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}
