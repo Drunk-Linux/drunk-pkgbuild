@@ -1,0 +1,18 @@
+pkgname=linux-pam
+pkgver=1.5.1
+pkgrel=1
+arch=('x86_64')
+source=(https://github.com/$pkgname/$pkgname/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz)
+
+build() {
+	cd Linux-PAM-$pkgver
+
+	./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security
+
+	make
+}
+
+package() {
+	cd Linux-PAM-$pkgver
+	make DESTDIR=$pkgdir install
+}

@@ -5,38 +5,45 @@
 
 pkgname=dbus
 pkgver=1.12.20
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 source=(https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz)
 
 build() {
 	cd $pkgname-$pkgver
 
-	./configure --prefix=/usr                        \
-	            --sysconfdir=/etc                    \
-	            --localstatedir=/var                 \
-	            --enable-user-session                \
-	            --disable-doxygen-docs               \
-	            --disable-xml-docs                   \
-	            --disable-static                     \
-	            --with-systemduserunitdir=no         \
-	            --with-systemdsystemunitdir=no       \
-	            --with-console-auth-dir=/run/console \
-	            --with-system-pid-file=/run/dbus/pid \
-        	    --with-system-socket=/run/dbus/system_bus_socket
+	./configure					\
+		--prefix=/usr				\
+	        --sysconfdir=/etc			\
+		--localstatedir=/var			\
+		--libexecdir=/usr/lib/dbus-1.0		\
+		runstatedir=/var/run			\
+		--with-console-auth-dir=/var/run/console	\
+		--with-dbus-user=dbus			\
+		--with-system-pid-file=/var/run/dbus/pid	\
+		--with-system-socket=/var/run/dbus/system_bus_socket	\
+		--with-systemdsystemunitdir=/usr/lib/systemd/system	\
+		--enable-systemd			\
+		--enable-user-session			\
+		--without-x
+
 	make
 }
 
 package() {
 	cd $pkgname-$pkgver
+	
 	make DESTDIR=$pkgdir install
 
 	mkdir -p $pkgdir/lib
 	mv -v $pkgdir/usr/lib/libdbus-1.so.* $pkgdir/lib
 	ln -sfv ../../lib/$(readlink $pkgdir/usr/lib/libdbus-1.so) $pkgdir/usr/lib/libdbus-1.so
 
-	chown -v root:messagebus $pkgdir/usr/libexec/dbus-daemon-launch-helper
-	chmod -v      4750       $pkgdir/usr/libexec/dbus-daemon-launch-helper
+	#chown -v root:messagebus $pkgdir/usr/libexec/dbus-daemon-launch-helper
+	#chmod -v      4750       $pkgdir/usr/libexec/dbus-daemon-launch-helper
+
+	echo 'u dbus 81 "System Message Bus"' 	|
+		install -Dm644 /dev/stdin "$pkgdir/usr/lib/sysusers.d/dbus.conf"
 
 	# if build logind support
 	#ln -sv $pkgdir/var/lib/dbus/machine-id $pkgdir/etc

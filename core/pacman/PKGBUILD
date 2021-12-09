@@ -5,8 +5,9 @@
 
 pkgname=pacman
 pkgver=v6.0.1
-pkgrel=5
+pkgrel=6
 arch=('x86_64')
+depends=(zstd)
 source=(https://gitlab.archlinux.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz)
 
 build() {

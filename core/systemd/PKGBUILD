@@ -13,6 +13,14 @@ source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.
 	'loader.conf'
 	'linuxx64.efi.stub'
 	'systemd-bootx64.efi')
+backup(etc/pam.d/systemd-user
+	etc/systemd/coredump.conf
+	etc/systemd/homed.conf
+	etc/systemd/journald.conf
+	etc/systemd/journal-remote.conf
+	etc/systemd/journal-upload.conf
+	etc/systemd/logind.conf
+	etc/systemd/networkd.conf)
 
 build() {
         cd $pkgname-$pkgver
@@ -35,10 +43,11 @@ build() {
 		--sysconfdir=/etc             \
 		--localstatedir=/var          \
 		--buildtype=release           \
-		-Dblkid=true                  \
-		-Dmode=release                \
-		-Dinstall-tests=false	      \
-		-Ddocdir=/usr/share/doc/systemd-249 \
+		-D blkid=true                  \
+		-D mode=release                \
+		-D install-tests=false	      \
+		-D docdir=/usr/share/doc/systemd-249 \
+		-D dbuspolicydir=/usr/share/dbus-1/system.d \
 		..
 }
 
