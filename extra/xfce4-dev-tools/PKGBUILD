@@ -1,0 +1,24 @@
+pkgname=xfce4-dev-tools
+pkgver=4.16.0
+pkgrel=1
+arch=('x86_64')
+depends=(glib2 intltool gtk-doc)
+source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--sysconfdir=/etc		\
+	--libexecdir=/usr/lib		\
+	--localstatedir=/var
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}
