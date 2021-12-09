@@ -3,7 +3,7 @@ pkgver=8.45
 pkgrel=1
 arch=('x86_64')
 depends=(valgrind)
-source=(https://fossies.org/linux/misc/pcre-8.45.tar.bz2)
+source=(http://fossies.org/linux/misc/pcre-8.45.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver
