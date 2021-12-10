@@ -1,6 +1,6 @@
 pkgname=lightdm
 pkgver=1.30.0
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 depends=(exo libgcrypt itstool linux-pam pcre vala gobject-introspection at-spi2-core gtk-doc glib2 libxcb libxdm lightdm-gtk-greeter)
 source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz
@@ -10,6 +10,7 @@ source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgn
 	lightdm.sysusers
 	lightdm.tmpfiles
 	lightdm.pam
+	lightdm.rules
 	lightdm-autologin.pam)
 
 build() {
@@ -39,6 +40,10 @@ package() {
 	# PAM
 	install -m 644 ../lightdm.pam $pkgdir/etc/pam.d/lightdm
 	install -m 644 ../lightdm-autologin.pam $pkgdir/etc/pam.d/lightdm-autologin
+
+	# PolicyKit
+	install -dm 750 -g 102 $pkgdir/usr/share/polkit-1/rules.d
+install -m 644 ../lightdm.rules $pkgdir/usr/share/polkit-1/rules.d/lightdm.rules
 
 	# Dbus
 	mv $pkgdir/{etc,usr/share}/dbus-1/system.d

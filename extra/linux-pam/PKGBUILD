@@ -1,18 +1,31 @@
 pkgname=linux-pam
 pkgver=1.5.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-source=(https://github.com/$pkgname/$pkgname/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz)
+source=(https://github.com/$pkgname/$pkgname/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz
+	$pkgname.tmpfiles
+	other
+	system-auth
+	system-local-login
+	system-login
+	system-remote-login
+	system-services)
 
 build() {
 	cd Linux-PAM-$pkgver
 
-	./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security
+	./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/etc/security
 
 	make
 }
 
 package() {
+	pambase=(other system-auth system-local-login system-login system-remote-login system-services)
+        install -dm755 $pkgdir/etc/pam.d
+        install -m644 -t $pkgdir/etc/pam.d "${pambase[@]}"
+
 	cd Linux-PAM-$pkgver
-	make DESTDIR=$pkgdir install
+	make DESTDIR=$pkgdir SCONFDIR=/etc/security install
+	install -Dm 644 ../$pkgname.tmpfiles $pkgdir/usr/lib/tmpfiles.d/$pkgname.conf
+	chmod +s $pkgdir/sbin/unix_chkpwd
 }

@@ -5,15 +5,28 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=5
+pkgrel=6
 arch=('x86_64')
+depends=(polkit linux-pam libxkbcommon)
 source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
 	'drunk.conf'
 	'initrd-drunk.conf'
 	'loader.conf'
 	'linuxx64.efi.stub'
-	'systemd-bootx64.efi')
-backup(etc/pam.d/systemd-user
+	'systemd-bootx64.efi'
+	'systemd-user.pam'
+	'systemd-hook'
+	'20-systemd-sysusers.hook'
+	'30-systemd-binfmt.hook'
+	'30-systemd-catalog.hook'
+	'30-systemd-daemon-reload.hook'
+	'30-systemd-hwdb.hook'
+	'30-systemd-sysctl.hook'
+	'30-systemd-tmpfiles.hook'
+	'30-systemd-udev-reload.hook'
+	'30-systemd-update.hook')
+
+backup=(etc/pam.d/systemd-user
 	etc/systemd/coredump.conf
 	etc/systemd/homed.conf
 	etc/systemd/journald.conf
@@ -67,7 +80,9 @@ package() {
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install
 
-	# Copy example .config files
-	#install -D -m0644 ../../drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
-	#install -D -m0644 ../../loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
+	install -D -m0644 $srcdir/systemd-user.pam $pkgdir/etc/pam.d/systemd-user
+	install -D -m0755 $srcdir/systemd-hook $pkgdir/usr/share/libalpm/scripts/systemd-hook
+	install -D -m0644 -t $pkgdir/usr/share/libalpm/hooks $srcdir/*.hook
+	install -d -o root -g 102 0m 0750 $pkgdir/usr/share/polkit-1/rules.d
+	install -d -o root -g root -m 2755 $pkgdir/var/log/journal
 }
