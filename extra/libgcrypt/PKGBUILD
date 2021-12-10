@@ -1,7 +1,8 @@
 pkgname=libgcrypt
 pkgver=1.9.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(libgpg-error)
 source=(https://gnupg.org/ftp/gcrypt/$pkgname/$pkgname-$pkgver.tar.bz2)
 
 build() {

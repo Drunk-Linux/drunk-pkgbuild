@@ -1,9 +1,9 @@
 pkgname=lightdm-gtk-greeter
 pkgver=2.0.8
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(git+https://github.com/Xubuntu/lightdm-gtk-greeter.git)
-depends=(gtk+ lightdm)
+depends=(gtk+)
 makedepends=(exo git intltool gobject-introspection xfce4-dev-tools)
 
 build() {

@@ -1,8 +1,10 @@
 #!/bin/bash
 
+folders=(itstool)
+
 function build_extras() {
         shopt -s globstar
-        for d in ./*/ ; do
+        for d in ${folders[@]} ; do
                 cd "$d"
                 $@
                 rm -rf src/
