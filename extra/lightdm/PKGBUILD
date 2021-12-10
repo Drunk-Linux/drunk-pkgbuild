@@ -1,8 +1,8 @@
 pkgname=lightdm
 pkgver=1.30.0
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
-depends=(exo libgcrypt itstool linux-pam pcre vala gobject-introspection at-spi2-core gtk-doc glib2 libxcb libxdm lightdm-gtk-greeter)
+depends=(accountsservice xorg-server encodings garcon exo xorg-xkbcomp libgcrypt itstool linux-pam pcre vala gobject-introspection libpciaccess at-spi2-core gtk-doc glib2 libxcb libxdm lightdm-gtk-greeter)
 source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz
 	lightdm-default-config.patch
 	Xsession

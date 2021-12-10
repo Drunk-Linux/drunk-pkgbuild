@@ -1,8 +1,8 @@
 #!/bin/bash
 
-folders=(itstool)
+folders=()
 
-function build_extras() {
+function build_extras_S() {
         shopt -s globstar
         for d in ${folders[@]} ; do
                 cd "$d"
@@ -13,4 +13,17 @@ function build_extras() {
         done
 }
 
-build_extras "makepkg --skipint -d"
+build_extras_S "makepkg --skipint -d"
+
+function build_extras() {
+        shopt -s globstar
+        for d in font* ; do
+                cd "$d"
+                $@
+                rm -rf src/
+                rm -rf pkg/
+                cd ..
+        done
+}
+
+build_extras "makepkg --skipint"

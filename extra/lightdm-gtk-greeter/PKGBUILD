@@ -1,6 +1,6 @@
 pkgname=lightdm-gtk-greeter
 pkgver=2.0.8
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 source=(git+https://github.com/Xubuntu/lightdm-gtk-greeter.git)
 depends=(gtk+)
@@ -15,6 +15,9 @@ build() {
 	--prefix=/usr			\
 	--sysconfdir=/etc		\
 	--with-libxklavier		\
+	--libexecdir=/usr/lib/lightdm	\
+	--disable-libido		\
+	--disable-libindicator		\
 	--enable-kill-on-sigterm
 
 	make

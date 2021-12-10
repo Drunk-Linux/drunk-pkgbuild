@@ -1,8 +1,8 @@
 pkgname=xorg-xkbcomp
 pkgver=1.4.5
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(fontconfig libxcb)
+depends=(fontconfig libxcb libxkbfile)
 source=(https://xorg.freedesktop.org/archive/individual/app/xkbcomp-$pkgver.tar.bz2)
 
 build() {

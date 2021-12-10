@@ -1,8 +1,8 @@
 pkgname=xf86-input-libinput
 pkgver=1.1.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(libevdev mtdev xorg-server)
+depends=(libevdev mtdev xorg-server libinput)
 source=(https://x.org/pub/individual/driver/$pkgname-$pkgver.tar.bz2)
 
 build() {
