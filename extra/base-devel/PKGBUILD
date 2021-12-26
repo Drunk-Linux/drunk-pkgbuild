@@ -5,10 +5,10 @@
 
 pkgname=base-devel
 pkgver=1.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(tmpfile)
-depends=('autoconf' 'automake' 'make' 'meson' 'ninja' 'perl' 'ruby3')
+depends=('autoconf' 'automake' 'make' 'meson' 'ninja' 'perl' 'ruby3' 'git' 'patch')
 
 build() {
 	mkdir -p $pkgname-$pkgver

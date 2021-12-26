@@ -5,14 +5,15 @@
 
 pkgname=mesa
 pkgver=21.2.1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
-	'wayland' 'wayland-protocols' 'clang' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc' 'valgrind')
+	'wayland' 'wayland-protocols' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc'
+	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm')
 source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz
 	swr-llvm13-patch1.patch
 	swr-llvm13-patch2.patch)
-
+makedepend=('clang' 'cmake')
 prepare() {
 	cd $pkgname-$pkgver
 
@@ -42,8 +43,8 @@ build() {
 	-D valgrind=enabled	\
 	-D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,swr,iris,crocus,zink	\
 	-D dri-drivers=i915,i965,r100,r200,nouveau	\
-	-D dri3=enabled		\
 	-D egl=enabled		\
+	-D dri3=enabled
 	-D gallium-extra-hud=true			\
 	-D gallium-omx=bellagio	\
 	-D gallium-opencl=icd	\
