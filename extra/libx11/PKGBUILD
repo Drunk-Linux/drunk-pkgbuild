@@ -5,9 +5,9 @@
 
 pkgname=libx11
 pkgver=1.7.2
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
-depends=('libxau' 'xcb-proto' 'libxtrans' 'xorgproto')
+depends=('libxau' 'xcb-proto' 'libxtrans' 'xorgproto' 'libxdmcp' 'libxrandr' 'libxi')
 source=(https://x.org/releases/individual/lib/libX11-$pkgver.tar.gz)
 
 build() {

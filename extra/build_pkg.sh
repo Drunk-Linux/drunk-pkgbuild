@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folders=()
+folders=(libx* xf* x*)
 
 function build_extras_S() {
         shopt -s globstar
@@ -13,17 +13,17 @@ function build_extras_S() {
         done
 }
 
-build_extras_S "makepkg --skipint -d"
+build_extras_S "makepkg --skipint -s"
 
-function build_extras() {
-        shopt -s globstar
-        for d in font* ; do
-                cd "$d"
-                $@
-                rm -rf src/
-                rm -rf pkg/
-                cd ..
-        done
-}
+#function build_extras() {
+#        shopt -s globstar
+#        for d in font* ; do
+#                cd "$d"
+#                $@
+#                rm -rf src/
+#                rm -rf pkg/
+#                cd ..
+#        done
+#}
 
-build_extras "makepkg --skipint"
+#build_extras "makepkg --skipint"

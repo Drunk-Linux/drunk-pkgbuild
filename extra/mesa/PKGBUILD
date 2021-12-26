@@ -5,7 +5,7 @@
 
 pkgname=mesa
 pkgver=21.2.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
 	'wayland' 'wayland-protocols' 'clang' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc' 'valgrind')
@@ -32,7 +32,7 @@ build() {
 	--buildtype=release	\
 	-D gallium-nine=true	\
 	-D glx=dri		\
-	-D libunwind=disabled	\
+	-D libunwind=enabled	\
 	-D platforms=wayland,x11 \
 	-D gles1=enabled	\
 	-D gles2=enabled	\

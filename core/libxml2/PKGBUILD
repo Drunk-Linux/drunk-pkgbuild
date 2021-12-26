@@ -5,7 +5,7 @@
 
 pkgname=libxml2
 pkgver=2.9.12
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(http://xmlsoft.org/sources/$pkgname-$pkgver.tar.gz)
 
