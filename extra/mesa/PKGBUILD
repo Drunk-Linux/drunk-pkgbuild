@@ -9,16 +9,19 @@ pkgrel=3
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
 	'wayland' 'wayland-protocols' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc'
-	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm')
+	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm' 'vulkan-headers')
 source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz
 	swr-llvm13-patch1.patch
 	swr-llvm13-patch2.patch)
-makedepend=('clang' 'cmake')
+makedepends=('clang' 'cmake')
 prepare() {
 	cd $pkgname-$pkgver
 
 	patch -Np1 -i $srcdir/swr-llvm13-patch1.patch
 	patch -Np1 -i $srcdir/swr-llvm13-patch2.patch
+
+	echo "[!]: Installing mako with pip"
+	pip install mako
 }
 
 build() {
@@ -44,7 +47,7 @@ build() {
 	-D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,swr,iris,crocus,zink	\
 	-D dri-drivers=i915,i965,r100,r200,nouveau	\
 	-D egl=enabled		\
-	-D dri3=enabled
+	-D dri3=enabled		\
 	-D gallium-extra-hud=true			\
 	-D gallium-omx=bellagio	\
 	-D gallium-opencl=icd	\
