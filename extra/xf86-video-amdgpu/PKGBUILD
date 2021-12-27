@@ -1,6 +1,6 @@
 pkgname=xf86-video-amdgpu
 pkgver=21.0.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(xorg-server)
 source=(https://x.org/pub/individual/driver/$pkgname-$pkgver.tar.bz2)

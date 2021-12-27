@@ -1,6 +1,6 @@
 #!/bin/bash
 
-folders=(libx* xf* x*)
+folders=(xf86*)
 
 function build_extras_S() {
         shopt -s globstar

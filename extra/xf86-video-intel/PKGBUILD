@@ -1,9 +1,9 @@
 pkgname=xf86-video-intel
 pkgver=master
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(xorg-server xcb-util)
-source=(git+https://gitlab.freedesktop.org/xorg/driver/xf86-video-intel.git)
+depends=(xorg-server xcb-util libxinerama)
+source=(git+https://anongit.freedesktop.org/git/xorg/driver/xf86-video-intel.git)
 
 build() {
 	cd $pkgname
