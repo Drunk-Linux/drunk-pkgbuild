@@ -4,10 +4,10 @@
 # Depends on:  
 
 pkgname=xorgproto
-pkgver=2021.4
-pkgrel=2
+pkgver=2021.5
+pkgrel=4
 arch=('x86_64')
-depends=('util-macros')
+makedepends=('util-macros' 'meson')
 source=(https://xorg.freedesktop.org/archive/individual/proto/$pkgname-$pkgver.tar.bz2)
 
 prepare() {

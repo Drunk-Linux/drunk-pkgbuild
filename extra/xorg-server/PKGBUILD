@@ -1,40 +1,39 @@
 pkgname=xorg-server
-pkgver=1.20.14
-pkgrel=4
+pkgver=21.1.2
+pkgrel=5
 arch=('x86_64')
 depends=( libxxf86vm pixman font-util xkeyboard-config libepoxy wayland wayland-protocols systemd
-	libfontenc libxfont2 libpciaccess xorg-xkbcomp libxklavier polkit nettle libtirpc xrdb libxmu)
+	libfontenc libxfont2 libpciaccess xorg-xkbcomp libxklavier polkit nettle libtirpc xrdb libxmu libunwind libxcvt)
 source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz)
 
 build() {
 	cd $pkgname-$pkgver
 
-	mkdir -p build && cd build
+#	mkdir -p build && cd build
 
-	meson		\
-	--prefix=/usr		\
-	--localstatedir=/var	\
-	-D xcsecurity=false	\
-	-D xorg=true		\
-	-D glamor=true		\
-	-D udev=true		\
-	-D systemd_logind=true	\
-	-D suid_wrapper=true	\
-	-D xkb_dir=/usr/share/X11/xkb \
-	-D xkb_output_dir=/var/lib/xkb \
-	-D xwayland=true			\
-	..
+#	meson		\
+#	--prefix=/usr		\
+#	--localstatedir=/var	\
+#	-D xcsecurity=false	\
+#	-D xorg=true		\
+#	-D glamor=true		\
+#	-D udev=true		\
+#	-D systemd_logind=true	\
+#	-D suid_wrapper=true	\
+#	-D xkb_dir=/usr/share/X11/xkb \
+#	-D xkb_output_dir=/var/lib/xkb \
+#	..
 
-	meson configure . > configuration
+#	meson configure . > configuration
 
-	ninja
+#	ninja
 
-#	./configure --prefix=/usr --localstatedir=/var --disable-docs --disable-devel-docs --enable-wayland --disable-xorg --disable-xvfb --disable-xnest --disable-xquartz --disable-xwin
+	./configure --prefix=/usr --localstatedir=/var --disable-docs --disable-devel-docs --enable-wayland
 }
 
 package() {
-	cd $pkgname-$pkgver/build
-#	make DESTDIR=$pkgdir install
-	DESTDIR=$pkgdir ninja install
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+#	DESTDIR=$pkgdir ninja install
 	mkdir -p $pkgdir/etc/X11/xorg.conf.d
 }

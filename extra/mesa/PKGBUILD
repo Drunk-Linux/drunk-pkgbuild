@@ -4,8 +4,8 @@
 # Depends on:  
 
 pkgname=mesa
-pkgver=21.2.1
-pkgrel=3
+pkgver=21.3.2
+pkgrel=4
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
 	'wayland' 'wayland-protocols' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc'
@@ -17,8 +17,8 @@ makedepends=('clang' 'cmake')
 prepare() {
 	cd $pkgname-$pkgver
 
-	patch -Np1 -i $srcdir/swr-llvm13-patch1.patch
-	patch -Np1 -i $srcdir/swr-llvm13-patch2.patch
+#	patch -Np1 -i $srcdir/swr-llvm13-patch1.patch
+#	patch -Np1 -i $srcdir/swr-llvm13-patch2.patch
 
 	echo "[!]: Installing mako with pip"
 	pip install mako
@@ -34,6 +34,7 @@ build() {
 	meson			\
 	--prefix=/usr		\
 	--buildtype=release	\
+	-D b_ndebug=true	\
 	-D gallium-nine=true	\
 	-D glx=dri		\
 	-D libunwind=enabled	\
@@ -46,14 +47,11 @@ build() {
 	-D valgrind=enabled	\
 	-D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,swr,iris,crocus,zink	\
 	-D dri-drivers=i915,i965,r100,r200,nouveau	\
+	-D vulkan-drivers=amd,intel,swrast		\
+	-D gbm=enabled		\
 	-D egl=enabled		\
 	-D dri3=enabled		\
 	-D gallium-extra-hud=true			\
-	-D gallium-omx=bellagio	\
-	-D gallium-opencl=icd	\
-	-D gallium-va=disabled	\
-	-D gallium-xa=disabled	\
-	-D gallium-xvmc=disabled	\
 	..
 
 	unset GALLIUM_DRV DRI_DRIVERS
