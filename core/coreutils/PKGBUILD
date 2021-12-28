@@ -1,44 +1,46 @@
-# Description: Utilities for showing and setting the basic system characteristics
-# URL:         https://www.gnu.org/software/coreutils/
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
+# Maintainer: Sébastien "Seblu" Luttringer
+# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
+# Contributor: Allan McRae <allan@archlinux.org>
+# Contributor: judd <jvinet@zeroflux.org>
 
 pkgname=coreutils
-pkgver=8.32
-pkgrel=1
+pkgver=9.0
+pkgrel=2
+pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('x86_64')
-source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz
-       coreutils-i18n-1.patch)
+license=('GPL3')
+url='https://www.gnu.org/software/coreutils/'
+depends=('glibc' 'acl' 'attr' 'gmp' 'libcap' 'openssl')
+source=("https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"
+        '01-fix-fs72253.patch')
+
+prepare() {
+  cd $pkgname-$pkgver
+  # apply patch from the source array (should be a pacman feature)
+  local filename
+  for filename in "${source[@]}"; do
+    if [[ "$filename" =~ \.patch$ ]]; then
+      echo "Applying patch ${filename##*/}"
+      patch -Np1 -i "$srcdir/${filename##*/}"
+    fi
+  done
+  :
+}
 
 build() {
-        cd $pkgname-$pkgver
+  cd $pkgname-$pkgver
+  ./configure \
+      --prefix=/usr \
+      --libexecdir=/usr/lib \
+      --with-openssl \
+      --enable-no-install-program=groups,hostname,kill,uptime
 
-        # fixes POSIX requires that programs from Coreutils recognize
-        # character boundaries correctly even in multibyte locales
-        #patch -Np1 -i ../coreutils-i18n-1.patch
-        sed -i '/test.lock/s/^/#/' gnulib-tests/gnulib.mk
-
-        autoreconf -fiv
-        FORCE_UNSAFE_CONFIGURE=1 \
-        ./configure \
-                --prefix=/usr \
-                --enable-no-install-program=kill,uptime
-        make
+  make
 }
 
 package() {
-	cd $pkgname-$pkgver
-
-        make DESTDIR=$pkgdir install
-
-	mkdir -pv $pkgdir/{bin,usr/sbin}
-        mv -v $pkgdir/usr/bin/{cat,chgrp,chmod,chown,cp,date,dd,df,echo} $pkgdir/bin
-        mv -v $pkgdir/usr/bin/{false,ln,ls,mkdir,mknod,mv,pwd,rm} $pkgdir/bin
-        mv -v $pkgdir/usr/bin/{rmdir,stty,sync,true,uname} $pkgdir/bin
-        mv -v $pkgdir/usr/bin/chroot $pkgdir/usr/sbin
-        mkdir -pv $pkgdir/usr/share/man/man8
-        mv -v $pkgdir/usr/share/man/man1/chroot.1 $pkgdir/usr/share/man/man8/chroot.8
-        sed -i s/\"1\"/\"8\"/1 $pkgdir/usr/share/man/man8/chroot.8
-
-        mv -v $pkgdir/usr/bin/{head,sleep,nice} $pkgdir/bin
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
 }
+
+# vim:set ts=2 sw=2 et:

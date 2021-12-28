@@ -1,6 +1,6 @@
 pkgname=linux-pam
-pkgver=1.5.1
-pkgrel=3
+pkgver=1.5.2
+pkgrel=1
 arch=('x86_64')
 depends=(libgcrypt)
 source=(https://github.com/$pkgname/$pkgname/releases/download/v$pkgver/Linux-PAM-$pkgver.tar.xz

@@ -5,9 +5,10 @@
 
 pkgname=systemd
 pkgver=249
-pkgrel=7
+pkgrel=8
 arch=('x86_64')
 depends=(polkit linux-pam libxkbcommon)
+makedepends=(python3-pip)
 source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
 	'drunk.conf'
 	'initrd-drunk.conf'
@@ -35,11 +36,15 @@ backup=(etc/pam.d/systemd-user
 	etc/systemd/logind.conf
 	etc/systemd/networkd.conf)
 
+prepare() {
+	pip install jinja2
+}
+
 build() {
         cd $pkgname-$pkgver
 
         wget https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-249-upstream_fixes-1.patch
-#        patch -Np1 -i systemd-249-upstream_fixes-1.patch
+        patch -Np1 -i systemd-249-upstream_fixes-1.patch
         rm -f systemd-249-upstream_fixes-1.patch
         
         sed -i -e 's/GROUP="render"/GROUP="video"/' \
