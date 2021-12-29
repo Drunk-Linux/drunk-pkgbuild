@@ -33,8 +33,6 @@ build() {
   autoreconf -fsiv
   ./configure \
     --prefix=/usr \
-    --bindir=/usr/bin \
-    --sbindir=/usr/bin \
     --libdir=/usr/lib \
     --mandir=/usr/share/man \
     --sysconfdir=/etc \

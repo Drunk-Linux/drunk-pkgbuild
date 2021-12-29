@@ -1,6 +1,6 @@
 pkgname=util-linux
 pkgver=2.37.2
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 depends=('python3' 'systemd' 'linux-pam')
 source=(https://www.kernel.org/pub/linux/utils/$pkgname/v${pkgver::4}/$pkgname-$pkgver.tar.xz
@@ -23,11 +23,7 @@ build() {
 	./configure						\
 		ADJTIME_PATH=/var/lib/hwclock/adjtime		\
 		--prefix=/usr					\
-		--libdir=/usr/lib				\
-		--bindir=/usr/bin					\
-		--sbindir=/usr/sbin				\
 		--localstatedir=/var				\
-		--enable-userdir-path				\
 		--enable-raw					\
 		--enable-vipw					\
 		--enable-newgrp					\
@@ -37,7 +33,7 @@ build() {
 		--enable-mesg					\
 		--with-python=3					\
 		--with-systemd					\
-		--without-systemdsystemunitdir
+		--with-systemdsystemunitdir
 
 	make
 }

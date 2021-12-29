@@ -58,38 +58,40 @@ build() {
         mkdir -p build
 	cd build
 	export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH	
-	LANG=en_US.UTF-8                    \
-	meson --prefix=/usr                 \
-		--sysconfdir=/etc             \
-		--localstatedir=/var          \
-		--buildtype=release           \
-		-D blkid=true                  \
-		-D mode=release                \
-		-D install-tests=false	      \
-		-D docdir=/usr/share/doc/systemd-249 \
-		-D dbuspolicydir=/usr/share/dbus-1/system.d \
+	LANG=en_US.UTF-8						\
+	meson								\
+		--prefix=/usr						\
+		--sysconfdir=/etc					\
+		--localstatedir=/var					\
+		--buildtype=release					\
+		-D blkid=true						\
+		-D mode=release						\
+		-D default-hierarchy=unified				\
+		-D default-user-processes=false				\
+		-D install-tests=false					\
+		-D docdir=/usr/share/doc/systemd-249			\
+		-D dbuspolicydir=/usr/share/dbus-1/system.d		\
 		..
 }
 
 package() {
+	# Install bootctl conf file examples
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/initrd-drunk.conf
         install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
-
-
-        cd $pkgname-$pkgver
-	cd build
-	
 	mkdir -p $pkgdir/usr/lib/systemd/boot/efi
 	cp -rf $srcdir/linuxx64.efi.stub $pkgdir/usr/lib/systemd/boot/efi/
 	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/efi/
+
+	cd $pkgdir-$pkgver/boot
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install
 
+	
 	install -D -m0644 $srcdir/systemd-user.pam $pkgdir/etc/pam.d/systemd-user
 	install -D -m0755 $srcdir/systemd-hook $pkgdir/usr/share/libalpm/scripts/systemd-hook
 	install -D -m0644 -t $pkgdir/usr/share/libalpm/hooks $srcdir/*.hook
-	install -d -o root -g 102 0m 0750 $pkgdir/usr/share/polkit-1/rules.d
+	install -d -o root -g 102 -m 0750 $pkgdir/usr/share/polkit-1/rules.d
 	install -d -o root -g root -m 2755 $pkgdir/var/log/journal
 }
