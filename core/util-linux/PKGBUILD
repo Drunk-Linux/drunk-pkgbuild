@@ -1,6 +1,6 @@
 pkgname=util-linux
 pkgver=2.37.2
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 depends=('python3' 'systemd' 'linux-pam')
 source=(https://www.kernel.org/pub/linux/utils/$pkgname/v${pkgver::4}/$pkgname-$pkgver.tar.xz
@@ -32,6 +32,7 @@ build() {
 		--enable-vipw					\
 		--enable-newgrp					\
 		--enable-chfn-chsh				\
+		--enable-login					\
 		--enable-write					\
 		--enable-mesg					\
 		--with-python=3					\

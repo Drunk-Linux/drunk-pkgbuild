@@ -105,8 +105,4 @@ package() {
   rmdir \
       "$pkgdir"/usr/share/man/{fi,id,zh_TW}/man1 \
       "$pkgdir"/usr/share/man/{fi,ko/man8}
-
-  # move everything else to /usr/bin, because this isn't handled by ./configure
-  mv "$pkgdir"/usr/sbin/* "$pkgdir"/usr/bin
-  rmdir "$pkgdir/usr/sbin"
 }
