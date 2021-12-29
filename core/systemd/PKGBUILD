@@ -37,6 +37,8 @@ backup=(etc/pam.d/systemd-user
 	etc/systemd/networkd.conf)
 
 prepare() {
+	pip install setuptools
+
 	pip install jinja2
 }
 
