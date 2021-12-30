@@ -1,11 +1,6 @@
-# Description: base filesystem directories
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=filesystem
 pkgver=1
-pkgrel=5
+pkgrel=6
 arch=('x86_64')
 backup=(etc/dircolors.sh
         etc/extrapaths.sh
@@ -88,7 +83,7 @@ package() {
 
 	# /etc
 	install -d $pkgdir/etc
-	for p in profile resolv.conf inputrc fstab hostname hosts passwd group issue; do
+	for p in profile shells resolv.conf inputrc fstab hostname hosts passwd group issue; do
 		install -m0644 $p $pkgdir/etc
 	done
 
