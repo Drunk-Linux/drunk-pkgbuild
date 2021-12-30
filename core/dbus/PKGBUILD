@@ -5,8 +5,9 @@
 
 pkgname=dbus
 pkgver=1.12.20
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
+depends=(libx11)
 source=(https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.gz
 	dbus-reload.hook
 	no-fatal-warnings.diff)
@@ -29,7 +30,7 @@ build() {
 		--with-systemdsystemunitdir=/usr/lib/systemd/system	\
 		--enable-systemd			\
 		--enable-user-session			\
-		--without-x
+		--with-x
 
 	make
 }

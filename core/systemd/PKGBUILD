@@ -1,11 +1,6 @@
-# Description: The systemd package contains programs for controlling the startup, running, and shutdown of the system. 
-# URL:         https://systemd.io
-# Maintainer:  none
-# Depends on:  
-
 pkgname=systemd
 pkgver=249
-pkgrel=8
+pkgrel=9
 arch=('x86_64')
 depends=(polkit linux-pam libxkbcommon)
 makedepends=(python3-pip)
@@ -67,11 +62,12 @@ build() {
 		-D blkid=true						\
 		-D mode=release						\
 		-D default-hierarchy=unified				\
-		-D default-user-processes=false				\
 		-D install-tests=false					\
 		-D docdir=/usr/share/doc/systemd-249			\
 		-D dbuspolicydir=/usr/share/dbus-1/system.d		\
 		..
+
+	ninja
 }
 
 package() {
@@ -79,16 +75,16 @@ package() {
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/initrd-drunk.conf
         install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
-	mkdir -p $pkgdir/usr/lib/systemd/boot/efi
-	cp -rf $srcdir/linuxx64.efi.stub $pkgdir/usr/lib/systemd/boot/efi/
+	mkdir -p $pkgdir/usr/lib/systemd/boot/efi/
+	cp -rf $srcdir/linuxx64.efi.stub $pkgdir/usr/lib/systemd/boot/efi
 	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/efi/
 
-	cd $pkgdir-$pkgver/boot
+	cd $pkgname-$pkgver/build
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install
 
-	
+
 	install -D -m0644 $srcdir/systemd-user.pam $pkgdir/etc/pam.d/systemd-user
 	install -D -m0755 $srcdir/systemd-hook $pkgdir/usr/share/libalpm/scripts/systemd-hook
 	install -D -m0644 -t $pkgdir/usr/share/libalpm/hooks $srcdir/*.hook

@@ -1,8 +1,8 @@
-pkgname=thunar
-pkgver=4.16.8
+pkgname=xfce4-power-manager
+pkgver=4.16.0
 pkgrel=1
 arch=('x86_64')
-depends=(exo hicolor-icon-theme libgudev thunar-volman)
+depends=(libnotify upower xfce4-panel)
 source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
 
 build() {

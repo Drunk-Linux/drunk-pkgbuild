@@ -1,14 +1,15 @@
-pkgname=xf86-video-vboxvideo
-pkgver=1.0.0
-pkgrel=3
+pkgname=alsa-lib
+pkgver=1.2.6.1
+pkgrel=1
 arch=('x86_64')
-depends=(xorg-server)
-source=(https://x.org/pub/individual/driver/$pkgname-$pkgver.tar.bz2)
+depends=(doxygen python3)
+source=(https://alsa-project.org/files/pub/lib/$pkgname-$pkgver.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver
 
 	./configure --prefix=/usr
+
 	make
 }
 

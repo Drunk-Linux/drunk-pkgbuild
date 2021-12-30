@@ -1,0 +1,18 @@
+pkgname=drunk-desktop-xfce4
+pkgver=1.0
+pkgrel=1
+arch=('x86_64')
+depends=(lightdm xfce4-session xfce4-panel xfce4-settings thunar)
+makedepends=(base-drunk)
+
+prepare() {
+	echo "Nothing to do."
+}
+
+build() {
+	echo "Nothing to do."
+}
+
+package() {
+	echo "Nothing to do."
+}
