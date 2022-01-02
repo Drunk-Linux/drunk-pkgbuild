@@ -1,9 +1,10 @@
 pkgname=tumbler
 pkgver=4.16.0
+xver=4.16
 pkgrel=1
 arch=('x86_64')
 depends=(glibc)
-source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+source=(https://archive.xfce.org/src/xfce/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver

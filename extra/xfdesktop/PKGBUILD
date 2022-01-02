@@ -1,10 +1,11 @@
 pkgname=xfdesktop
 pkgver=4.16.0
-pkgrel=1
+xver=4.16
+pkgrel=2
 arch=('x86_64')
 depends=(exo libwnck)
 makedepends=()
-source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+source=(https://archive.xfce.org/src/xfce/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver
@@ -12,6 +13,7 @@ build() {
 	./configure		\
 	--prefix=/usr		\
 	--sysconfdir=/etc	\
+	--enable-thunarx	\
 	--disable-debug		\
 	LIBS=-lX11
 

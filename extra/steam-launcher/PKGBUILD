@@ -1,0 +1,18 @@
+pkgname=steam-launcher
+pkgver=1.0.0.74
+pkgrel=1
+arch=('x86_64')
+depends=(gtk+)
+source=(steam.tar.xz)
+
+prepare() {
+	tar -xf steam.tar.xz
+}
+
+build() {
+	echo "Done"
+}
+
+package() {
+	cp -rf steam/* $pkgdir/
+}

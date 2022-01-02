@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=OpenJDK Java 17.0.1 Console
+Comment=OpenJDK Java 17.0.1 Console
+Keywords=java;console;monitoring
+Exec=/opt/jdk/bin/jconsole
+Terminal=false
+Type=Application
+Icon=java
+Categories=Application;System;

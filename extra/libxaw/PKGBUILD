@@ -1,8 +1,8 @@
 pkgname=libxaw
 pkgver=1.0.14
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=('libxau' 'xcb-proto' 'libxpm' xorgproto libx11 libxext libxt libxmu libice libsm)
+depends=('libxau' 'xcb-proto' 'libxpm' xorgproto libxext libxt libxmu libice libsm)
 source=(https://gitlab.freedesktop.org/xorg/lib/libxaw/-/archive/libXaw-$pkgver/libXaw-$pkgver.tar.gz)
 
 build() {

@@ -1,0 +1,46 @@
+pkgname=openjdk-17
+pkgver=17.0.1
+pkgrel=1
+arch=('x86_64')
+depends=('alsa-lib' 'cpio' 'cups' 'unzip' 'which' 'zip' 'xorg-server')
+makedepends=('git')
+source=( https://github.com/openjdk/jdk17u/archive/jdk-$pkgver-ga.tar.gz
+	openjdk-java.desktop
+	openjdk-jconsole.desktop)
+
+build() {
+	cd jdk17u-jdk-17.0.1-ga
+	unset JAVA_HOME
+
+	bash configure			\
+	--enable-unlimited-crypto	\
+	--with-stdc++lib=dynamic	\
+	--with-lcms=system		\
+	--with-libjpeg=system		\
+	--with-libpng=system		\
+	--with-zlib=system		\
+	--with-version-build="12"	\
+	--prefix=/usr
+
+	make images
+}
+
+package() {
+	cd jdk17u-jdk-17.0.1-ga
+
+	install -vdm755 $pkgdir/opt/jdk-17.0.1+12
+	cp -Rv build/*/images/jdk/* $pkgdir/opt/jdk-17.0.1+12
+	chown -R root:root $pkgdir/opt/jdk-17.0.1+12
+	for s in 16 24 32 48; do
+		install -vDm644 src/java.desktop/unix/classes/sun/awt/X11/java-icon${s}.png \
+		$pkgdir/usr/share/icons/hicolor/${s}x${s}/apps/java.png
+	done
+
+	mkdir -pv $pkgdir/usr/share/applications
+
+	cp $srcdir/openjdk-java.desktop $pkgdir/usr/share/applications/
+	cp $srcdir/openjdk-jconsole.desktop $pkgdir/usr/share/applications/
+	
+	mkdir -p $pkgdir/usr/bin
+	ln -sf $pkgdir/opt/jdk-17.0.1+12/bin/* $pkgdir/usr/bin/
+}

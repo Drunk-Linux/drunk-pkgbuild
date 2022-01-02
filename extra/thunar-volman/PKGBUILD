@@ -1,8 +1,8 @@
 pkgname=thunar-volman
 pkgver=4.16.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(thunar libgudev xfce4-notifyd)
+depends=(exo thunar libgudev xfce4-notifyd gvfs)
 source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
 
 build() {

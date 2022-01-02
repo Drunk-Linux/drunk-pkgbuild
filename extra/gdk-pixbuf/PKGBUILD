@@ -1,9 +1,11 @@
 pkgname=gdk-pixbuf
 pkgver=2.42.6
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
-depends=(glib2 libjpeg libpng shared-mime-info libtiff)
-source=(https://download.gnome.org/sources/$pkgname/2.42/$pkgname-$pkgver.tar.xz)
+depends=(glib2 libjpeg libpng shared-mime-info libtiff librsvg)
+source=(https://download.gnome.org/sources/$pkgname/2.42/$pkgname-$pkgver.tar.xz
+	gdk-pixbuf-query-loaders.hook)
+install=gdk-pixbuf2.install
 
 build() {
 	cd $pkgname-$pkgver
@@ -21,4 +23,6 @@ build() {
 package() {
 	cd $pkgname-$pkgver/build
 	DESTDIR=$pkgdir ninja install
+
+	install -Dt "$pkgdir/usr/share/libalpm/hooks" -m644 $srcdir/*.hook
 }

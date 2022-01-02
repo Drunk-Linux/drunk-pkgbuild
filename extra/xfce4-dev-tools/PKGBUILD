@@ -1,9 +1,10 @@
 pkgname=xfce4-dev-tools
-pkgver=4.16.0
+pkgver=4.17.0
+xver=4.17
 pkgrel=1
 arch=('x86_64')
 depends=(glib2 intltool gtk-doc)
-source=(https://archive.xfce.org/src/xfce/$pkgname/4.16/$pkgname-$pkgver.tar.bz2)
+source=(https://archive.xfce.org/src/xfce/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
 
 build() {
 	cd $pkgname-$pkgver

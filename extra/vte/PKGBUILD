@@ -1,8 +1,8 @@
 pkgname=vte
 pkgver=0.66.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(gtk+ libxml2 pcre2 icu vala gobject-introspection)
+depends=(gtk+ libxml2 pcre2 icu vala gobject-introspection gnutls)
 source=(https://gitlab.gnome.org/GNOME/$pkgname/-/archive/$pkgver/$pkgver-$pkgver.tar.bz2)
 
 build() {
@@ -14,7 +14,7 @@ build() {
 	--prefix=/usr		\
 	--buildtype=release	\
 	-D fribidi=false	\
-	-D gnutls=false
+	-D gnutls=true
 
 	ninja
 }

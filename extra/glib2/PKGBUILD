@@ -1,9 +1,18 @@
 pkgname=glib2
 pkgver=2.70.2
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 depends=('base-drunk' 'libxslt')
-source=(git+https://gitlab.gnome.org/GNOME/glib.git#tag=$pkgver)
+makedepends=('gtk-doc')
+source=(git+https://gitlab.gnome.org/GNOME/glib.git#tag=$pkgver
+	noisy-glib-compile-schemas.diff
+	glib-compile-schemas.hook
+	gio-querymodules.{hook,script})
+
+prepare() {
+	cd glib
+	git apply -3 ../noisy-glib-compile-schemas.diff
+}
 
 build() {
 	CFLAGS+=" -DG_DISABLE_CAST_CHECKS"
@@ -12,7 +21,7 @@ build() {
 	-D glib_debug=disabled		\
 	-D selinux=disabled		\
 	-D man=false			\
-	-D gtk_doc=false		\
+	-D gtk_doc=true			\
 	--prefix=/usr			\
 	--libdir=/usr/lib
 
@@ -30,4 +39,7 @@ package() {
 
 	mkdir -p $pkgdir/usr/lib/pkgconfig
 	cp -f build/meson-private/*.pc $pkgdir/usr/lib/pkgconfig
+
+	install -Dt $pkgdir/usr/share/libalpm/hooks/ -m644 *.hook
+	install -D gio-querymodules.script $pkgdir/usr/share/libalpm/scripts/gio-querymodules
 }

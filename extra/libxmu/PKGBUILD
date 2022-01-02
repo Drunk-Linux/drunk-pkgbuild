@@ -1,9 +1,9 @@
 pkgname=libxmu
 pkgver=master
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(libxext libx11 xorgproto libxt)
-source=(git+https://gitlab.freedesktop.org/xorg/lib/libxmu.git)
+depends=(libxext xorgproto libxt)
+source=(git+https://gitlab.freedesktop.org/xorg/lib/libxmu.git --depth=1)
 
 build() {
 	cd $pkgname

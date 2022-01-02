@@ -1,0 +1,19 @@
+pkgname=firefox
+pkgver=91.4.0
+pkgrel=1
+arch=('x86_64')
+depends=()
+makedepends=(base-devel fakeroot)
+source=()
+
+prepare() {
+	
+}
+
+build() {
+	
+}
+
+package() {
+	
+}
