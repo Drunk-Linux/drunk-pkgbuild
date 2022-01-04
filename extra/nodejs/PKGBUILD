@@ -1,0 +1,24 @@
+pkgname=nodejs
+pkgver=17.3.0
+pkgrel=1
+arch=('x86_64')
+depends=(which icu libuv)
+source=(https://nodejs.org/dist/v$pkgver/node-v$pkgver.tar.xz)
+
+build() {
+	cd node-v$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--shared-libuv			\
+	--shared-zlib			\
+	--with-intl=system-icu
+
+	make
+}
+
+package() {
+	cd node-v$pkgver
+
+	make DESTDIR=$pkgdir install
+}

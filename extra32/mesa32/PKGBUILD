@@ -1,0 +1,62 @@
+pkgname=mesa32
+pkgver=21.3.2
+pkgrel=4
+arch=('x86_64')
+depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
+	'wayland' 'wayland-protocols' 'llvm' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc'
+	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm' 'vulkan-headers')
+source=(https://mesa.freedesktop.org/archive/mesa-$pkgver.tar.xz)
+makedepends=('clang' 'cmake')
+prepare() {
+	cd mesa-$pkgver
+
+	pip install setuptools
+	echo "[!]: Installing mako with pip"
+	pip install mako
+}
+
+build() {
+        cd mesa-$pkgver
+
+	sed '1s/python/&3/' -i bin/symbols-check.py
+
+	mkdir -p build && cd build
+
+	CC="gcc -m32"		\
+	CXX="g++ -m32"		\
+	meson			\
+	--prefix=/usr		\
+	--buildtype=release	\
+	--libdir=/usr/lib32	\
+	--libexecdir=/usr/lib32	\
+	-D b_ndebug=true	\
+	-D gallium-nine=true	\
+	-D glx=dri		\
+	-D libunwind=enabled	\
+	-D platforms=wayland,x11 \
+	-D gles1=enabled	\
+	-D gles2=enabled	\
+	-D llvm=enabled		\
+	-D osmesa=true		\
+	-D shared-glapi=enabled	\
+	-D valgrind=enabled	\
+	-D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga,swrast,swr,iris,crocus,zink	\
+	-D dri-drivers=i915,i965,r100,r200,nouveau	\
+	-D vulkan-drivers=amd,intel,swrast		\
+	-D gbm=enabled		\
+	-D egl=enabled		\
+	-D dri3=enabled		\
+	-D gallium-extra-hud=true			\
+	..
+
+	unset GALLIUM_DRV DRI_DRIVERS
+
+	CC="gcc -m32"           \
+        CXX="g++ -m32"          \
+	ninja
+}
+
+package() {
+	cd mesa-$pkgver/build
+	DESTDIR=$pkgdir ninja install
+}

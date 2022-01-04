@@ -1,8 +1,8 @@
 pkgname=xfce4-pulseaudio-plugin
 pkgver=0.4.3
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(dbus-glib libnotify pulseaudio xfce4-panel)
+depends=(dbus-glib libnotify pulseaudio xfce4-panel keybinder pavucontrol)
 source=(https://archive.xfce.org/src/panel-plugins/$pkgname/0.4/$pkgname-$pkgver.tar.bz2)
 
 build() {
@@ -10,7 +10,7 @@ build() {
 
 	./configure		\
 	--prefix=/usr
-
+exit
 	make
 }
 

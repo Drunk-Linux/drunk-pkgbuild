@@ -20,4 +20,10 @@ rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*/tgz
 cd ..
 
 echo " "
+echo "[*]: Cleaning up extra32"
+cd extra32
+rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*/tgz
+cd ..
+
+echo " "
 echo "[*]: Done"
