@@ -1,0 +1,22 @@
+pkgname=gmp
+pkgver=6.2.1
+pkgrel=1
+arch=('i686')
+depends=(make)
+source=(https://ftp.gnu.org/gnu/gmp/gmp-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	ABI=32 ./configure		\
+	--prefix=/usr			\
+	--enable-cxx
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

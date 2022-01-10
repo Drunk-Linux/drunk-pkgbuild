@@ -1,0 +1,16 @@
+pkgname=libvdpau
+pkgver=1.4
+pkgrel=1
+arch=(x86_64)
+depends=('libxext')
+source=("git+https://gitlab.freedesktop.org/vdpau/libvdpau.git")
+makedepends=('xorgproto' 'git' 'meson')
+
+build() {
+	meson $pkgname build
+	ninja -C build
+}
+
+package() {
+	DESTDIR=$pkgdir ninja -C build install
+}

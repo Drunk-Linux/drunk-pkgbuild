@@ -1,0 +1,35 @@
+pkgname=xwayland
+pkgver=21.1.4
+pkgrel=1
+arch=('x86_64')
+depends=(xorg-server)
+source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	mkdir -p build && cd build
+
+	meson		\
+	--prefix=/usr		\
+	--localstatedir=/var	\
+	-D xcsecurity=false	\
+	-D glamor=true		\
+	-D xkb_dir=/usr/share/X11/xkb \
+	-D xkb_output_dir=/var/lib/xkb \
+	..
+
+	meson configure . > configuration
+
+	ninja
+}
+
+package() {
+	cd $pkgname-$pkgver/build
+	DESTDIR=$pkgdir ninja install
+	mkdir -p $pkgdir/etc/X11/xorg.conf.d
+
+	# Already owned by xorg-server
+	rm -f $pkgdir/usr/lib/xorg/protocol.txt
+	rm -f $pkgdir/usr/share/man/man1/Xserver.*
+}

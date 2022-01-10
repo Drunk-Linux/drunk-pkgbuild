@@ -1,0 +1,22 @@
+pkgname=pcre
+pkgver=8.45
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+makedepends=(make)
+source=(https://sourceforge.net/projects/pcre/files/pcre/$pkgver/pcre-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

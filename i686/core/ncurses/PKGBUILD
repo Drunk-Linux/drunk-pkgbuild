@@ -1,0 +1,31 @@
+pkgname=ncurses
+pkgver=6.3
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+makedepends=(m4 gcc)
+source=(https://invisible-mirror.net/archives/$pkgname/$pkgname-$pkgver.tar.gz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	sed -i s/mawk// configure
+}
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--host=i686-pc-linux-gnu	\
+	--with-shared			\
+	--enable-widec
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

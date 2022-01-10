@@ -1,0 +1,21 @@
+pkgname=cdrtools
+pkgver=3.02a09 
+pkgrel=1
+arch=('x86_64')
+depends=(alsa-lib)
+makedepends=(base-devel)
+source=(https://downloads.sourceforge.net/cdrtools/cdrtools-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-3.02
+
+	export GMAKE_NOWARN=true
+	make -j1 INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root
+}
+
+package() {
+	cd $pkgname-3.02
+
+	export GMAKE_NOWARN=true
+	make DESTDIR=$pkgdir INS_BASE=/usr MANSUFF_LIB=3cdr DEFINSUSR=root DEFINSGRP=root install
+}

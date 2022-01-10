@@ -1,0 +1,22 @@
+pkgname=m4
+pkgver=1.4.19
+pkgrel=1
+arch=('i686')
+depends=(glibc gcc)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--host=i686-pc-linux-gnu
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,32 @@
+pkgname=base-drunk
+pkgver=2022.0
+pkgrel=2
+arch=('x86_64')
+source=(os-release)
+depends=('acl' 'attr' 'bash' 'bc' 'binutils' 'bison' 'bzip2' 'ca-certificates' 'coreutils'
+	'curl' 'dbus' 'dhcpcd' 'diffutils' 'dosfstools' 'e2fsprogs' 'elfutils' 'expat' 'expat'
+	'file' 'filesystem' 'findutils' 'flex' 'freetype2' 'fuse2' 'gawk' 'gcc' 'gdbm' 'gettext' 'glibc' 'gmp' 'gperf'
+	'gpm' 'grep' 'groff' 'gzip' 'httpup' 'iana-etc' 'inetutils' 'intltool' 'iproute2' 'kbd' 'kmod' 'less' 'libarchive'
+	'libcap' 'libevent' 'libffi' 'libnl' 'libpipeline' 'libpng' 'libtasn1' 'libtool' 'libxml2' 'links' 'linux'
+	'linux-firmware' 'lz4' 'lzo' 'm4' 'man-db' 'man-pages' 'mpc'
+	'mpfr' 'mtools' 'ncurses' 'ninja' 'openssl' 'p11-kit' 'pacman' 'pciutils' 'pkgconf'
+	'popt' 'ports' 'procps-ng' 'psmisc' 'readline' 'sed' 'shadow' 'squashfs-tools' 'sudo' 'sysklogd'
+	'syslinux' 'systemd' 'tar' 'texinfo' 'tzdata' 'util-linux' 'vim' 'wget' 'which' 'wpa_supplicant' 'xz' 'zlib' )
+
+build() {
+	mkdir -p $pkgname-$pkgver
+        cd $pkgname-$pkgver
+}
+
+package() {
+	cd $pkgname-$pkgver
+	
+	# Make rootfs structure
+	mkdir -vp $pkgdir/etc/systemd/system/
+	mkdir -vp $pkgdir/usr/bin
+
+	# Copy over needed files
+	cp -rf ../../os-release $pkgdir/etc
+	cp -rf ../../neofetch $pkgdir/usr/bin && chmod +x $pkgdir/usr/bin/neofetch
+	cp -f ../../dhcpcd.service $pkgdir/etc/systemd/system/
+}

@@ -1,0 +1,30 @@
+pkgname=libjpeg
+pkgver=2.1.2
+pkgrel=1
+arch=('x86_64')
+depends=(glibc)
+makedepends=(cmake nasm)
+source=(https://sourceforge.net/projects/$pkgname-turbo/files/$pkgver/$pkgname-turbo-$pkgver.tar.gz)
+
+build() {
+	cd $pkgname-turbo-$pkgver
+
+	cmake					\
+	-D CMAKE_INSTALL_PREFIX=/usr		\
+	-D CMAKE_INSTALL_LIBDIR=/usr/lib	\
+	-D CMAKE_BUILD_TYPE=Release		\
+	-D WITH_JAVA=OFF			\
+	-D WITH_JPEG8=ON			\
+	-W no-dev				\
+	-B build				\
+	-S .
+
+	make VERBOSE=1 -C build
+}
+
+package() {
+	cd $pkgname-turbo-$pkgver
+	make DESTDIR=$pkgdir install -C build
+
+	install -m 644 jpegint.h $pkgdir/usr/include/
+}

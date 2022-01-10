@@ -1,0 +1,23 @@
+pkgname=findutils
+pkgver=4.8.0
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+makedepends=(gcc)
+source=(https://ftp.gnu.org/gnu/findutils/findutils-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--localstatedir=/var/lib/locate
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

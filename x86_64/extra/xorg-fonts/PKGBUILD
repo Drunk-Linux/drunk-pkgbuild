@@ -1,0 +1,13 @@
+pkgname=xorg-fonts
+pkgver=1.0
+pkgrel=1
+arch=('x86_64')
+depends=(font-util encodings font-alias font-adobe-utopia-type1 font-bh-ttf)
+
+build() {
+	echo " "
+}
+
+package() {
+	echo " "
+}

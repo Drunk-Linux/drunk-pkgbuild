@@ -1,0 +1,19 @@
+pkgname=libarchive
+pkgver=3.5.1
+pkgrel=1
+arch=('x86_64')
+source=(https://github.com/libarchive/libarchive/releases/download/$pkgver/libarchive-$pkgver.tar.xz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        ./configure \
+                --prefix=/usr \
+                --disable-static
+        make
+}
+
+package() {
+	cd $pkgname-$pkgver
+        make DESTDIR=$pkgdir install
+}

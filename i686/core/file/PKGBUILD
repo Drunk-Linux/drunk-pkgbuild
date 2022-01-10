@@ -1,0 +1,26 @@
+pkgname=file
+pkgver=5.41
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+makedepends=(gcc)
+source=(https://astron.com/pub/file/file-$pkgver.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--disable-bzlib			\
+	--disable-libseccomp		\
+	--disable-xzlib			\
+	--disable-zlib
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

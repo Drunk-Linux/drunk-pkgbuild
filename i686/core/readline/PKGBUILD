@@ -1,0 +1,32 @@
+pkgname=readline
+pkgver=8.1
+pkgrel=1
+arch=('i686')
+depends=(ncurses)
+makedepends=(make)
+source=(https://ftp.gnu.org/gnu/readline/readline-$pkgver.tar.gz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	sed -i '/MV.*old/d' Makefile.in
+	sed -i '/{OLDSUFF}/c:' support/shlib-install
+}
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--with-curses
+
+	make SHLIB_LIBS="-lncursesw"
+	#make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make SHLIB_LIBS="-lncursesw" DESTDIR=$pkgdir install
+	#make DESTDIR=$pkgdir install
+}

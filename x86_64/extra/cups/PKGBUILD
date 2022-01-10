@@ -1,0 +1,41 @@
+pkgname=cups
+pkgver=2.4.0
+pkgrel=1
+arch=('x86_64')
+depends=(libtiff libpng acl gzip autoconf libusb systemd git gnutls)
+source=(https://github.com/OpenPrinting/cups/releases/download/v$pkgver/cups-$pkgver-source.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	sed -e "s/format-truncation//" \
+		-i configure \
+		config-scripts/cups-compiler.m4
+
+	export DSOFLAGS=${LDFLAGS}
+
+	./configure				\
+	--sysconfdir=/etc			\
+	--localstatedir=/var			\
+	--libdir=/usr/lib			\
+	--sbindir=/usr/sbin			\
+	--runstatedir=/run			\
+	--with-logdir=/var/log/cups		\
+	--with-docdir=/var/share/cups/etc	\
+	--with-exe-file-perm=0755		\
+	--enable-dbus
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	mkdir -p $pkgdir/etc/cups/
+	echo "ServerName /run/cups/cups.sock" > $pkgdir/etc/cups/client.conf
+
+	make BUILDROOT=$pkgdir install install-data install-exec install-headers install-libs
+
+	cp -rf $pkgdir/var/run $pkgdir/run
+	rm -rf $pkgdir/var/run
+}

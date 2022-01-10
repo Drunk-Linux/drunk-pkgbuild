@@ -1,0 +1,57 @@
+pkgname=firefox
+pkgver=91.4.0esr
+fver=91.4.0
+pkgrel=1
+arch=('x86_64')
+depends=(dbus-glib gtk+ gtk2+ libnotify llvm nodejs pulseaudio alsa-lib python3 sqlite3 unzip
+	zip startup-notification pulseaudio icu libevent pixman libjpeg libpng)
+makedepends=(autoconf cbindgen nodejs nasm yasm)
+source=(https://archive.mozilla.org/pub/$pkgname/releases/$pkgver/source/$pkgname-$pkgver.source.tar.xz
+	mozconfig
+	firefox.desktop
+	firefox-91.4.0esr-buildfix-1.patch
+	firefox-91.4.0esr-disable_rust_test-1.patch)
+
+prepare() {
+	mkdir -p mozbuild
+
+	cd $pkgname-$fver
+
+	patch -Np1 -i ../firefox-91.4.0esr-buildfix-1.patch
+	patch -Np1 -i ../firefox-91.4.0esr-disable_rust_test-1.patch
+
+	echo "" > google-key
+	echo "" > mozilla-key
+}
+
+build() {
+	cd $pkgname-$fver
+
+	export CC=gcc CXX=g++
+	export MOZ_NOSPAM=1
+	export MOZBUILD_STATE_PATH="$srcdir/mozbuild"
+	export MOZ_ENABLE_FULL_SYMBOLS=1
+	export MACH_USE_SYSTEM_PYTHON=1
+
+	# LTO needs more open files
+	ulimit -n 4096
+
+	echo "Building instrumented browser..."
+	cp $srcdir/mozconfig .mozconfig
+
+	./mach configure
+	./mach build -j6
+}
+
+package() {
+	cd $pkgname-$fver
+
+	MACH_USE_SYSTEM_PYTHON=1 DESTDIR=$pkgdir ./mach install
+
+	mkdir -pv $pkgdir/usr/share/applications
+	mkdir -pv $pkgdir/usr/share/pixmaps
+
+	cp $srcdir/firefox.desktop $pkgdir/usr/share/applications/
+	ln -sfv $pkgdir/usr/lib/firefox/browser/chrome/icons/default/default128.png \
+		$pkgdir/usr/share/pixmaps/firefox.png
+}

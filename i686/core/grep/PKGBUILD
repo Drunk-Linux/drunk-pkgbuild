@@ -1,0 +1,22 @@
+pkgname=grep
+pkgver=3.7
+pkgrel=1
+arch=('i686')
+depends=(glibc grep)
+makedepends=(gcc)
+source=(https://ftp.gnu.org/gnu/grep/grep-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

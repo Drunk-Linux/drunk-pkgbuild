@@ -1,0 +1,25 @@
+pkgname=coreutils
+pkgver=9.0
+pkgrel=1
+arch=('i686')
+depends=(glibc bash acl attr libcap)
+makedepends=(gcc m4)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure				\
+	--prefix=/usr				\
+	--host=i686-pc-linux-gnu		\
+	--enable-install-program=hostname	\
+	--enable-no-install-program=kill,uptime
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

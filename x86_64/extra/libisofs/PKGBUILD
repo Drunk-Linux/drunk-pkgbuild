@@ -1,0 +1,26 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=libisofs
+pkgver=1.5.4
+pkgrel=1
+arch=('x86_64')
+source=(https://dev.lovelyhq.com/libburnia/libisofs/archive/release-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname
+	
+	./bootstrap
+	./configure --prefix=/usr         \
+	            --bindir=/bin         \
+	            --sysconfdir=/etc      \
+	            --docdir=/usr/share/doc/nano
+        make
+}
+
+package() {
+	cd $pkgname
+	make DESTDIR=$pkgdir install
+}

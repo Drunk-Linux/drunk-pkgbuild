@@ -1,0 +1,10 @@
+###
+# This here will have daemons and etc for xfce4 env
+# This is mainly made as of i have no other clue to implement these without hassle of adding more tools to depend on.
+#
+# Have better idea how to do it, please do help with this ( If needed ).
+###
+
+if [ -x "/usr/bin/xfce4-power-manager" ]
+	/usr/bin/xfce4-power-manager --restart
+fi

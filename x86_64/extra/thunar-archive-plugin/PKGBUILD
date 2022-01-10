@@ -1,0 +1,23 @@
+pkgname=thunar-archive-plugin
+pkgver=0.4.0
+xver=0.4
+pkgrel=1
+arch=('x86_64')
+depends=(thunar)
+source=(https://archive.xfce.org/src/thunar-plugins/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr		\
+	--sysconfdir=/etc
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

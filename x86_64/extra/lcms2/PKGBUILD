@@ -1,0 +1,21 @@
+pkgname=lcms2
+pkgver=2.12
+pkgrel=1
+arch=('x86_64')
+depends=(libtiff)
+source=(https://github.com/mm2/Little-CMS/archive/$pkgver/$pkgname-$pkgver.tar.gz)
+
+build() {
+	cd Little-CMS-$pkgver
+
+	./configure	\
+	--prefix=/usr
+
+	make
+}
+
+package() {
+	cd Little-CMS-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,28 @@
+pkgname=curl
+pkgver=7.77.0
+pkgrel=1
+depends=(glibc zlib)
+arch=('i686')
+source=(https://curl.haxx.se/download/$pkgname-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure				\
+	--prefix=/usr 				\
+	--enable-threaded-resolver 		\
+	--without-ssl				\
+	--disable-alt-svc			\
+	--without-nghttp2			\
+	--without-libidn2			\
+	--without-libpsl			\
+	--without-libldap			\
+	--with-ca-bundle=/etc/ssl/cert.pem
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+}

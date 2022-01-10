@@ -1,29 +1,16 @@
-#!/bin/bash
-set +e
+#/bin/bash
 
-echo " "
-echo "[*]: Moving pkg's to pkg dir"
-echo " "
-mv */*/*pkg.t* ../pkgs/
-
-set -e
-echo " "
-echo "[*]: Cleaning up core"
-cd core
-rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*/tgz
+echo "[!]: Cleaning up x86_64"
+cd x86_64
+./cleanup.sh
 cd ..
 
-echo " "
-echo "[*]: Cleaning up extra"
-cd extra
-rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*/tgz
+echo "[!]: Cleaning up i686"
+cd i686
+./cleanup.sh
 cd ..
 
-echo " "
-echo "[*]: Cleaning up extra32"
-cd extra32
-rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*/tgz
+echo "[!]: Cleaning up aarch64"
+cd aarch64
+./cleanup.sh
 cd ..
-
-echo " "
-echo "[*]: Done"

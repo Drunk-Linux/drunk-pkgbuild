@@ -1,0 +1,19 @@
+pkgname=
+pkgver=
+pkgrel=1
+arch=('i686')
+depends=()
+makedepends=()
+source=()
+
+prepare() {
+	
+}
+
+build() {
+	
+}
+
+package() {
+	
+}

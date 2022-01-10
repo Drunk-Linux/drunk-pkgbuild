@@ -1,0 +1,22 @@
+pkgname=acl
+pkgver=2.3.1
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+makedepends=(gcc)
+source=(https://download.savannah.gnu.org/releases/acl/acl-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,29 @@
+# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
+# URL:         http://savannah.nongnu.org/projects/acl
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=acl
+pkgver=2.3.1
+pkgrel=1
+arch=('x86_64')
+source=(https://download.savannah.gnu.org/releases/$pkgname/$pkgname-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname-$pkgver
+
+	./configure --prefix=/usr         \
+	            --bindir=/bin         \
+	            --disable-static      \
+	            --libexecdir=/usr/lib
+        make
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+	
+	mkdir -vp $pkgdir/lib
+	mv -v $pkgdir/usr/lib/libacl.so.* $pkgdir/lib/
+	ln -sfv ../../lib/$(readlink $pkgdir/usr/lib/libacl.so) $pkgdir/usr/lib/libacl.so
+}

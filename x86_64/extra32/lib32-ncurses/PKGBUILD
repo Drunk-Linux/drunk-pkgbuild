@@ -1,0 +1,61 @@
+pkgname=lib32-ncurses
+rpkgname=ncurses
+pkgver=6.2
+pkgrel=1
+arch=('x86_64')
+source=(https://ftp.gnu.org/gnu/$rpkgname/$rpkgname-$pkgver.tar.gz)
+
+build() {
+        cd $rpkgname-$pkgver
+
+        sed -i '/LIBTOOL_INSTALL/d' c++/Makefile.in
+
+	export CC="gcc -m32"
+	export CXX="g++ -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+	./configure		\
+	--prefix=/usr		\
+	--disable-db-install	\
+	--enable-widec		\
+	--enable-pc-files	\
+	--libdir=/usr/lib32	\
+	--mandir=/usr/share/man \
+	--with-cxx-binding	\
+	--with-cxx-shared	\
+	--with-pkg-config-libdir=/usr/lib32/pkgconfig \
+	--with-shared		\
+	--with-versioned-syms	\
+	--without-ada		\
+	--without-debug		\
+	--without-manpages	\
+	--without-progs		\
+	--without-tack		\
+	--without-tests
+
+        make
+}
+
+package() {
+        cd $rpkgname-$pkgver
+
+        make DESTDIR=$pkgdir install
+
+        mkdir -p $pkgdir/lib32
+        mv -v $pkgdir/usr/lib32/libncursesw.so.6* $pkgdir/lib32
+	mkdir -p $pkgdir/usr/lib32
+        ln -sfv ../../lib32/$(readlink $pkgdir/usr/lib32/libncursesw.so) $pkgdir/usr/lib32/libncursesw.so
+
+        for lib in ncurses form panel menu ; do
+            rm -vf                    $pkgdir/usr/lib32/lib${lib}.so
+            echo "INPUT(-l${lib}w)" > $pkgdir/usr/lib32/lib${lib}.so
+	    mkdir -p $pkgdir/usr/lib32/pkgconfig/
+            ln -sfv ${lib}w.pc        $pkgdir/usr/lib32/pkgconfig/${lib}.pc
+        done
+
+        rm -vf                     $pkgdir/usr/lib32/libcursesw.so
+        echo "INPUT(-lncursesw)" > $pkgdir/usr/lib32/libcursesw.so
+        ln -sfv libncurses.so      $pkgdir/usr/lib32/libcurses.so
+
+	rm -frv "${pkgdir}/usr/"{bin,include}
+}

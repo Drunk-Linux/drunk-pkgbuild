@@ -1,0 +1,27 @@
+pkgname=guile
+pkgver=3.0.7
+pkgrel=1
+arch=('i686')
+depends=(gc libunistring)
+makedepends=(make)
+source=(https://ftp.gnu.org/gnu/guile/guile-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	# fix a build failure with glibc-2.34 (Added so future glib update can work with this)
+	sed -e 's/#ifndef __attribute_maybe_unused__//' \
+		-e '174d'                                   \
+		-i lib/libc-config.h
+
+	./configure		\
+	--prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

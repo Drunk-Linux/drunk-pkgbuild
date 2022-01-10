@@ -1,0 +1,43 @@
+pkgname=gcc
+pkgver=11.2.0
+pkgrel=1
+arch=('i686')
+depends=(binutils glibc)
+source=(https://ftp.gnu.org/gnu/gcc/$pkgname-$pkgver/$pkgname-$pkgver.tar.xz)
+
+prepare() {
+	mkdir -pv build
+}
+
+build() {
+	cd build
+
+	CFLAGS=" -W " CXXFLAGS=" -W "	\
+	../$pkgname-$pkgver/configure	\
+	--host=i686-pc-linux-gnu	\
+	--target=i686-pc-linux-gnu	\
+	--prefix=/usr			\
+	--with-newlib			\
+	--disable-werror		\
+	--disable-nls			\
+	--disable-shared		\
+	--disable-multilib		\
+	--disable-decimal-float		\
+	--disable-threads		\
+	--disable-libatomic		\
+	--disable-libgomp		\
+	--disable-libquadmath		\
+	--disable-libssp		\
+	--disable-libvtv		\
+	--disable-libstdcxx		\
+	--enable-languages=c,c++
+
+	make CFLAGS=-W CXXFLAGS=-W
+}
+
+package() {
+	cd build
+
+	mkdir -p $pkgdir
+	make DESTDIR=$pkgdir/ install
+}

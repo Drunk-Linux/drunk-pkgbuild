@@ -1,0 +1,47 @@
+pkgname=binutils
+pkgver=2.36.1
+pkgrel=1
+arch=('i686')
+depends=(glibc)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+
+prepare() {
+	[[ ! -d binutils-gdb ]] && ln -fs binutils-$pkgver binutils-gdb
+	mkdir -p binutils-build
+
+	cd binutils-gdb
+
+	# Turn off development mode (-Werror, gas run-time checks, date in sonames)
+	sed -i '/^development=/s/true/false/' bfd/development.sh
+
+	# hack! - libiberty configure tests for header files using "$CPP $CPPFLAGS"
+	sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" libiberty/configure
+}
+
+build() {
+	cd binutils-build
+	
+	$srcdir/binutils-gdb/configure	\
+	--host=i686-pc-linux-gnu	\
+	--target=i686-pc-linux-gnu	\
+	--prefix=/usr			\
+	--enable-ld=default		\
+	--disable-werror		\
+	--with-pic
+
+	make
+}
+
+package() {
+	cd binutils-build
+
+	make prefix="$pkgdir/usr" tooldir="$pkgdir/usr" install
+	
+	# Remove unwanted files
+	rm -f "$pkgdir"/usr/share/man/man1/{dlltool,nlmconv,windres,windmc}*
+
+	# No shared linking to these files outside binutils
+	rm -f "$pkgdir"/usr/lib/lib{bfd,opcodes}.so
+	echo 'INPUT( /usr/lib/libbfd.a -liberty -lz -ldl )' > "$pkgdir/usr/lib/libbfd.so"
+	echo 'INPUT( /usr/lib/libopcodes.a -lbfd )' > "$pkgdir/usr/lib/libopcodes.so"
+}

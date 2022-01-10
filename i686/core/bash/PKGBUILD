@@ -1,0 +1,23 @@
+pkgname=bash
+pkgver=5.1.8
+pkgrel=1
+arch=('i686')
+depends=(ncurses)
+makedepends=(m4 gcc)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure			\
+	--prefix=/usr			\
+	--host=i686-pc-linux-gnu
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

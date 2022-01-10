@@ -1,0 +1,22 @@
+# Description: An arbitrary precision numeric processing language
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=bc
+pkgver=4.0.2
+pkgrel=1
+arch=('x86_64')
+source=(https://github.com/gavinhoward/bc/archive/$pkgver/bc-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        PREFIX=/usr CC=gcc CFLAGS="-std=c99" ./configure.sh -G -O3
+        make
+}
+
+package() {
+	cd $pkgname-$pkgver
+	make DESTDIR=$pkgdir install
+}

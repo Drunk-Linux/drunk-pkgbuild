@@ -1,0 +1,23 @@
+# Description: A library for the arithmetic of complex numbers with arbitrarily high precision and correct rounding of the result
+# URL:         
+# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
+# Depends on:  
+
+pkgname=mpc
+pkgver=1.2.1
+pkgrel=1
+arch=('x86_64')
+source=(https://ftp.gnu.org/gnu/mpc/mpc-$pkgver.tar.gz)
+
+build() {
+        cd mpc-$pkgver
+
+        ./configure --prefix=/usr    \
+                    --disable-static
+        make
+}
+
+package() {
+        cd $pkgname-$pkgver
+        make DESTDIR=$pkgdir install
+}

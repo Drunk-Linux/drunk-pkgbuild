@@ -1,0 +1,20 @@
+pkgname=mpfr
+pkgver=4.1.0
+pkgrel=1
+arch=('i686')
+depends=(make)
+source=(https://www.mpfr.org/mpfr-4.1.0/mpfr-$pkgver.tar.xz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure --prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

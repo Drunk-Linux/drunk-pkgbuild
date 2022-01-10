@@ -1,0 +1,17 @@
+pkgname=libgudev
+pkgver=master
+pkgrel=2
+arch=('x86_64')
+depends=('systemd' 'glib2')
+source=(git+https://gitlab.gnome.org/GNOME/libgudev.git)
+
+build() {
+	meson $pkgname build
+}
+
+package() {
+	meson install -C build --destdir $pkgdir
+
+	mkdir -p $pkgdir/usr/lib
+        mv $pkgdir/usr/local/lib/pkgconfig $pkgdir/usr/lib/
+}
