@@ -1,0 +1,7 @@
+post_install() {
+	# Enable needed services
+
+	# NetworkManager
+	systemctl enable NetworkManager
+	systemctl start NetworkManager
+}

@@ -2,7 +2,7 @@ pkgname=pacman
 pkgver=v6.0.1
 pkgrel=1
 arch=('i686')
-depends=(glibc libarchive nettle libcurl)
+depends=(glibc libarchive nettle curl gpgme openssl bz2 libxml2)
 source=(https://gitlab.archlinux.org/$pkgname/$pkgname/-/archive/$pkgver/$pkgname-$pkgver.tar.gz)
 
 build() {
@@ -14,6 +14,8 @@ build() {
 		-D ldconfig=/usr/bin/ldconfig	\
 		-D crypto=nettle		\
 		build
+
+#	exit
 
 	ninja -C build
 }

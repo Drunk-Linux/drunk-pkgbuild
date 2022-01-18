@@ -1,9 +1,12 @@
 pkgname=lib32-mesa
 rpkgname=mesa
-pkgver=21.3.2
-pkgrel=4
+pkgver=21.3.3
+pkgrel=1
 arch=('x86_64')
-depends=('glibc')
+depends=('glibc' 'lib32-libdrm' 'lib32-llvm' 'lib32-libglvnd' 'lib32-libx11' 'lib32-wayland'
+	'lib32-libxml2' 'lib32-libva' 'lib32-expat' 'lib32-cairo' 'lib32-elfutils' 'lib32-libxshmfence'
+	'lib32-libxxf86vm' 'lib32-vdpau' 'lib32-vulkan-icd-loader' 'lib32-lm-sensors' 'lib32-llvm' 'lib32-clang'
+	'lib32-libomxil-bellagio' 'lib32-polly')
 source=(https://mesa.freedesktop.org/archive/mesa-$pkgver.tar.xz)
 makedepends=('clang' 'cmake')
 prepare() {
@@ -17,30 +20,34 @@ prepare() {
 build() {
         cd mesa-$pkgver
 
-	sed '1s/python/&3/' -i bin/symbols-check.py
-
 	mkdir -p build && cd build
 
 	export CC="gcc -m32"
 	export CXX="g++ -m32"
 	export PKG_CONFIG="i686-pc-linux-gnu-pkg-config"
+
 	cat >crossfile.ini <<END
 [binaries]
 llvm-config = '/usr/bin/llvm-config32'
 END
 
-	meson				\
-	--native-file crossfile.ini	\
-	--prefix=/usr			\
-	--buildtype=release		\
-	--libexecdir=/usr/lib32		\
-	-D platforms=wayland,x11 	\
-	..
+#        meson \
+#        --prefix=/usr \
+#	--libdir=/usr/lib32 \
+#        --buildtype=release \
+#	-D platforms=x11,wayland \
+#	-D dri-drivers=i915,i965,r100,r200,nouveau \
+#	-D gallium-drivers=r300,r600,radeonsi,nouveau,virgl,svga \
+#	-D vulkan-drivers=amd,intel \
+#	-D vulkan-layers=device-select,intel-nullhw,overlay \
+#        ..
 
-	ninja
+#        ninja
 }
 
 package() {
 	cd mesa-$pkgver/build
 	DESTDIR=$pkgdir ninja install
+
+	rm -rf $pkgdir/usr/{bin,etc,share,include,sbin}
 }

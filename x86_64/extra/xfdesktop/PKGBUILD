@@ -1,10 +1,10 @@
 pkgname=xfdesktop
 pkgver=4.16.0
 xver=4.16
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
-depends=(exo libwnck)
-makedepends=()
+depends=(exo libwnck libxdamage)
+makedepends=(gcc)
 source=(https://archive.xfce.org/src/xfce/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
 
 build() {

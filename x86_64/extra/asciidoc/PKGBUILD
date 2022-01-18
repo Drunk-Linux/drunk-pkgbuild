@@ -1,0 +1,33 @@
+pkgname=asciidoc
+pkgver=10.1.1
+pkgrel=1
+arch=('x86_64')
+depends=(python3 libxslt docbook-xsl)
+makedepends=(python3-pip lynx)
+source=(https://github.com/asciidoc-py/asciidoc-py/archive/${pkgver}/${pkgname}-${pkgver}.tar.gz)
+
+prepare() {
+	cd $pkgname-py-$pkgver
+
+	autoconf
+
+	sed -i -e '/pip install/s/\.$/--root $(DESTDIR) ./' Makefile.in
+}
+
+build() {
+	cd $pkgname-py-$pkgver
+
+	./configure		\
+	--prefix=/usr
+
+	make build
+}
+
+package() {
+	cd $pkgname-py-$pkgver
+
+	make DESTDIR=$pkgdir install
+
+	local _platlib="$(python -c 'import sysconfig; print(sysconfig.get_paths()["platlib"])')"
+	install -Dm0644 -t "${pkgdir}/${_platlib}/${pkgname}/" asciidoc/api.py
+}

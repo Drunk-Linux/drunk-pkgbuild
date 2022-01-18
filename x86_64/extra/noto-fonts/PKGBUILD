@@ -1,9 +1,9 @@
 pkgname=noto-fonts
 pkgver=20201226
 commit=2b1fbc36600ccd8becb9f894922f644bff2cbc9b
-pkgrel=1
+pkgrel=2
 arch=(any)
-source=($pkgbase-$_commit.tar.gz::https://github.com/googlefonts/noto-fonts/archive/$commit.tar.gz
+source=($pkgname-$_commit.tar.gz::https://github.com/googlefonts/noto-fonts/archive/$commit.tar.gz
 	66-noto-sans.conf 66-noto-serif.conf 66-noto-mono.conf
 	46-noto-sans.conf 46-noto-serif.conf 46-noto-mono.conf)
 

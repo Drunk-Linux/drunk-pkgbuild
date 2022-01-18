@@ -1,23 +1,23 @@
-# Description: Data compression library
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=lzo
 pkgver=2.10
 pkgrel=1
 arch=('x86_64')
-source=(https://www.oberhumer.com/opensource/lzo/download/lzo-$pkgver.tar.gz)
+depends=(glibc)
+makedepends=(make gcc)
+source=(https://www.oberhumer.com/opensource/lzo/download/$pkgname-$pkgver.tar.gz)
 
 build() {
 	cd $pkgname-$pkgver
-	./configure --prefix=/usr \
-                    --enable-shared \
-                    --disable-static
-        make
+
+	./configure			\
+	--prefix=/usr			\
+	--enable-shared
+
+	make
 }
 
 package() {
 	cd $pkgname-$pkgver
-        make DESTDIR=$pkgdir install
+
+	make DESTDIR=$pkgdir install
 }

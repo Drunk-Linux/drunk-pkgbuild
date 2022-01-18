@@ -607,7 +607,7 @@
     <message xml:lang="zh_CN">系统策略阻止 Wi-Fi 扫描</message>
     <message xml:lang="zh_TW">系統政策防止 Wi-Fi 掃描</message>
     <defaults>
-      <allow_any>auth_admin</allow_any>
+      <allow_any>yes</allow_any>
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>
@@ -877,7 +877,7 @@
     <message xml:lang="zh_CN">系统策略阻止更改个人网络设置</message>
     <message xml:lang="zh_TW">系統政策防止修改個人網路設定</message>
     <defaults>
-      <allow_any>auth_self_keep</allow_any>
+      <allow_any>yes</allow_any>
       <allow_inactive>yes</allow_inactive>
       <allow_active>yes</allow_active>
     </defaults>

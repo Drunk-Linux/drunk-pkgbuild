@@ -1,9 +1,10 @@
 pkgname=lightdm
-pkgver=1.30.0
-pkgrel=6
+pkgver=1.30.1
+pkgrel=1
 arch=('x86_64')
 depends=(accountsservice xorg-server encodings garcon exo xorg-xkbcomp libgcrypt itstool linux-pam pcre vala gobject-introspection libpciaccess at-spi2-core gtk-doc glib2 libxcb libxdm lightdm-gtk-greeter)
-source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz
+#source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgname-$pkgver.tar.xz
+source=(https://git.it-kuny.ch/drunk/source-code/lightdm/-/archive/$pkgver/$pkgname-$pkgver.tar.gz
 	lightdm-default-config.patch
 	Xsession
 	lightdm.service
@@ -11,13 +12,18 @@ source=(https://github.com/CanonicalLtd/$pkgname/releases/download/$pkgver/$pkgn
 	lightdm.tmpfiles
 	lightdm.pam
 	lightdm.rules
-	lightdm-autologin.pam
-	xfce4-services)
+	lightdm-autologin.pam)
+
+prepare() {
+        cd $pkgname-$pkgver
+
+        patch -Np1 -i ../lightdm-default-config.patch
+
+	NOCONFIGURE=1 ./autogen.sh
+}
 
 build() {
 	cd $pkgname-$pkgver
-
-	patch -Np1 -i ../lightdm-default-config.patch
 
 	./configure				\
 	--prefix=/usr				\
@@ -25,6 +31,9 @@ build() {
 	--localstatedir=/var			\
 	--sysconfdir=/etc			\
 	--disable-tests				\
+	--disable-gtk-doc			\
+	--disable-gtk-doc-html			\
+	--disable-gtk-doc-pdf			\
 	--with-greeter-user=lightdm		\
 	--with-greeter-session=lightdm-gtk-greeter
 
@@ -36,7 +45,6 @@ package() {
 
 	make DESTDIR=$pkgdir install
 	install -m 755 ../Xsession $pkgdir/etc/lightdm/Xsession
-	install -m 755 ../xfce4-services $pkgdir/etc/lightdm/xfce4-services
 	rm -rf $pkgdir/etc/init
 
 	# PAM
@@ -48,6 +56,7 @@ package() {
 	install -m 644 ../lightdm.rules $pkgdir/usr/share/polkit-1/rules.d/lightdm.rules
 
 	# Dbus
+	mkdir -p $pkgdir/{etc,usr/share}/dbus-1/system.d
 	mv $pkgdir/{etc,usr/share}/dbus-1/system.d
 	rmdir $pkgdir/etc/dbus-1
 

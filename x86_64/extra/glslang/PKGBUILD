@@ -1,0 +1,51 @@
+pkgname=glslang
+pkgver=11.7.1
+pkgrel=1
+pkgdesc='OpenGL and OpenGL ES shader front end and validator'
+arch=('x86_64')
+url='https://github.com/KhronosGroup/glslang'
+license=('BSD')
+depends=('gcc')
+makedepends=('cmake' 'ninja' 'git' 'python3')
+options=('staticlibs')
+# Get the commits from known_good.json for every release
+source=(${pkgname}-${pkgver}.tar.gz::https://github.com/KhronosGroup/glslang/archive/${pkgver}.tar.gz
+	git+https://github.com/KhronosGroup/SPIRV-Tools#commit=1fbed83c8aab8517d821fcb4164c08567951938f
+	git+https://github.com/KhronosGroup/SPIRV-Headers#commit=449bc986ba6f4c5e10e32828783f9daef2a77644)
+prepare() {
+	cp -r SPIRV-Tools ${pkgname}-${pkgver}/External/spirv-tools
+	cp -r SPIRV-Headers ${pkgname}-${pkgver}/External/spirv-tools/external/spirv-headers
+}
+
+build() {
+	cd ${pkgname}-${pkgver}
+	export CXXFLAGS+=" -ffat-lto-objects"
+
+	cmake \
+	-Bbuild-shared \
+	-GNinja \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DBUILD_SHARED_LIBS=ON
+
+	ninja -Cbuild-shared
+	cmake \
+	-Bbuild-static \
+	-GNinja \
+	-DCMAKE_INSTALL_PREFIX=/usr \
+	-DCMAKE_BUILD_TYPE=Release \
+	-DBUILD_SHARED_LIBS=OFF
+
+	ninja -Cbuild-static
+}
+
+package() {
+  cd ${pkgname}-${pkgver}
+  DESTDIR="${pkgdir}" ninja -C build-shared install
+  DESTDIR="${pkgdir}" ninja -C build-static install
+
+  cd "${pkgdir}"/usr/lib
+  for lib in *.so; do
+    ln -sf "${lib}" "${lib}.0"
+  done
+}

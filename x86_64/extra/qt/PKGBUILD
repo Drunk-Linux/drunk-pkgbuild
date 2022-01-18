@@ -1,4 +1,4 @@
-pkgname=qt
+pkgname=qt5
 pkgver=5.15.2
 pkgrel=1
 arch=('x86_64')
@@ -15,49 +15,45 @@ prepare() {
 	cd qt-everywhere-src-$pkgver
 
 	patch -Np1 -i ../qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch
+
+	# fix some issues using gcc-11
+        sed -i '/utility/a #include <limits>'     qtbase/src/corelib/global/qglobal.h
+        sed -i '/string/a #include <limits>'      qtbase/src/corelib/global/qfloat16.h
+        sed -i '/qbytearray/a #include <limits>'  qtbase/src/corelib/text/qbytearraymatcher.h
+        sed -i '/type_traits/a #include <limits>' qtdeclarative/src/qmldebug/qqmlprofilerevent_p.h
 }
 
 build() {
 	cd qt-everywhere-src-$pkgver
 
-	# BLFS recommendation to use /opt instead /usr
-	export QT5PREFIX=/opt/qt5
+#	./configure			\
+#	-prefix /usr			\
+#	-headerdir /usr/include/qt	\
+#	-archdatadir /usr/lib/qt	\
+#	-datadir /usr/share/qt		\
+#	-sysconfdir /etc/xdg		\
+#	-opensource			\
+#	-confirm-license		\
+#	-dbus-linked			\
+#	-system-harfbuzz		\
+#	-system-sqlite			\
+#	-nomake examples		\
+#	-no-rpath			\
+#	-no-strip			\
+#	-skip qtwebengine		\
+#	-journald
 
-	# fix some issues using gcc-11
-	sed -i '/utility/a #include <limits>'     qtbase/src/corelib/global/qglobal.h
-	sed -i '/string/a #include <limits>'      qtbase/src/corelib/global/qfloat16.h
-	sed -i '/qbytearray/a #include <limits>'  qtbase/src/corelib/text/qbytearraymatcher.h
-	sed -i '/type_traits/a #include <limits>' qtdeclarative/src/qmldebug/qqmlprofilerevent_p.h
-
-	./configure			\
-	-prefix $QT5PREFIX		\
-	-sysconfdir /etc/xdg		\
-	-confirm-license		\
-	-opensource			\
-	-dbus-linked			\
-	-system-harfbuzz		\
-	-system-sqlite			\
-	-nomake examples		\
-	-no-rpath			\
-	-journald			\
-	-skip qtwebengine
-
-	make
+#	make
 }
 
 package() {
 	cd qt-everywhere-src-$pkgver
 
-	# Sometimes, the installation paths are hardcoded into installed files.
-	# This is the reason why /opt/qt5 is used as
-	# installation prefix instead of /opt/qt-5.15.2.
-	mkdir -pv $pkgdir/opt/qt-5.15.2
-	ln -sfnv qt-5.15.2 $pkgdir/opt/qt5
-
-	make DESTDIR=$pkgdir install
+	mkdir -p $pkgdir/usr
+	make INSTALL_ROOT=$pkgdir install
 
 	# Remove references to the build directory from installed library dependency (prl)
-	find $pkgdir/$QT5PREFIX/ -name \*.prl \
+	find $pkgdir/usr/ -name \*.prl \
 		-exec sed -i -e '/^QMAKE_PRL_BUILD_DIR/d' {} \;
 
 	# Install images and create the menu entries for installed applications.
@@ -70,15 +66,10 @@ package() {
 		$pkgdir/usr/share/pixmaps/linguist-qt5.png
 	install -v -Dm644 qttools/src/qdbus/qdbusviewer/images/qdbusviewer-128.png \
 		$pkgdir/usr/share/pixmaps/qdbusviewer-qt5.png
-	install -dm755 /usr/share/applications
+	install -dm755 $pkgdir/usr/share/applications
 
-	cp $srcdir/assistant-qt5.desktop /usr/share/applications/
-	cp $srcdir/designer-qt5.desktop /usr/share/applications/
-	cp $srcdir/linguist-qt5.desktop /usr/share/applications/
-	cp $srcdir/qdbusviewer-qt5.desktop /usr/share/applications/
-
-	# Some packages such as VLC look for certain executables with a -qt5 suffix
-	for file in moc uic rcc qmake lconvert lrelease lupdate; do
-		ln -sfrvn $pkgdir/opt/qt-5.15.2/bin/$file /usr/bin/$file-qt5
-	done
+	cp $srcdir/assistant-qt5.desktop $pkgdir/usr/share/applications/
+	cp $srcdir/designer-qt5.desktop $pkgdir/usr/share/applications/
+	cp $srcdir/linguist-qt5.desktop $pkgdir/usr/share/applications/
+	cp $srcdir/qdbusviewer-qt5.desktop $pkgdir/usr/share/applications/
 }

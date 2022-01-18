@@ -1,0 +1,54 @@
+pkgname=lib32-clang
+pkgver=13.0.0
+pkgrel=1
+pkgdesc="C language family frontend for LLVM (32-bit)"
+arch=('x86_64')
+url="https://clang.llvm.org/"
+depends=('lib32-llvm')
+makedepends=('lib32-llvm' 'cmake' 'ninja' 'python3')
+_source_base=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
+source=($_source_base/clang-$pkgver.src.tar.xz{,.sig}
+        $_source_base/llvm-$pkgver.src.tar.xz{,.sig}
+        enable-SSP-and-PIE-by-default.patch)
+
+prepare() {
+	cd "$srcdir/clang-$pkgver.src"
+	mkdir -p build
+	patch -Np2 -i ../enable-SSP-and-PIE-by-default.patch
+}
+
+build() {
+	cd "$srcdir/clang-$pkgver.src/build"
+
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+
+#	cmake \
+#	-G Ninja \
+#	-DCMAKE_BUILD_TYPE=Release \
+#	-DCMAKE_INSTALL_PREFIX=/usr \
+#	-DLLVM_LIBDIR_SUFFIX=32 \
+#	-DCMAKE_C_FLAGS:STRING=-m32 \
+#	-DCMAKE_CXX_FLAGS:STRING=-m32 \
+#	-DLLVM_CONFIG="/usr/bin/llvm-config32" \
+#	-DLLVM_LINK_LLVM_DYLIB=ON \
+#	-DCLANG_LINK_CLANG_DYLIB=ON \
+#	-DLLVM_ENABLE_RTTI=ON \
+#	-DLLVM_BUILD_TESTS=OFF \
+#	-DLLVM_INCLUDE_DOCS=OFF \
+#	-DLLVM_MAIN_SRC_DIR="$srcdir/llvm-$pkgver.src" \
+#	..
+
+#	local distribution_components=$(_get_distribution_components | paste -sd\;)
+#	test -n "$distribution_components"
+#	cmake_args+=(-DLLVM_DISTRIBUTION_COMPONENTS="$distribution_components")
+
+	cmake .. "${cmake_args[@]}"
+	ninja
+}
+
+package() {
+	cd "$srcdir/clang-$pkgver.src/build"
+
+	DESTDIR="$pkgdir" ninja install
+	rm -rf "$pkgdir"/usr/{bin,include,libexec,share}
+}

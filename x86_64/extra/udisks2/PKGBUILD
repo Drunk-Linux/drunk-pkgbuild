@@ -1,0 +1,34 @@
+pkgname=udisks2
+pkgver=2.9.4
+pkgrel=1
+pkgdesc="Disk Management Service, version 2"
+arch=('x86_64')
+url="https://www.freedesktop.org/wiki/Software/udisks"
+depends=('polkit' 'libgudev')
+makedepends=('docbook-xsl' 'gobject-introspection' 'parted' 'gtk-doc')
+backup=('etc/udisks2/udisks2.conf')
+source=("https://github.com/storaged-project/udisks/archive/udisks-$pkgver.tar.gz")
+
+prepare() {
+	cd udisks-udisks-$pkgver
+
+	NOCONFIGURE=1 ./autogen.sh
+}
+
+build() {
+	cd udisks-udisks-$pkgver
+
+	./configure --prefix=/usr --sysconfdir=/etc \
+	--sbindir=/usr/bin --libexecdir=/usr/lib \
+	--with-systemdsystemunitdir=/usr/lib/systemd/system \
+	--localstatedir=/var --disable-static \
+	--enable-gtk-doc enable_available_modules=yes
+
+	make
+}
+
+package() {
+	cd udisks-udisks-$pkgver
+
+	make DESTDIR="$pkgdir" install
+}

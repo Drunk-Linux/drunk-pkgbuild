@@ -1,0 +1,22 @@
+pkgname=brotli
+pkgver=1.0.9
+pkgrel=1
+pkgdesc='Brotli compression library'
+arch=(x86_64)
+url=https://github.com/google/brotli
+makedepends=(
+	cmake git
+)
+_tag=e61745a6b7add50d380cfd7d3883dd6c62fc2c71
+source=(git+https://github.com/google/brotli#tag=${_tag})
+
+build() {
+	cmake -S brotli -B build \
+	-D CMAKE_INSTALL_PREFIX=/usr
+
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}

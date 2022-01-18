@@ -1,8 +1,8 @@
 pkgname=gvfs
 pkgver=1.48.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(dbus glib2 libusb libsecret libsoup gtk+ gtk2+)
+depends=(dbus fuse2 glib2 libusb libsecret libsoup gtk+ gtk2+)
 source=(https://download.gnome.org/sources/$pkgname/1.48/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -13,12 +13,12 @@ build() {
 	meson			\
 	--prefix=/usr		\
 	--buildtype=release	\
-	-D fuse=false		\
+	-D fuse=true		\
 	-D gphoto2=false	\
 	-D afc=false		\
 	-D bluray=false		\
 	-D gcr=false		\
-	-D udisks2=false	\
+	-D udisks2=true		\
 	-D cdda=false		\
 	-D sftp=false		\
 	-D nfs=false		\

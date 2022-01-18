@@ -1,0 +1,29 @@
+pkgname=openssl
+pkgver=1.1.1k
+pkgrel=1
+arch=('i686')
+source=(https://openssl.org/source/$pkgname-$pkgver.tar.gz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        ./config					\
+	-m32 no-asm 					\
+	--cross-compile-prefix=i686-pc-linux-gnu-	\
+	--prefix=/usr					\
+	--openssldir=/etc/ssl				\
+	--libdir=lib					\
+	shared						\
+	zlib-dynamic
+
+        make
+
+        # disable static lib
+        # sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+}
+
+package() {
+        cd $pkgname-$pkgver
+
+        make DESTDIR=$pkgdir MANDIR=/usr/share/man MANSUFFIX=ssl install
+}

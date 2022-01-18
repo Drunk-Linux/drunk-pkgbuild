@@ -1,0 +1,21 @@
+pkgname=gpgme
+pkgver=1.16.0
+pkgrel=1
+depends=(libassuan)
+arch=('i686')
+source=(https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-$pkgver.tar.bz2)
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure --prefix=/usr
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}
+

@@ -1,15 +1,13 @@
-# Maintainer: Juergen Hoetzel <juergen@archlinux.org>
-# Contributor: Renchi Raju <renchi@green.tam.uiuc.edu>
-
 pkgname=emacs
 pkgver=27.2
-pkgrel=1
+pkgrel=2
 pkgdesc="The extensible, customizable, self-documenting real-time display editor"
 arch=('x86_64')
 url="https://www.gnu.org/software/emacs/emacs.html"
 license=('GPL3')
-depends=('librsvg' 'gpm' 'libxpm' 'gtk+' 'hicolor-icon-theme'
-	'alsa-lib' 'gnutls' 'cairo' 'harfbuzz')
+depends=('librsvg' 'gpm' 'libxpm' 'gtk+' 'hicolor-icon-theme' 'jansson'
+	'alsa-lib' 'gnutls' 'cairo' 'harfbuzz' 'giflib' 'desktop-file-utils'
+	'librsvg')
 source=(https://ftp.gnu.org/gnu/emacs/$pkgname-$pkgver.tar.xz)
 
 build() {

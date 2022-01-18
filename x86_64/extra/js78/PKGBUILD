@@ -3,7 +3,7 @@ pkgver=78.13.0esr
 pkgrel=1
 arch=('x86_64')
 depends=(autoconf icu which)
-makedepends=(autoconf icu which)
+makedepends=(autoconf icu which llvm clang)
 source=(https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz
 	python
 	python3)

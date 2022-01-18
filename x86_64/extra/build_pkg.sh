@@ -13,7 +13,7 @@ function build_extras_S() {
         done
 }
 
-build_extras_S "makepkg --skipint -C -c -s"
+build_extras_S "makepkg --skipint -C -c -f -s"
 
 #function build_extras() {
 #        shopt -s globstar

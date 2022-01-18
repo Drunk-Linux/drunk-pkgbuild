@@ -1,7 +1,8 @@
 pkgname=glibc
 pkgver=2.33
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
+depends=(libxcrypt)
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz
 	$pkgname-fhs-1.patch)
 

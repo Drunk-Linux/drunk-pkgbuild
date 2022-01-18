@@ -1,26 +1,28 @@
-# Description: Package compiler and linker metadata toolkit
-
 pkgname=pkgconf
-pkgver=1.7.4
+pkgver=1.8.0
 pkgrel=1
 arch=('x86_64')
-source=(http://distfiles.dereferenced.org/$pkgname/$pkgname-$pkgver.tar.xz)
+source=(http://distfiles.dereferenced.org/$pkgname/$pkgname-$pkgver.tar.xz
+	i686-pc-linux-gnu.personality
+	x86_64-pc-linux-gnu.personality)
 
 build() {
-	cd $pkgname-$pkgver
-
-	./configure \
-                --prefix=/usr \
-                --sysconfdir=/etc \
-                --with-pkg-config-dir="/usr/lib/pkgconfig:/usr/share/pkgconfig" \
-                --with-system-libdir="/lib:/usr/lib" \
-                --with-system-includedir="/usr/include"
-        make
+	meson pkgconf-1.8.0 build	\
+	--prefix=/usr		\
+	--buildtype=release	\
+	-Dtests=false
 }
 
 package() {
-        cd $pkgname-$pkgver
-        make DESTDIR=$pkgdir install
+        meson install -C build --destdir "$pkgdir"
 
-        ln -sf pkgconf "$pkgdir"/usr/bin/pkg-config
+	install -Dt "$pkgdir/usr/share/pkgconfig/personality.d" -m644 \
+		i686-pc-linux-gnu.personality \
+		x86_64-pc-linux-gnu.personality
+
+	ln -s pkgconf "$pkgdir/usr/bin/i686-pc-linux-gnu-pkg-config"
+	ln -s pkgconf "$pkgdir/usr/bin/x86_64-pc-linux-gnu-pkg-config"
+	ln -s pkgconf "$pkgdir/usr/bin/pkg-config"
+
+	ln -s pkgconf.1 "$pkgdir/usr/share/man/man1/pkg-config.1"
 }

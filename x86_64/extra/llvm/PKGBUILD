@@ -1,12 +1,7 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=llvm
 pkgver=13.0.0
-pkgrel=1
-makedepends=('cmake' 'python3' 'drunk-base')
+pkgrel=2
+makedepends=('cmake' 'python3')
 arch=('x86_64')
 psource=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver
 source=($psource/$pkgname-$pkgver.src.tar.xz
@@ -31,16 +26,16 @@ build() {
         cd $pkgname-$pkgver.src/build
 	
 	cmake .. -G Ninja		\
-	-DMAKE_BUILD_TYPE=Release	\
-	-DMAKE_INSTALL_PREFIX=/usr	\
-	-DLLVM_BUILD_LLVM_DYLIB=ON	\
-	-DLLVM_LINK_LLVM_DYLIB=ON	\
-	-DLLVM_INSTALL_UTILS=ON		\
-	-DLLVM_ENABLE_RTTI=ON		\
-	-DLLVM_ENABLE_FFI=ON		\
-	-DLLVM_BUILD_TESTS=OFF		\
-	-DLLVM_BUILD_DOCS=OFF		\
-	-DLLVM_BINUTILS_INCDIR=/usr/include
+	-D CMAKE_BUILD_TYPE=Release	\
+	-D CMAKE_INSTALL_PREFIX=/usr	\
+	-D LLVM_BUILD_LLVM_DYLIB=ON	\
+	-D LLVM_LINK_LLVM_DYLIB=ON	\
+	-D LLVM_INSTALL_UTILS=ON		\
+	-D LLVM_ENABLE_RTTI=ON		\
+	-D LLVM_ENABLE_FFI=ON		\
+	-D LLVM_BUILD_TESTS=OFF		\
+	-D LLVM_BUILD_DOCS=OFF		\
+	-D LLVM_BINUTILS_INCDIR=/usr/include
 }
 
 package() {

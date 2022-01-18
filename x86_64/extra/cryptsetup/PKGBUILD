@@ -1,0 +1,19 @@
+pkgname=cryptsetup
+pkgver=2.3.6
+pkgrel=1
+arch=('x86_64')
+depends=(popt lvm2 json-c)
+makedepends=()
+source=()
+
+prepare() {
+	
+}
+
+build() {
+	
+}
+
+package() {
+	
+}

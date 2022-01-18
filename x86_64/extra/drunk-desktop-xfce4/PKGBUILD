@@ -1,14 +1,15 @@
 pkgname=drunk-desktop-xfce4
 pkgver=2022.1
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 depends=(lightdm xfwm4 xfconf xfdesktop
-	xfce4-session xfce4-panel xfce4-settings xfce4-power-manager xfce4-notifyd xfce4-terminal xfce4-appfinder xfce4-screenshooter
+	xfwm4 libxfce4ui libxfce4util xfce4-appfinder xfce4-dev-tools xfce4-notifyd xfce4-panel xfce4-power-manager xfce4-pulseaudio-plugin xfce4-screenshooter xfce4-session xfce4-settings xfce4-terminal
 	ristretto thunar thunar-volman tumbler garcon mousepad
 	thunar-archive-plugin thunar-vcs-plugin
 	gvfs adwaita-icon-theme
 	noto-fonts firefox flat-remix flat-remix-gtk
-	networkmanager modemmanager network-manager-applet)
+	networkmanager modemmanager network-manager-applet
+	drunk-drivers-xorg xorg-fonts)
 makedepends=(base-drunk)
 
 prepare() {

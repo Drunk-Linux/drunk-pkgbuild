@@ -26,10 +26,11 @@ build() {
 	SED=sed								\
 	../configure							\
 	--prefix=/usr            					\
-	--enable-languages=c,c++,fortran,go,lto,objc,obj-c++,d	\
+	--enable-languages=c,c++,fortran,go,lto,objc,obj-c++,d		\
 	--with-system-zlib       					\
 	--enable-multilib						\
-	--disable-werror
+	--disable-werror						\
+	--with-arch_32=i686
 
 	make
 }

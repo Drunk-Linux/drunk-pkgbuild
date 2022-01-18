@@ -1,0 +1,20 @@
+pkgname=steam-launcher
+pkgver=1.0.0.74
+pkgrel=1
+arch=('x86_64')
+depends=(glibc lib32-nodejs lib32-sdl2 lib32-libxtst lib32-libxfixes lib32-libxrandr lib32-libxrender
+	lib32-libxext lib32-libx11 lib32-libxi lib32-libglvnd lib32-glib2 lib32-gtk+ lib32-pulseaudio lib32-libva
+	lib32-pixbuf lib32-libxcb lib32-libxau lib32-libxdmcp lib32-libffi lib32-pcre lib32-zlib lib32-util-linux)
+source=(steam.tar.xz)
+
+prepare() {
+	tar -xf steam.tar.xz
+}
+
+build() {
+	echo "Done"
+}
+
+package() {
+	cp -rf steam/* $pkgdir/
+}

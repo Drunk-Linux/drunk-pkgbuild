@@ -1,11 +1,6 @@
-# Maintainer: Sébastien "Seblu" Luttringer
-# Contributor: Bartłomiej Piotrowski <bpiotrowski@archlinux.org>
-# Contributor: Allan McRae <allan@archlinux.org>
-# Contributor: judd <jvinet@zeroflux.org>
-
 pkgname=coreutils
 pkgver=9.0
-pkgrel=2
+pkgrel=3
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('x86_64')
 license=('GPL3')
@@ -15,32 +10,38 @@ source=("https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz"
         '01-fix-fs72253.patch')
 
 prepare() {
-  cd $pkgname-$pkgver
-  # apply patch from the source array (should be a pacman feature)
-  local filename
-  for filename in "${source[@]}"; do
-    if [[ "$filename" =~ \.patch$ ]]; then
-      echo "Applying patch ${filename##*/}"
-      patch -Np1 -i "$srcdir/${filename##*/}"
-    fi
-  done
-  :
+	cd $pkgname-$pkgver
+	# apply patch from the source array (should be a pacman feature)
+	local filename
+	for filename in "${source[@]}"; do
+		if [[ "$filename" =~ \.patch$ ]]; then
+			echo "Applying patch ${filename##*/}"
+			patch -Np1 -i "$srcdir/${filename##*/}"
+		fi
+	done
 }
 
 build() {
-  cd $pkgname-$pkgver
-  ./configure \
-      --prefix=/usr \
-      --libexecdir=/usr/lib \
-      --with-openssl \
-      --enable-no-install-program=groups,hostname,kill,uptime
+	cd $pkgname-$pkgver
+	./configure \
+	--prefix=/usr \
+	--libexecdir=/usr/lib \
+	--with-openssl \
+	--enable-no-install-program=groups,hostname,kill,uptime
 
-  make
+	make
 }
 
 package() {
-  cd $pkgname-$pkgver
-  make DESTDIR="$pkgdir" install
-}
+	cd $pkgname-$pkgver
+	make DESTDIR="$pkgdir" install
 
-# vim:set ts=2 sw=2 et:
+	# Compatability for hardcoded shit that needs cp, echo, cat, rm at /bin
+	mkdir -p $pkgdir/bin
+	cd $pkgdir/bin
+	cp -f ../usr/bin/cp .
+	cp -f ../usr/bin/rm .
+	cp -f ../usr/bin/cat .
+	cp -f ../usr/bin/pwd .
+	cp -f ../usr/bin/echo .
+}

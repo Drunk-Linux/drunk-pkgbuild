@@ -7,13 +7,23 @@ makedepends=()
 source=()
 
 prepare() {
+	cd $pkgname-$pkgver
+
 	
 }
 
 build() {
+	cd $pkgname-$pkgver
+
+	export CC="gcc -m32"
+	export PKG_CONFIG_PATH="/usr/lib32/pkgconfig"
+	export CFLAGS="$CFLAGS -Wno-format-truncation"
+
 	
 }
 
 package() {
+	cd $pkgname-$pkgver
+
 	
 }

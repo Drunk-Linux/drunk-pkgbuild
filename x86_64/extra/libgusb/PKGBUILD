@@ -7,7 +7,11 @@ makedepends=(git gobject-introspection meson vala)
 source=(git+https://github.com/hughsie/libgusb.git)
 
 build() {
-	meson libgusb build --prefix=/usr --libdir=/usr/lib
+	meson libgusb build \
+	--prefix=/usr \
+	--libdir=/usr/lib \
+	-D docs=false
+
 	ninja -C build
 }
 

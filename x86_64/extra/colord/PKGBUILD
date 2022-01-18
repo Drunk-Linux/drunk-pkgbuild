@@ -2,8 +2,7 @@ pkgname=colord
 pkgver=master
 pkgrel=1
 arch=('x86_64')
-depends=(libgudev lcms2 sqlite3)
-makedepends=()
+depends=(libgudev lcms sqlite3 libgusb)
 source=(git+https://github.com/hughsie/colord)
 
 prepare() {
@@ -22,10 +21,12 @@ spick() {
 
 build() {
 	meson colord build		\
+	--prefix=/usr			\
 	-D libcolordcompat=true		\
 	-D sane=false			\
 	-D vapi=true			\
-	-D daemon_user=colord
+	-D daemon_user=colord		\
+	-D docs=false
 
 	meson compile -C build
 }

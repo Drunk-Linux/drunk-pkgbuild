@@ -29,16 +29,6 @@ for file in "/etc/X11/Xkbmap" "$HOME/.Xkbmap"; do
     fi
 done
 
-# Start PulseAudio service if installed
-if [ -f "/usr/bin/pulseaudio" ]; then
-	echo "Starting PulseAudio service.."
-	systemctl restart pulseaudio
-	
-	else
-	
-	echo "Pulseaudio not installed (Skipping)"
-done
-
 # Load xmodmap if not using XKB
 if [ -z "$XKB_IN_USE" ]; then
     for file in "/etc/X11/Xmodmap" "$HOME/.Xmodmap"; do
@@ -74,16 +64,10 @@ fi
 #
 
 # Start pulseaudio for display :1 ( As its easiest way for now )
-if [ -x "/usr/bin/pulseaudio" ]
-	echo "Starting pulseaudio for display :1"
+if [ -x "/usr/bin/pulseaudio" ]; then
+	echo "Starting pulseaudio for display :0"
 	echo "To change see /etc/lightdm/Xsession"
-	DISPLAY=:1 pulseaudio --daemonize=no &
-fi
-
-# Run xfce4 service script
-# Feel free to comment out if other session is choosed
-if [ -x "/usr/bin/xfce4-session" ]
-	. /etc/lightdm/xfce4-services
+	DISPLAY=:0 pulseaudio --daemonize=no &
 fi
 
 #

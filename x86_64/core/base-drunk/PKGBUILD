@@ -1,6 +1,6 @@
 pkgname=base-drunk
-pkgver=2022.0
-pkgrel=2
+pkgver=2022.1
+pkgrel=1
 arch=('x86_64')
 source=(os-release)
 depends=('acl' 'attr' 'bash' 'bc' 'binutils' 'bison' 'bzip2' 'ca-certificates' 'coreutils'

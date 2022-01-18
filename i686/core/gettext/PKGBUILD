@@ -1,0 +1,27 @@
+pkgname=gettext
+pkgver=0.21
+pkgrel=1
+pkgdesc="GNU internationalization library"
+url="https://www.gnu.org/software/gettext/"
+arch=(x86_64)
+license=(GPL)
+depends=(glibc)
+options=(!docs)
+source=(https://ftp.gnu.org/pub/gnu/gettext/$pkgname-$pkgver.tar.gz)
+
+build() {
+  cd $pkgname-$pkgver
+  ./configure \
+    --prefix=/usr \
+    --enable-csharp \
+    --enable-nls \
+    --with-xz \
+    --without-included-gettext
+
+  make
+}
+
+package() {
+  cd $pkgname-$pkgver
+  make DESTDIR="$pkgdir" install
+}

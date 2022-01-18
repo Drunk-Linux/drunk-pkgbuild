@@ -1,11 +1,6 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=wayland
-pkgver=1.19.93
-pkgrel=2
+pkgver=1.20.0
+pkgrel=1
 arch=('x86_64')
 depends=('base-drunk')
 source=(https://wayland.freedesktop.org/releases/$pkgname-$pkgver.tar.xz)
@@ -15,8 +10,8 @@ build() {
 
         mkdir -p build && cd build
 
-	meson		\
-	--prefix=/usr	\
+	meson			\
+	--prefix=/usr		\
 	--buildtype=release	\
 	-Ddocumentation=false	\
 
@@ -24,7 +19,7 @@ build() {
 }
 
 package() {
-	cd $pkgname-$pkgver
-	cd build
+	cd $pkgname-$pkgver/build
+
 	DESTDIR=$pkgdir ninja install
 }

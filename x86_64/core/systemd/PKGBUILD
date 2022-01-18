@@ -1,15 +1,19 @@
 pkgname=systemd
-pkgver=249
-pkgrel=9
+pkgver=250.2
+pkgrel=2
 arch=('x86_64')
-depends=(polkit linux-pam libxkbcommon)
+depends=('acl' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'linux-pam' 'elfutils'
+	'intltool' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
+	'libxslt' 'util-linux'
+	'shadow' 'gnu-efi' 'git'
+	'meson' 'libxkbcommon'
+	'bash-completion' 'p11-kit' 'rsync'
+	'gnutls')
 makedepends=(python3-pip)
-source=("https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-${pkgver}.tar.gz"
+source=("https://github.com/systemd/systemd-stable/archive/refs/tags/v${pkgver}.tar.gz"
 	'drunk.conf'
 	'initrd-drunk.conf'
 	'loader.conf'
-	'linuxx64.efi.stub'
-	'systemd-bootx64.efi'
 	'systemd-user.pam'
 	'systemd-hook'
 	'20-systemd-sysusers.hook'
@@ -35,21 +39,17 @@ prepare() {
 	pip install setuptools
 
 	pip install jinja2
-}
 
-build() {
-        cd $pkgname-$pkgver
-
-        wget https://ftp.osuosl.org/pub/lfs/lfs-packages/11.0/systemd-249-upstream_fixes-1.patch
-        patch -Np1 -i systemd-249-upstream_fixes-1.patch
-        rm -f systemd-249-upstream_fixes-1.patch
+        cd $pkgname-stable-$pkgver
         
         sed -i -e 's/GROUP="render"/GROUP="video"/' \
         -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
         
         sed -i 's/+ want_libfuzzer.*$/and want_libfuzzer/' meson.build
-        sed -i '/ARPHRD_CAN/a#define ARPHRD_MCTP        290' src/basic/linux/if_arp.h
-        
+}
+
+build() {
+	cd $pkgname-stable-$pkgver        
         mkdir -p build
 	cd build
 	export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH	
@@ -65,6 +65,11 @@ build() {
 		-D install-tests=false					\
 		-D docdir=/usr/share/doc/systemd-249			\
 		-D dbuspolicydir=/usr/share/dbus-1/system.d		\
+		-D sbat-distro='drunk'					\
+		-D sbat-distro-summary='Drunk Linux'			\
+		-D sbat-distro-pkgname="${pkgname}"			\
+		-D sbat-distro-version="${pkgver}"			\
+		-D sbat-distro-url="http://drunk.epizy.com/"		\
 		..
 
 	ninja
@@ -75,11 +80,8 @@ package() {
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/initrd-drunk.conf
         install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
-	mkdir -p $pkgdir/usr/lib/systemd/boot/efi/
-	cp -rf $srcdir/linuxx64.efi.stub $pkgdir/usr/lib/systemd/boot/efi
-	cp -rf $srcdir/systemd-bootx64.efi $pkgdir/usr/lib/systemd/boot/efi/
 
-	cd $pkgname-$pkgver/build
+	cd $pkgname-stable-$pkgver/build
 	
 	LANG=en_US.UTF-8 ninja
 	LANG=en_US.UTF-8 DESTDIR=$pkgdir PREFIX=$pkgdir ninja install

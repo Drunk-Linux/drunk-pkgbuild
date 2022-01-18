@@ -1,10 +1,39 @@
 pkgname=xorg-server
 pkgver=21.1.3
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=( libxxf86vm pixman font-util xkeyboard-config libepoxy wayland wayland-protocols systemd
-	libfontenc libxfont2 libpciaccess xorg-xkbcomp libxklavier polkit nettle libtirpc xrdb libxmu libunwind libxcvt xauth)
-source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz)
+	libfontenc libxfont2 libpciaccess xorg-xkbcomp libxklavier polkit nettle libtirpc xrdb libxmu libunwind libxcvt xauth libglvnd)
+source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz
+	764.diff
+	786.diff
+	789.diff
+	836.diff
+	839.diff)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	# Patch all diff's that havce been chosen from MR
+
+	echo "[!]: Pathing 764"
+	patch -Np1 -i ../764.diff
+
+	echo "[!]: Pathing 786"
+	patch -Np1 -i ../786.diff
+
+	echo "[!]: Pathing 789"
+	patch -Np1 -i ../789.diff
+
+#	echo "[!]: Pathing 835"
+#	patch -Np1 -i ../835.diff
+
+	echo "[!]: Pathing 836"
+	patch -Np1 -i ../836.diff
+
+	echo "[!]: Pathing 839"
+	patch -Np1 -i ../839.diff
+}
 
 build() {
 	cd $pkgname-$pkgver

@@ -1,8 +1,8 @@
 pkgname=gtk+
-pkgver=3.24.30
-pkgrel=1
+pkgver=3.24.31
+pkgrel=3
 arch=('x86_64')
-depends=(at-spi2-atk gdk-pixbuf libepoxy pango gtk-doc cairo libxkbcommon)
+depends=(at-spi2-atk gdk-pixbuf libepoxy pango gtk-doc cairo colord libxinerama libxrandr libxfixes libxcomposite libxdamage libxcursor libxi)
 makedepends=(meson wayland wayland-protocols)
 source=(https://download.gnome.org/sources/$pkgname/3.24/$pkgname-$pkgver.tar.xz)
 
@@ -14,7 +14,8 @@ build() {
 	--sysconfdir=/etc		\
 	--enable-wayland-backend	\
 	--enable-x11-backend		\
-	--disable-cairo
+	--enable-cairo			\
+	--enable-colord
 
 	make
 }

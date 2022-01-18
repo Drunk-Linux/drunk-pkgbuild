@@ -1,8 +1,3 @@
-# Description: GNU stream editor
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=sed
 pkgver=4.8
 pkgrel=1
