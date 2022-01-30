@@ -4,14 +4,14 @@ pkgrel=1
 pkgdesc="A library for manipulating block devices"
 arch=('x86_64')
 url="https://github.com/rhinstaller/libblockdev"
-depends=('dosfstools' 'lvm2' 'parted' 'kmod')
+depends=('dosfstools' 'lvm2' 'parted' 'kmod' 'yaml' 'libbytesize' 'volume_key')
 makedepends=('gobject-introspection' 'systemd' 'python3')
 source=(https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libblockdev-2.26.tar.gz)
 
 build() {
 	cd "$srcdir"/$pkgname-$pkgver
 
-	./configure --prefix=/usr --sysconfdir=/etc --without-lvm_dbus
+	./configure --prefix=/usr --sysconfdir=/etc --without-lvm_dbus --without-dmraid
 
 	make
 }

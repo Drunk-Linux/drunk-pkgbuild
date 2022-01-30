@@ -1,8 +1,15 @@
 pkgname=xwayland
 pkgver=21.1.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(xorg-server)
+depends=('nettle' 'libepoxy' 'systemd' 'libxfont2' 
+	'pixman' 'xorg-server' 'libxcvt')
+makedepends=('meson' 'xorgproto' 'libxtrans' 'libxkbfile' 'dbus'
+	'font-util'
+	'wayland' 'wayland-protocols'
+	'libdrm' 'mesa'
+	'systemd'
+)
 source=(https://x.org/pub/individual/xserver/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -13,8 +20,13 @@ build() {
 	meson		\
 	--prefix=/usr		\
 	--localstatedir=/var	\
-	-D xcsecurity=false	\
-	-D glamor=true		\
+	-D ipv6=true \
+	-D xvfb=false \
+	-D xdmcp=false \
+	-D xcsecurity=true \
+	-D dri3=true \
+	-D xwayland_eglstream=true \
+	-D glamor=false \
 	-D xkb_dir=/usr/share/X11/xkb \
 	-D xkb_output_dir=/var/lib/xkb \
 	..
@@ -27,7 +39,7 @@ build() {
 package() {
 	cd $pkgname-$pkgver/build
 	DESTDIR=$pkgdir ninja install
-	mkdir -p $pkgdir/etc/X11/xorg.conf.d
+	install -m644 -Dt "${pkgdir}"/usr/lib/pkgconfig hw/xwayland/xwayland.pc
 
 	# Already owned by xorg-server
 	rm -f $pkgdir/usr/lib/xorg/protocol.txt

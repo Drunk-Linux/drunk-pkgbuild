@@ -1,18 +1,24 @@
 pkgname=pulseaudio
 pkgver=15.0
-pkgrel=5
+pkgrel=6
 pkgdesc="A featureful, general-purpose sound server"
 arch=('x86_64')
-depends=('libsndfile' 'alsa-lib' 'dbus' 'glib2' 'libcap' 'libx11' 'libxcb' 'libice' 'check' 'libsm' 'libxtst')
+depends=('libsndfile' 'openssl' 'jack2' 'alsa-lib' 'dbus' 'glib2' 'libcap' 'libx11'
+	'libxcb' 'libice' 'check' 'libsm' 'libxtst' 'webrtc-audio-processing')
 source=(https://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.xz
-	pulseaudio.service
-	pulseaudio.socket
-	pulseaudio-x11.service
 	client.conf
 	daemon.conf
 	default.pa
-	system.pa)
+	system.pa
+	webrtc-1.x.patch)
 install=pulseaudio.install
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	# Patch to use latest webrtc
+	patch -Np1 -i ../webrtc-1.x.patch
+}
 
 build() {
 	cd $pkgname-$pkgver
@@ -25,6 +31,7 @@ build() {
 	-D database=gdbm				\
 	-D systemd=enabled				\
 	-D doxygen=true					\
+	-D webrtc-aec=enabled				\
 	-D pulsedsp-location='/usr/\$LIB/pulseaudio'	\
 	-D stream-restore-clear-old-devices=true	\
 	-D udevrulesdir=/usr/lib/udev/rules.d		\

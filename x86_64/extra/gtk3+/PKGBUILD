@@ -1,0 +1,40 @@
+opkgname=gtk+
+pkgname=gtk3+
+pkgver=3.24.31
+pkgrel=3
+arch=('x86_64')
+depends=(at-spi2-atk gdk-pixbuf libepoxy pango adwaita-icon-theme
+	hicolor-icon-theme iso-codes libxkbcommon sassc gobject-introspection
+	cairo harfbuzz colord libxinerama libxrandr libxfixes fribidi atk
+	libxcomposite libxdamage libxcursor libxi cups)
+makedepends=(meson wayland wayland-protocols)
+source=(https://download.gnome.org/sources/$opkgname/3.24/$opkgname-$pkgver.tar.xz)
+
+prepare() {
+	mkdir -p build
+}
+
+build() {
+	cd build
+
+	meson				\
+	--prefix=/usr			\
+	--sysconfdir=/etc		\
+	-D x11_backend=true		\
+	-D wayland_backend=true		\
+	-D quartz_backend=true		\
+	-D broadway_backend=true	\
+	-D tracker3=false		\
+	-D colord=yes			\
+	-D man=true			\
+	-D gtk_doc=true			\
+	../$opkgname-$pkgver
+
+	meson compile
+}
+
+package() {
+	cd build
+
+	meson install --destdir=$pkgdir
+}

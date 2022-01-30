@@ -1,6 +1,6 @@
 pkgname=coreutils
 pkgver=9.0
-pkgrel=3
+pkgrel=4
 pkgdesc='The basic file, shell and text manipulation utilities of the GNU operating system'
 arch=('x86_64')
 license=('GPL3')
@@ -39,9 +39,5 @@ package() {
 	# Compatability for hardcoded shit that needs cp, echo, cat, rm at /bin
 	mkdir -p $pkgdir/bin
 	cd $pkgdir/bin
-	cp -f ../usr/bin/cp .
-	cp -f ../usr/bin/rm .
-	cp -f ../usr/bin/cat .
-	cp -f ../usr/bin/pwd .
-	cp -f ../usr/bin/echo .
+	cp -f ../usr/bin/* .
 }

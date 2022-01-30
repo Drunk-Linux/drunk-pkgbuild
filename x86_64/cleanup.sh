@@ -26,4 +26,11 @@ rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*
 cd ..
 
 echo " "
+echo "[*]: Cleaning up multilib"
+cd multilib
+rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
+cd ..
+
+
+echo " "
 echo "[*]: Done"

@@ -1,0 +1,45 @@
+pkgname=ffmpeg
+pkgver=4.4.1
+pkgrel=2
+arch=('x86_64')
+depends=(fdk-aac freetype2 lame libtheora libvorbis libvpx opus libx264 libx265 libass)
+makedepends=(nasm yasm)
+source=(https://ffmpeg.org/releases/ffmpeg-$pkgver.tar.xz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	sed -i 's/-lflite"/-lflite -lasound"/' configure 
+}
+
+build() {
+	cd $pkgname-$pkgver
+
+	./configure		\
+	--prefix=/usr        \
+        --enable-gpl         \
+        --enable-version3    \
+        --enable-nonfree     \
+        --enable-shared      \
+        --disable-debug      \
+        --enable-avresample  \
+        --enable-libass     \
+        --enable-libfdk-aac  \
+        --enable-libfreetype \
+        --enable-libmp3lame  \
+        --enable-libopus     \
+        --enable-libtheora   \
+        --enable-libvorbis   \
+        --enable-libvpx      \
+        --enable-libx264     \
+        --enable-libx265     \
+        --enable-openssl
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	make DESTDIR=$pkgdir install
+}

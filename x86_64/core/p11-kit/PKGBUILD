@@ -1,11 +1,6 @@
-# Description: Provides a way to load and enumerate PKCS #11 (a Cryptographic Token Interface Standard) modules
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=p11-kit
 pkgver=0.24.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(https://github.com/p11-glue/p11-kit/releases/download/$pkgver/p11-kit-$pkgver.tar.xz)
 
@@ -14,7 +9,7 @@ build() {
 
 	./configure --prefix=/usr     \
 	            --sysconfdir=/etc \
-	            --with-trust-paths=/etc/pki/anchors
+	            --with-trust-paths=/etc/ca-certificates/trust-source:/usr/share/ca-certificates/trust-source
 	make
 }
 

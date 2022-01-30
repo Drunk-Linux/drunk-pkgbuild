@@ -1,5 +1,5 @@
 pkgname=openssl
-pkgver=1.1.1k
+pkgver=1.1.1m
 pkgrel=1
 arch=('x86_64')
 source=(https://openssl.org/source/$pkgname-$pkgver.tar.gz)
@@ -12,6 +12,7 @@ build() {
                  --libdir=lib          \
                  shared                \
                  zlib-dynamic
+
         make
 
         # disable static lib

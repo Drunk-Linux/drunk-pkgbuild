@@ -9,22 +9,24 @@ source=(https://www.gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2
 	python310.patch)
 
 prepare() {
-  cd ${pkgbase}-${pkgver}
-  patch -Np1 -i ../python310.patch
+	cd ${pkgbase}-${pkgver}
+
+	patch -Np1 -i ../python310.patch
 }
 
 build() {
-  cd ${pkgbase}-${pkgver}
+	cd ${pkgbase}-${pkgver}
 
-  ./configure			\
-    --prefix=/usr			\
-    --disable-fd-passing	\
-    --disable-gpgsm-test
-  make
+	./configure			\
+	--prefix=/usr		\
+	--disable-fd-passing	\
+	--disable-gpgsm-test
 
+	make
 }
 
 package_gpgme() {
-  cd ${pkgbase}-${pkgver}/
-  make DESTDIR="${pkgdir}" install
+	cd ${pkgbase}-${pkgver}/
+
+	make DESTDIR="${pkgdir}" install
 }

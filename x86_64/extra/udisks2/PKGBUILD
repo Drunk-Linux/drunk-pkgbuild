@@ -4,8 +4,9 @@ pkgrel=1
 pkgdesc="Disk Management Service, version 2"
 arch=('x86_64')
 url="https://www.freedesktop.org/wiki/Software/udisks"
-depends=('polkit' 'libgudev')
-makedepends=('docbook-xsl' 'gobject-introspection' 'parted' 'gtk-doc')
+depends=(libatasmart libblockdev libgudev libxslt polkit
+	mdadm systemd gobject-introspection)
+makedepends=('docbook-xsl' 'parted' 'gtk-doc')
 backup=('etc/udisks2/udisks2.conf')
 source=("https://github.com/storaged-project/udisks/archive/udisks-$pkgver.tar.gz")
 

@@ -2,19 +2,40 @@ pkgname=steam-launcher
 pkgver=1.0.0.74
 pkgrel=1
 arch=('x86_64')
-depends=(glibc lib32-nodejs lib32-sdl2 lib32-libxtst lib32-libxfixes lib32-libxrandr lib32-libxrender
-	lib32-libxext lib32-libx11 lib32-libxi lib32-libglvnd lib32-glib2 lib32-gtk+ lib32-pulseaudio lib32-libva
-	lib32-pixbuf lib32-libxcb lib32-libxau lib32-libxdmcp lib32-libffi lib32-pcre lib32-zlib lib32-util-linux)
-source=(steam.tar.xz)
+depends=('bash' 'desktop-file-utils' 'diffutils' 'hicolor-icon-theme' 'curl' 'dbus'
+        'freetype2' 'gdk-pixbuf' 'nss' 'usbutils'
+        'xrandr' 'vulkan-icd-loader' 'lsof' 'python3'
+	'lib32-libglvnd' 'lib32-libx11' 'lib32-libxss'
+	'lib32-alsa-plugins' 'lib32-libgpg-error'
+	'lib32-nss' 'lib32-vulkan-icd-loader')
+source=(https://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${pkgver}.tar.gz
+	 steam-runtime.sh)
 
 prepare() {
-	tar -xf steam.tar.xz
-}
+	cd ${pkgname}-launcher
 
-build() {
-	echo "Done"
+	# separated runtime/native desktop files
+	sed -r 's|(Name=Steam)|\1 (Runtime)|' -i steam.desktop
+	sed -r 's|(/usr/bin/steam)|\1-runtime|' -i steam.desktop
 }
 
 package() {
-	cp -rf steam/* $pkgdir/
+	cd ${pkgname}-launcher
+	make DESTDIR="${pkgdir}" install
+
+	install -Dm 755 "${srcdir}/steam-runtime.sh" "${pkgdir}/usr/bin/steam-runtime"
+	install -d "${pkgdir}/usr/lib/steam"
+	mv "${pkgdir}/usr/bin/steam" "${pkgdir}/usr/lib/steam/steam"
+	ln -sf /usr/bin/steam-runtime "${pkgdir}/usr/bin/steam"
+
+	install -Dm 644 COPYING steam_subscriber_agreement.txt -t "${pkgdir}/usr/share/licenses/${pkgname}"
+	install -Dm 644 debian/changelog -t "${pkgdir}/usr/share/doc/${pkgname}"
+
+	# blank steamdeps because apt-get
+	ln -sf /usr/bin/true "${pkgdir}/usr/bin/steamdeps"
+
+	install -Dm 644 subprojects/steam-devices/60-steam-input.rules \
+	"${pkgdir}/usr/lib/udev/rules.d/70-steam-input.rules"
+	install -Dm 644 subprojects/steam-devices/60-steam-vr.rules \
+	"${pkgdir}/usr/lib/udev/rules.d/70-steam-vr.rules"
 }

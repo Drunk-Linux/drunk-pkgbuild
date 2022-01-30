@@ -1,0 +1,34 @@
+# Maintainer: Sven-Hendrik Haase <svenstaro@archlinux.org>
+# Contributor: hexchain <i@hexchain.org>
+pkgname=telegram-desktop
+pkgver=3.4.3
+pkgrel=2
+pkgdesc='Official Telegram Desktop client'
+arch=('x86_64')
+url="https://desktop.telegram.org/"
+license=('GPL3')
+depends=('hicolor-icon-theme' 'lz4' 'minizip'
+	'glibmm' 'libxtst' 'libxrandr')
+makedepends=('cmake' 'git' 'ninja' 'python3' 'extra-cmake-modules' 'wayland-protocols')
+source=("https://github.com/telegramdesktop/tdesktop/releases/download/v${pkgver}/tdesktop-${pkgver}-full.tar.gz")
+
+build() {
+    cd tdesktop-$pkgver-full
+
+    export CXXFLAGS+=" -Wp,-U_GLIBCXX_ASSERTIONS"
+    cmake \
+        -B build \
+        -G Ninja \
+        -DCMAKE_INSTALL_PREFIX="/usr" \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DTDESKTOP_API_ID=17349 \
+        -DTDESKTOP_API_HASH=322583e457fe1862106095a5eb
+
+    ninja -C build
+}
+
+package() {
+    cd tdesktop-$pkgver-full
+
+    DESTDIR=$pkgdir ninja -C build install
+}

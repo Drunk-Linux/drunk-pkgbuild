@@ -1,27 +1,26 @@
 pkgname=firefox
-pkgver=91.4.0esr
-fver=91.4.0
-pkgrel=1
+pkgver=96.0.3
+fver=96.0.3
+pkgrel=3
 arch=('x86_64')
-depends=(dbus-glib gtk+ gtk2+ libnotify llvm nodejs pulseaudio alsa-lib python3 sqlite3 unzip
+depends=(dbus-glib gtk+ gtk2+ libnotify pulseaudio alsa-lib python3 sqlite3 unzip
 	zip startup-notification pulseaudio icu libevent pixman libjpeg libpng)
-makedepends=(autoconf cbindgen nodejs nasm yasm)
+makedepends=(autoconf cbindgen nodejs nasm yasm lld wasi-compiler-rt wasi-libc wasi-libc++
+	llvm mesa rust clang nodejs autoconf2.13 imake)
 source=(https://archive.mozilla.org/pub/$pkgname/releases/$pkgver/source/$pkgname-$pkgver.source.tar.xz
 	mozconfig
 	firefox.desktop
-	firefox-91.4.0esr-buildfix-1.patch
-	firefox-91.4.0esr-disable_rust_test-1.patch)
+	0001-Use-remoting-name-for-GDK-application-names.patch)
 
 prepare() {
 	mkdir -p mozbuild
 
 	cd $pkgname-$fver
 
-	patch -Np1 -i ../firefox-91.4.0esr-buildfix-1.patch
-	patch -Np1 -i ../firefox-91.4.0esr-disable_rust_test-1.patch
+	patch -Np1 -i ../0001-Use-remoting-name-for-GDK-application-names.patch
 
-	echo "" > google-key
-	echo "" > mozilla-key
+	echo " " > google-key
+	echo " " > mozilla-key
 }
 
 build() {
@@ -40,13 +39,67 @@ build() {
 	cp $srcdir/mozconfig .mozconfig
 
 	./mach configure
-	./mach build -j6
+
+	# Make obj dir for make
+	mkdir -p $srcdir/$pkgname-$fver/obj
+
+	./mach build -j5
+
+	echo "Profiling instrumented browser..."
+
+	./mach package
+	LLVM_PROFDATA=llvm-profdata \
+	JARLOG_FILE="$PWD/jarlog" \
+	xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
+	./mach python build/pgo/profileserver.py
+
+	stat -c "Profile data found (%s bytes)" merged.profdata
+	test -s merged.profdata
+
+	stat -c "Jar log found (%s bytes)" jarlog
+	test -s jarlog
+
+	echo "Removing instrumented browser..."
+
+	./mach clobber
+
+	echo "Building optimized browser..."
+	cat >.mozconfig ../mozconfig - <<END
+ac_add_options --enable-lto=cross
+ac_add_options --enable-profile-use=cross
+ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
+ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
+END
+	./mach build
+
+	echo "Building symbol archive..."
+	./mach buildsymbols
 }
 
 package() {
 	cd $pkgname-$fver
 
-	MACH_USE_SYSTEM_PYTHON=1 DESTDIR=$pkgdir ./mach install
+	DESTDIR=$pkgdir ./mach install
+
+	local vendorjs="$pkgdir/usr/lib/$pkgname/browser/defaults/preferences/vendor.js"
+	install -Dvm644 /dev/stdin "$vendorjs" <<END
+// Use LANG environment variable to choose locale
+pref("intl.locale.requested", "");
+// Don't disable extensions in the application directory
+pref("extensions.autoDisableScopes", 11);
+END
+
+	local distini="$pkgdir/usr/lib/$pkgname/distribution/distribution.ini"
+	install -Dvm644 /dev/stdin "$distini" <<END
+[Global]
+id=drunklinux
+version=1.0
+about=Mozilla Firefox for Drunk Linux
+[Preferences]
+app.distributor=drunklinux
+app.distributor.channel=$pkgname
+app.partner.drunklinux=drunklinux
+END
 
 	mkdir -pv $pkgdir/usr/share/applications
 	mkdir -pv $pkgdir/usr/share/pixmaps
