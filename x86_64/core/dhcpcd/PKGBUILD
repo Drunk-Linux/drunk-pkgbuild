@@ -1,13 +1,8 @@
-# Description: Implementation of the DHCP client specified in RFC2131
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=dhcpcd
-pkgver=9.4.0
-bootscriptspkgver=20210110
+pkgver=9.4.1
 pkgrel=1
 arch=('x86_64')
+depends=(glibc systemd libgudev)
 source=(https://roy.marples.name/downloads/dhcpcd/dhcpcd-$pkgver.tar.xz)
 
 build() {

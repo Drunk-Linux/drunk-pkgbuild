@@ -2,6 +2,7 @@ pkgname=openssl
 pkgver=1.1.1m
 pkgrel=1
 arch=('x86_64')
+depends=(glibc)
 source=(https://openssl.org/source/$pkgname-$pkgver.tar.gz)
 
 build() {

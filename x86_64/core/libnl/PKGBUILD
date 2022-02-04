@@ -1,11 +1,8 @@
-# Description: Collection of libraries providing APIs to netlink protocol based Linux kernel interfaces
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-
 pkgname=libnl
 pkgver=3.5.0
 pkgrel=1
 arch=('x86_64')
+depends=(glibc)
 source=(https://github.com/thom311/libnl/releases/download/libnl${pkgver//./_}/libnl-$pkgver.tar.gz)
 
 build() {
@@ -13,8 +10,8 @@ build() {
 	cd $pkgname-$pkgver
 
 	./configure --prefix=/usr     \
-	            --sysconfdir=/etc \
-	            --disable-static
+	            --sysconfdir=/etc
+
 	make
 }
 

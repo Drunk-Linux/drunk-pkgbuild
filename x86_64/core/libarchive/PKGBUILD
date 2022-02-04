@@ -1,15 +1,25 @@
 pkgname=libarchive
-pkgver=3.5.1
+pkgver=3.5.2
 pkgrel=1
 arch=('x86_64')
-source=(https://github.com/libarchive/libarchive/releases/download/$pkgver/libarchive-$pkgver.tar.xz)
+depends=(acl bzip2 expat lz4 openssl xz zlib zstd)
+source=(https://github.com/libarchive/libarchive/releases/download/v$pkgver/libarchive-$pkgver.tar.xz
+	0001-unescape-when-extracting-link.patch)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	patch -Np1 -i ../0001-unescape-when-extracting-link.patch
+}
 
 build() {
         cd $pkgname-$pkgver
 
-        ./configure \
-                --prefix=/usr \
-                --disable-static
+        ./configure		\
+	--prefix=/usr		\
+	--without-xml2		\
+	--without-nettle
+
         make
 }
 

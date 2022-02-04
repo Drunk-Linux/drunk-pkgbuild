@@ -1,10 +1,10 @@
 pkgname=qt5
 pkgver=5.15.2
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(xorg-server xwayland alsa-lib cups glib2 harfbuzz icu libjpeg libpng
 	libtiff libwebp libxkbcommon mesa pcre2 sqlite3 wayland xcb-util-image xcb-util-keysyms
-	xcb-util-renderutil xcb-util-wm libinput pciutils pulseaudio)
+	xcb-util-renderutil xcb-util-wm libinput pciutils pulseaudio bluez)
 makedepends=(extra-cmake-modules)
 source=(https://download.qt.io/archive/qt/5.15/$pkgver/single/qt-everywhere-src-$pkgver.tar.xz
 	qt-everywhere-src-5.15.2-CVE-2021-3481-1.patch
@@ -34,7 +34,6 @@ build() {
 	-archdatadir /usr/lib/qt	\
 	-datadir /usr/share/qt		\
 	-sysconfdir /etc/xdg		\
-	-opensource			\
 	-confirm-license		\
 	-dbus-linked			\
 	-system-harfbuzz		\

@@ -1,8 +1,9 @@
 pkgname=duktape
 pkgver=2.6.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 makedepends=(setconf)
+depends=(glibc)
 source=(https://duktape.org/duktape-$pkgver.tar.xz
 	duktape.pc)
 

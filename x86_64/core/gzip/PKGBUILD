@@ -1,12 +1,8 @@
-# Description: Programs for compressing and decompressing files
-# URL:         https://www.gnu.org/software/gzip/
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  bash
-
 pkgname=gzip
-pkgver=1.10
+pkgver=1.11
 pkgrel=1
 arch=('x86_64')
+depends=(glibc bash)
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {

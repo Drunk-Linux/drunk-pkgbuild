@@ -1,13 +1,15 @@
 pkgname=mesa
-pkgver=21.3.3
+pkgver=21.3.5
 pkgrel=1
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
-	'wayland' 'wayland-protocols' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc'
-	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm' 'vulkan-headers'
-	'vdpau' 'glslang' 'libva')
-source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz)
-makedepends=('clang' 'cmake' 'llvm')
+	'wayland' 'wayland-protocols' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc' 'libglvnd'
+	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm' 
+	'vdpau' 'glslang' 'libva' 'llvm')
+makedepends=('directx-headers' 'vulkan-headers' 'libglvnd')
+source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz
+	0001-iris-implement-inter-context-busy-tracking.patch)
+makedepends=('clang' 'cmake')
 
 prepare() {
 	cd $pkgname-$pkgver
@@ -17,14 +19,13 @@ prepare() {
 
 	sed '1s/python/&3/' -i bin/symbols-check.py
 
+	# ARCH LINUX: FS#73501
+	patch -Np1 -i ../0001-iris-implement-inter-context-busy-tracking.patch
+
 	rm -rf build
 }
 
 build() {
-	echo "None"
-}
-
-e_build() {
 	mkdir -p build && cd build
 
 	meson \
@@ -62,7 +63,7 @@ e_build() {
 	-D valgrind=enabled \
 	../$pkgname-$pkgver/
 
-	ninja
+	ninja -j5
 }
 
 package() {

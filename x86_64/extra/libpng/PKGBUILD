@@ -3,19 +3,19 @@ pkgver=1.6.37
 pkgrel=1
 arch=('x86_64')
 depends=(zlib bash)
-source=(https://downloads.sourceforge.net/sourceforge/$pkgname/$pkgname-$pkgver.tar.xz)
+source=(https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.xz
+        https://downloads.sourceforge.net/project/apng/libpng/libpng16/$pkgname-$pkgver-apng.patch.gz)
 
 build() {
 	cd $pkgname-$pkgver
 
-	./configure		\
-	--prefix=/usr
+	gzip -cd $SRC/$pkgname-$pkgver-apng.patch.gz | patch -p0
 
-	make
+        LIBS=-lpthread ./configure --prefix=/usr
+        make
 }
 
 package() {
 	cd $pkgname-$pkgver
-
-	make DESTDIR=$pkgdir install
+        make DESTDIR=$pkgdir install
 }

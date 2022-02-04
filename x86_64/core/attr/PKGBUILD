@@ -1,12 +1,8 @@
-# Description: Utilities to administer the extended attributes on filesystem objects
-# URL:         http://savannah.nongnu.org/projects/attr
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=attr
 pkgver=2.5.1
 arch=('x86_64')
-pkgrel=1
+pkgrel=2
+depends=(glibc)
 source=(https://download.savannah.gnu.org/releases/$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {
@@ -14,7 +10,6 @@ build() {
 
         ./configure --prefix=/usr     \
 	            --bindir=/bin     \
-	            --disable-static  \
 	            --sysconfdir=/etc
         make
 }

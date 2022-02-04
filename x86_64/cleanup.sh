@@ -31,6 +31,16 @@ cd multilib
 rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
 cd ..
 
+echo " "
+echo "[*]: Cleaning up desktop/*"
+cd desktop
+mv */*/*pkg.t* ../../pkgs/
+cd xfce
+rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
+cd ../kde
+rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
+cd ../..
+
 
 echo " "
 echo "[*]: Done"

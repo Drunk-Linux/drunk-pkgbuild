@@ -1,7 +1,8 @@
 pkgname=perl
 pkgver=5.34.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(libxcrypt)
 source=(https://www.cpan.org/src/5.0/$pkgname-$pkgver.tar.xz)
 
 build() {

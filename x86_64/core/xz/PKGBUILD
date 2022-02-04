@@ -1,12 +1,8 @@
-# Description: Programs for compressing and decompressing files
-# URL:         https://tukaani.org/xz/
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=xz
 pkgver=5.2.5
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(bash)
 source=(https://tukaani.org/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {

@@ -1,13 +1,9 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=dracut
 pkgver=055
-pkgrel=2
+pkgrel=4
 arch=('x86_64')
-depends=('cpio')
+depends=(cpio bash coreutils filesystem findutils grep gzip kmod pkgconf
+	procps-ng sed systemd util-linux xz)
 source=(https://kernel.org/pub/linux/utils/boot/$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {
@@ -15,7 +11,6 @@ build() {
 
 	./configure --prefix=/usr         \
 	            --bindir=/bin         \
-	            --disable-static      \
 	            --libexecdir=/usr/lib
         make
 }

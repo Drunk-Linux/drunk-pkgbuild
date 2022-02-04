@@ -1,17 +1,16 @@
 pkgname=base-drunk
 pkgver=2022.1
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
 source=(os-release)
-depends=('acl' 'attr' 'bash' 'bc' 'binutils' 'bison' 'bzip2' 'ca-certificates' 'coreutils'
-	'curl' 'dbus' 'dhcpcd' 'diffutils' 'dosfstools' 'e2fsprogs' 'elfutils' 'expat' 'expat'
-	'file' 'filesystem' 'findutils' 'flex' 'freetype2' 'fuse2' 'gawk' 'gcc' 'gdbm' 'gettext' 'glibc' 'gmp' 'gperf'
-	'gpm' 'grep' 'groff' 'gzip' 'httpup' 'iana-etc' 'inetutils' 'intltool' 'iproute2' 'kbd' 'kmod' 'less' 'libarchive'
-	'libcap' 'libevent' 'libffi' 'libnl' 'libpipeline' 'libpng' 'libtasn1' 'libtool' 'libxml2' 'links' 'linux'
-	'linux-firmware' 'lz4' 'lzo' 'm4' 'man-db' 'man-pages' 'mpc'
-	'mpfr' 'mtools' 'ncurses' 'ninja' 'openssl' 'p11-kit' 'pacman' 'pciutils' 'pkgconf'
-	'popt' 'ports' 'procps-ng' 'psmisc' 'readline' 'sed' 'shadow' 'squashfs-tools' 'sudo' 'sysklogd'
-	'syslinux' 'systemd' 'tar' 'texinfo' 'tzdata' 'util-linux' 'vim' 'wget' 'which' 'wpa_supplicant' 'xz' 'zlib' )
+depends=(accountsservice ca-certificates diffutils file gnu-efi kmod libnl linux-pam pciutils procps-ng tar xz
+	acl dosfstools filesystem gzip less libseccomp lz4 pcre readline texinfo zlib
+	attr coreutils dracut freetype2 iana-etc libarchive libtasn1 lzo pcre2 sed tzdata
+	cpio duktape fuse2 icu libcap libtool ncurses shadow util-linux
+	bash curl e2fsprogs gawk inetutils libevent libx11 openssl pkgconf squashfs-tools wget
+	binutils dbus gettext intltool libffi libxcrypt p11-kit polkit syslinux which
+	bzip2 dhcpcd expat glib2 iproute2 libgudev libxml2 pacman popt systemd wpa_supplicant
+	findutils)
 
 build() {
 	mkdir -p $pkgname-$pkgver

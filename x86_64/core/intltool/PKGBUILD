@@ -1,12 +1,8 @@
-# Description: An internationalization tool used for extracting translatable strings from source files
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=intltool
 pkgver=0.51.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(glibc)
 source=(http://launchpad.net/intltool/trunk/$pkgver/+download/$pkgname-$pkgver.tar.gz)
 
 build() {

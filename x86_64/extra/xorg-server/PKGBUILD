@@ -1,7 +1,12 @@
 pkgname=xorg-server
 pkgver=21.1.3
-pkgrel=3
+pkgrel=5
 arch=('x86_64')
+depends=(libmd pixman libx11 mesa libxtrans libxkbfile
+	libxfont2 libpciaccess libxv libxcvt libxmu libxrender
+	libxi libxaw libxtst libxres xorg-xkbcomp util-macros xmessage
+	font-util libepoxy xcb-util xcb-util-image xcb-util-renderutil
+	xcb-util-wm xcb-util-keysyms libxshmfence libunwind systemd libbsd)
 makedepends=(xorgproto pixman libx11 mesa libxtrans libxkbfile
         libxfont2 libpciaccess libxv libxcvt libxmu libxrender
         libxi libxaw libxtst libxres xorg-xkbcomp util-macros

@@ -1,12 +1,8 @@
-# Description: Utility useful for non-interactive downloading of files from the Web
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=wget
-pkgver=1.21.1
+pkgver=1.21.2
 pkgrel=1
 arch=('x86_64')
+depends=(glibc zlib gnutls libidn2 util-linux libpsl pcre2 nettle)
 source=(https://ftp.gnu.org/gnu/wget/wget-$pkgver.tar.gz)
 
 build() {

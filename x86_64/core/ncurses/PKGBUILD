@@ -1,12 +1,8 @@
-# Description: Libraries for terminal-independent handling of character screens
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=ncurses
 pkgver=6.2
 pkgrel=1
 arch=('x86_64')
+depends=(glibc)
 source=(https://ftp.gnu.org/gnu//$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {

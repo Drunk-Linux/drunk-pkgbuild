@@ -1,32 +1,32 @@
 pkgname=qt5-webkit
-_pkgver=5.212.0-alpha4
-pkgver=${_pkgver/-/}
+rname=qtwebkit
+pkgver=5.212.0
+rver=$pkgver-alpha4
 pkgrel=1
 arch=('x86_64')
-depends=('ruby3')
-source=("https://github.com/qtwebkit/qtwebkit/releases/download/qtwebkit-$_pkgver/qtwebkit-$_pkgver.tar.xz"
-	"icu68.patch"
-	"glib-2.68.patch"
-	"qt5-webkit-python-3.9.patch"::"https://github.com/qtwebkit/qtwebkit/commit/78360c01.patch"
-	"qt5-webkit-bison-3.7.patch"::"https://github.com/qtwebkit/qtwebkit/commit/d92b11fe.patch")
-
+depends=(qt5 libwebp libxslt libxcomposite gst-plugins-base hyphen)
+makedepends=(cmake ruby3 gperf python3 qt5)
+source=(https://github.com/qtwebkit/qtwebkit/releases/download/qtwebkit-$rver/qtwebkit-$rver.tar.xz
+	icu68.patch
+	glib-2.68.patch
+	qt5-webkit-python-3.9.patch::"https://github.com/qtwebkit/qtwebkit/commit/78360c01.patch"
+	qt5-webkit-bison-3.7.patch::"https://github.com/qtwebkit/qtwebkit/commit/d92b11fe.patch")
 
 prepare() {
-	cd qtwebkit-$_pkgver
+	cd $rname-$rver
 
-	patch -p0 -i ../icu68.patch
-	patch -p1 -i ../glib-2.68.patch
-	patch -p1 -i ../qt5-webkit-python-3.9.patch
-	patch -p1 -i ../qt5-webkit-bison-3.7.patch
+	patch -p0 -i ../icu68.patch # Fix build with ICU 68.x
+	patch -p1 -i ../glib-2.68.patch # https://github.com/qtwebkit/qtwebkit/issues/1057
+	patch -p1 -i ../qt5-webkit-python-3.9.patch # Fix build with python 3.9
+	patch -p1 -i ../qt5-webkit-bison-3.7.patch # Fix build with bison 3.7
 }
 
 build() {
-	cmake						\
-	-B build					\
-	-S qtwebkit-$_pkgver				\
-	-D CMAKE_INSTALL_PREFIX=/usr			\
-	-D CMAKE_CXX_FLAGS="${CXXFLAGS} -DNDEBUG"	\
-	-D PORT=Qt					\
+	cmake				\
+	-B build			\
+	-S $rname-$rver			\
+	-DCMAKE_INSTALL_PREFIX=/usr	\
+	-D PORT=Qt			\
 	-D ENABLE_TOOLS=OFF
 
 	cmake --build build
@@ -34,4 +34,9 @@ build() {
 
 package() {
 	DESTDIR=$pkgdir cmake --install build
+
+	# Hacky way but its how i deal with it for now
+	mkdir -p $pkgdir/usr/lib64 && mkdir -p $pkgdir/usr/lib && touch $pkgdir/usr/lib64/ignore
+	cp -rf $pkgdir/usr/lib64/* $pkgdir/usr/lib/
+	rm -rf $pkgdir/usr/lib64 $pkgdir/usr/lib/ignore
 }

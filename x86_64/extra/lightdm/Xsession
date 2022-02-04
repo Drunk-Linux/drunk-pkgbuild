@@ -63,11 +63,11 @@ fi
 # Start of drunk changes
 #
 
-# Start pulseaudio for display :1 ( As its easiest way for now )
+# Start pulseaudio for launched display ( As its easiest way for now )
 if [ -x "/usr/bin/pulseaudio" ]; then
 	echo "Starting pulseaudio for display :0"
 	echo "To change see /etc/lightdm/Xsession"
-	DISPLAY=:0 pulseaudio --daemonize=no &
+	DISPLAY=$DISPLAY pulseaudio --daemonize=no &
 fi
 
 #

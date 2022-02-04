@@ -1,10 +1,5 @@
-# Description: Sources for time zone and daylight saving time data
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=tzdata
-pkgver=2021a
+pkgver=2021e
 pkgrel=1
 arch=('x86_64')
 source=(https://www.iana.org/time-zones/repository/releases/${pkgname}${pkgver}.tar.gz)

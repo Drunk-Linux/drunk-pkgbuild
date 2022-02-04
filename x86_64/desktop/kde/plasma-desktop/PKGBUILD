@@ -1,0 +1,25 @@
+pkgname=plasma-desktop
+pkgver=5.23.4
+pkgrel=1
+arch=('x86_64')
+depends=(gawk kdelibs4support polkit-kde-agent kmenuedit systemsettings
+	baloo accountsservice xdg-user-dirs kwin)
+source=(https://download.kde.org/stable/plasma/$pkgver/)
+
+build() {
+	cd $pkgname-$pkgver/build
+
+	cmake				\
+	-D CMAKE_INSTALL_PREFIX=/usr	\
+	-D CMAKE_BUILD_TYPE=Release	\
+	-Wno-dev ..
+
+	make
+	
+}
+
+package() {
+	cd $pkgname-$pkgver/build
+
+	make DESTDIR=$pkgdir install
+}

@@ -1,6 +1,3 @@
-# Maintainer: Dave Reisner <dreisner@archlinux.org>
-# Maintainer: Aaron Griffin <aaron@archlinux.org>
-
 pkgname=shadow
 pkgver=4.8.1
 pkgrel=4
@@ -81,7 +78,7 @@ package() {
   rm "$pkgdir"/usr/sbin/logoutd
 
   # Remove utilities provided by util-linux
-  rm \
+  rm -f \
       "$pkgdir"/usr/bin/{login,su,chsh,chfn,sg,nologin} \
       "$pkgdir"/usr/sbin/{vipw,vigr}
 

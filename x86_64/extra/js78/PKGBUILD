@@ -1,12 +1,23 @@
 pkgname=js78
-pkgver=78.13.0esr
+pkgver=78.15.0esr
 pkgrel=1
 arch=('x86_64')
 depends=(autoconf icu which)
 makedepends=(autoconf icu which llvm clang)
 source=(https://archive.mozilla.org/pub/firefox/releases/$pkgver/source/firefox-$pkgver.source.tar.xz
-	python
-	python3)
+	0001-Fixes-for-LTO-PGO-support.patch
+	0002-Fixes-for-Python-3.10.patch
+	0003-Fixes-for-Rust-1.56.patch)
+
+prepare() {
+	cd firefox-78.15.0
+
+	patch -Np1 -i ../0001-Fixes-for-LTO-PGO-support.patch
+
+	patch -Np1 -i ../0002-Fixes-for-Python-3.10.patch
+
+	patch -Np1 -i ../0003-Fixes-for-Rust-1.56.patch
+}
 
 build() {
 	export CC=clang
@@ -32,8 +43,8 @@ build() {
 	--with-system-icu
 	--disable-rust-simd
 	)
-	mkdir -p firefox-78.13.0/obj
-	cd firefox-78.13.0/obj
+	mkdir -p firefox-78.15.0/obj
+	cd firefox-78.15.0/obj
 
 	echo "[Building]: instrumented JS ..."
 	
@@ -44,7 +55,7 @@ build() {
 }
 
 package() {
-	cd firefox-78.13.0/obj
+	cd firefox-78.15.0/obj
 
 	make DESTDIR=$pkgdir install
 	rm $pkgdir/usr/lib/*.ajs

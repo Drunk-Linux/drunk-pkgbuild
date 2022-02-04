@@ -1,6 +1,6 @@
 pkgname=pulseaudio
 pkgver=15.0
-pkgrel=6
+pkgrel=7
 pkgdesc="A featureful, general-purpose sound server"
 arch=('x86_64')
 depends=('libsndfile' 'openssl' 'jack2' 'alsa-lib' 'dbus' 'glib2' 'libcap' 'libx11'
@@ -11,7 +11,6 @@ source=(https://freedesktop.org/software/$pkgname/releases/$pkgname-$pkgver.tar.
 	default.pa
 	system.pa
 	webrtc-1.x.patch)
-install=pulseaudio.install
 
 prepare() {
 	cd $pkgname-$pkgver

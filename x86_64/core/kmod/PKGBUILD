@@ -1,12 +1,8 @@
-# Description: Libraries and utilities for loading kernel modules
-# URL:         https://git.kernel.org/?p=utils/kernel/kmod/kmod.git;a=summary
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=kmod
 pkgver=29
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(glibc zlib openssl xz zstd)
 source=(https://www.kernel.org/pub/linux/utils/kernel/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -17,6 +13,7 @@ build() {
                     --sysconfdir=/etc      \
                     --with-rootlibdir=/lib \
                     --with-xz              \
+		    --with-openssl	   \
                     --with-zlib
         make
 }

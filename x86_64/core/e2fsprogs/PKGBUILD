@@ -1,12 +1,9 @@
-# Description: utilities for handling the ext2, ext3 and ext4 file system
-# URL:         http://e2fsprogs.sourceforge.net/
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  bash bc
-
 pkgname=e2fsprogs
-pkgver=1.45.6
+pkgver=1.46.5
 pkgrel=1
 arch=('x86_64')
+depends=(glibc)
+makedepends=(systemd util-linux fuse2)
 source=(https://www.kernel.org/pub/linux/kernel/people/tytso/$pkgname/v$pkgver/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -23,6 +20,7 @@ build() {
                      --disable-libuuid       \
                      --disable-uuidd         \
                      --disable-fsck
+
         make
 }
 package() {

@@ -1,18 +1,16 @@
-# Description: A utility to show the full path of commands
-# URL:         https://savannah.gnu.org/projects/which
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=which
 pkgver=2.21
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(glibc bash)
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {
 	cd $pkgname-$pkgver
 
-	./configure --prefix=/usr
+	./configure	\
+	--prefix=/usr
+
         make
 }
 

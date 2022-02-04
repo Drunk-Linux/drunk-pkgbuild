@@ -1,0 +1,63 @@
+pkgname=perl-modules
+pkgver=1.0.0
+pkgrel=1
+arch=('x86_64')
+depends=(perl)
+makedepends=(gcc make)
+source=(https://www.cpan.org/authors/id/P/PH/PHRED/Archive-Zip-1.68.tar.gz
+	https://www.cpan.org/authors/id/V/VP/VPIT/autovivification-0.18.tar.gz
+	https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISBN-3.007.tar.gz
+	https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISMN-1.202.tar.gz
+	https://www.cpan.org/authors/id/B/BD/BDFOY/Business-ISSN-1.004.tar.gz
+	https://www.cpan.org/authors/id/K/KA/KASEI/Class-Accessor-0.51.tar.gz
+	https://www.cpan.org/authors/id/D/DC/DCANTRELL/Data-Compare-1.27.tar.gz
+	https://www.cpan.org/authors/id/G/GA/GARU/Data-Dump-1.25.tar.gz
+	https://www.cpan.org/authors/id/M/MW/MWX/Data-Uniqid-0.12.tar.gz
+	https://www.cpan.org/authors/id/W/WY/WYANT/DateTime-Calendar-Julian-0.106.tar.gz
+	https://www.cpan.org/authors/id/D/DR/DROLSKY/DateTime-Format-Builder-0.83.tar.gz
+	https://www.cpan.org/authors/id/L/LE/LEONT/File-Slurper-0.013.tar.gz
+	https://www.cpan.org/authors/id/P/PL/PLICEASE/File-Which-1.27.tar.gz
+	https://www.cpan.org/authors/id/O/OA/OALDERS/HTML-Parser-3.76.tar.gz
+	https://www.cpan.org/authors/id/O/OA/OALDERS/HTTP-Daemon-6.12.tar.gz
+	https://www.cpan.org/authors/id/G/GA/GAAS/IO-String-1.08.tar.gz
+	https://www.cpan.org/authors/id/R/RJ/RJBS/IPC-Run3-0.048.tar.gz
+	https://www.cpan.org/authors/id/A/AL/ALINKE/Lingua-Translit-0.28.tar.gz
+	https://www.cpan.org/authors/id/E/ET/ETJ/Log-Log4perl-1.54.tar.gz
+	https://cpan.metacpan.org/authors/id/L/LE/LEONT/Module-Build-0.4231.tar.gz
+	https://www.cpan.org/authors/id/N/NL/NLNETLABS/Net-DNS-1.33.tar.gz
+	https://www.cpan.org/authors/id/J/JT/JTBRAUN/Parse-RecDescent-1.967015.tar.gz
+	https://www.cpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
+	https://www.cpan.org/authors/id/A/AB/ABIGAIL/Regexp-Common-2017060201.tar.gz
+	https://www.cpan.org/authors/id/S/SA/SALVA/Sort-Key-1.33.tar.gz
+	https://www.cpan.org/authors/id/D/DA/DANBOO/Test-Command-0.11.tar.gz
+	https://www.cpan.org/authors/id/S/SY/SYP/Text-Roman-3.5.tar.gz
+	https://www.cpan.org/authors/id/O/OA/OALDERS/URI-5.10.tar.gz
+	https://www.cpan.org/authors/id/J/JO/JOSEPHW/XML-Writer-0.900.tar.gz)
+
+function build_modules() {
+        shopt -s globstar
+        for d in */ ; do        
+		cd "$d"
+		echo "[!]: building $d"
+		perl Makefile.PL
+		make
+		cd ..
+        done
+}
+
+function install_modules() {
+	shopt -s globstar
+        for d in */ ; do        
+		cd "$d"
+		make DESTDIR=$pkgdir install
+		cd ..
+	done
+}
+
+build() {
+	build_modules
+}
+
+package() {
+	install_modules
+}

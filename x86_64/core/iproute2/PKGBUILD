@@ -1,12 +1,8 @@
-# Description: Programs for basic and advanced IPV4-based networking
-# URL:         https://www.linuxfoundation.org/collaborate/workgroups/networking/iproute2
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=iproute2
-pkgver=5.12.0
+pkgver=5.16.0
 pkgrel=1
 arch=('x86_64')
+depends=(glibc elfutils)
 source=(https://www.kernel.org/pub/linux/utils/net/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {

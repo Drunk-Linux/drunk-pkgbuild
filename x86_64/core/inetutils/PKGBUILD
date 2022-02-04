@@ -1,12 +1,8 @@
-# Description: Programs for basic networking
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=inetutils
-pkgver=2.0
+pkgver=2.2
 pkgrel=1
 arch=('x86_64')
+depends=(glibc libcap readline ncurses linux-pam)
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {

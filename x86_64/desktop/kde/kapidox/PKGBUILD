@@ -1,0 +1,31 @@
+pkgname=kapidox
+pkgver=5.89.0
+pkgrel=1
+arch=('x86_64')
+makedepends=(cmake qt5 extra-cmake-modules docbook-xml docbook-xsl)
+durl=https://download.kde.org/stable/frameworks/5.89
+source=($durl/$pkgname-$pkgver.tar.xz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	mkdir -p build
+}
+
+build() {
+	cd $pkgname-$pkgver/build
+
+	cmake				\
+	-D CMAKE_INSTALL_PREFIX=/usr	\
+	-D CMAKE_BUILD_TYPE=Release	\
+	-Wno-dev ..
+
+	make
+	
+}
+
+package() {
+	cd $pkgname-$pkgver/build
+
+	make DESTDIR=$pkgdir install
+}

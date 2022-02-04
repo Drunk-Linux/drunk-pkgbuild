@@ -1,14 +1,14 @@
 pkgname=curl
-pkgver=7.77.0
+pkgver=7.81.0
 pkgrel=1
 arch=('x86_64')
+depends=(ca-certificates brotli libidn2  libpsl openssl zlib zstd)
 source=(https://curl.haxx.se/download/$pkgname-$pkgver.tar.xz)
 
 build() {
 	cd $pkgname-$pkgver
 
 	./configure --prefix=/usr \
-                    --disable-static \
                     --enable-threaded-resolver \
 		    --with-openssl \
                     --with-ca-bundle=/etc/ssl/cert.pem

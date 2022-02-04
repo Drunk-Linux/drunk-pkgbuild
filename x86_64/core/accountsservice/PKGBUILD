@@ -1,8 +1,9 @@
 pkgname=accountsservice
 pkgver=0.6.55
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
-depends=(icu libgcrypt polkit)
+depends=(glib2 polkit systemd shadow)
+makdedepends=(gtk-doc gobject-introspection meson docbook-xsl xmlto vala)
 source=(https://freedesktop.org/software/$pkgname/$pkgname-$pkgver.tar.xz
 	40-adm.rules)
 

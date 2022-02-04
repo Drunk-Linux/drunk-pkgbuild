@@ -1,12 +1,8 @@
-# Description: A linker, an assembler, and other tools for handling object files
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=binutils
 pkgver=2.36.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(glibc zlib elfutils)
 source=(https://ftp.gnu.org/gnu/binutils/$pkgname-$pkgver.tar.xz)
 
 build() {

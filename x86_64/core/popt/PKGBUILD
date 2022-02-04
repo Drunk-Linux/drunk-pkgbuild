@@ -1,7 +1,8 @@
 pkgname=popt
 pkgver=1.18
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(glibc)
 makedepends=(doxygen)
 source=(http://ftp.rpm.org/$pkgname/releases/$pkgname-1.x/$pkgname-$pkgver.tar.gz)
 

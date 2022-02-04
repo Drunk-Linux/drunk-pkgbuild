@@ -1,9 +1,9 @@
 pkgname=lightdm-gtk-greeter
 pkgver=2.0.8
-pkgrel=3
+pkgrel=5
 arch=('x86_64')
 source=(git+https://github.com/Xubuntu/lightdm-gtk-greeter.git)
-depends=(gtk+)
+depends=(gtk+ libxklavier)
 makedepends=(exo git intltool gobject-introspection xfce4-dev-tools)
 
 build() {

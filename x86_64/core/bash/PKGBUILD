@@ -1,12 +1,8 @@
-# Description: The Bourne-Again SHell
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=bash
 pkgver=5.1.8
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
+depends=(readline glibc ncurses)
 backup=(etc/bash.bash{rc,_logout}
 	etc/skel/.bash{rc,_profile,_logout})
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.gz

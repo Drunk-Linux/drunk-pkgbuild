@@ -1,18 +1,18 @@
 pkgname=polkit
 pkgver=0.120
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
-depends=(glib2 icu systemd duktape)
+depends=(glib2 systemd duktape)
 makedepends=(meson gtk-doc gobject-introspection git)
-commitid=a6bedfd09b7bba753de7a107dc471da0db801858
-source=(git+https://gitlab.freedesktop.org/polkit/polkit.git#commit=$commitid)
+commitid=
+source=(git+https://gitlab.freedesktop.org/polkit/polkit.git#commit=a6bedfd09b7bba753de7a107dc471da0db801858)
 
 build() {
 	meson build $pkgname	\
 	--prefix=/usr		\
 	--libdir=/usr/lib	\
-	-D js_engine=duktape	\
 	-D tests=false		\
+	-D js_engine=duktape	\
 	-D man=false		\
 	-D session_tracking=libsystemd-login
 

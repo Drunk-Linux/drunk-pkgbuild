@@ -1,8 +1,8 @@
 pkgname=libxml2
 pkgver=2.9.12
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
-depends=(icu readline)
+depends=(icu readline zlib ncurses xz)
 makedepends=(python3)
 source=(http://xmlsoft.org/sources/$pkgname-$pkgver.tar.gz)
 

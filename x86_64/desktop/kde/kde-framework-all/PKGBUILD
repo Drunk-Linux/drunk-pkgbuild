@@ -1,0 +1,26 @@
+pkgname=kde-framework-all
+pkgver=5.89
+pkgrel=1
+arch=('x86_64')
+depends=(kdewebkit kdesignerplugin kxmlrpcclient kjs kdelibs4support khtml kjsembed kmediaplayer kross
+	kcoreaddons kdbusaddons kconfig kdnssd kguiaddons ki18n kidletime kimageformats kitemmodels
+	kitemviews kplotting kwidgetsaddons kwindowsystem networkmanager-qt solid sonnet threadweaver
+	kauth kcompletion kcrash kdoctools kpty kunitconversion kconfigwidgets kservice kglobalaccel
+	kpackage kdesu kemoticons kiconthemes kjobwidgets knotifications ktextwidgets kxmlgui kbookmarks kwallet
+	kded kio kdeclarative kcmutils kirigami2 syndication knewstuff frameworkintegration kinit kparts
+	kactivities kdewebkit syntax-highlighting ktexteditor kdesignerplugin kwayland plasma-framework
+	modemmanager-qt kpeople kxmlrpcclient bluez-qt kfilemetadata baloo breeze-icons oxygen-icons5
+	kactivities-stats krunner prison qqc2-desktop-style kjs kdelibs4support khtml kjsembed kmediaplayer
+	kross kholidays purpose kcalendarcore kcontacts kquickcharts knotifyconfig kdav)
+
+build() {
+	cd $pkgname-$pkgver
+
+	echo "Nothing to do"
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	echo "Nothing to do"
+}

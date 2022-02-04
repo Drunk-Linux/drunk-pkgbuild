@@ -1,0 +1,33 @@
+pkgname=plasma-workspace
+pkgver=5.23.5
+pkgrel=1
+arch=('x86_64')
+depends=(knotifyconfig ktexteditor xrdb kholidays xmessage prison
+	kpeople kactivities-stats kquickcharts ksysguard kwin)
+makedepends=(extra-cmake-modules kdoctools baloo networkmanager-qt plasma-wayland-protocols
+	kunitconversion kinit)
+source=(https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	mkdir -p build
+}
+
+build() {
+	cd $pkgname-$pkgver/build
+
+	cmake						\
+	-D CMAKE_INSTALL_PREFIX=/usr	\
+	-D CMAKE_BUILD_TYPE=Release	\
+	-Wno-dev ..
+
+	make
+	
+}
+
+package() {
+	cd $pkgname-$pkgver/build
+
+	make DESTDIR=$pkgdir install
+}

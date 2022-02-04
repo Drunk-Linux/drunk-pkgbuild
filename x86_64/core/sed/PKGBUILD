@@ -2,6 +2,7 @@ pkgname=sed
 pkgver=4.8
 pkgrel=1
 arch=('x86_64')
+depends=(glibc acl attr)
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {
