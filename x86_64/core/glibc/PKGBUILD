@@ -12,10 +12,6 @@ install=glibc.install
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {
-	echo
-}
-
-build1() {
 	cd $pkgname-$pkgver
 
 	mkdir -pv build
