@@ -4,9 +4,9 @@ pkgrel=1
 arch=('x86_64')
 url='https://libcxx.llvm.org/'
 makedepends=('cmake' 'ninja' 'python3' 'llvm' 'clang' 'wasi-libc' 'wasi-compiler-rt')
-source=("https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-$pkgver.src.tar.xz"{,.sig}
-	"https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxx-${pkgver}.src.tar.xz"{,.sig}
-	"https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxxabi-${pkgver}.src.tar.xz"{,.sig}
+source=("https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/llvm-$pkgver.src.tar.xz"
+	"https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxx-${pkgver}.src.tar.xz"
+	"https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/libcxxabi-${pkgver}.src.tar.xz"
 	WASI.cmake
 	wasi-toolchain.cmake)
 options=('staticlibs')

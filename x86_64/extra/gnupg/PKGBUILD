@@ -6,7 +6,7 @@ url='https://www.gnupg.org/'
 license=('GPL')
 arch=('x86_64')
 depends=('npth' 'libgpg-error' 'libgcrypt' 'libksba' 'libassuan')
-source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"{,.sig}
+source=("https://gnupg.org/ftp/gcrypt/${pkgname}/${pkgname}-${pkgver}.tar.bz2"
 	'drop-import-clean.patch'
 	'avoid-beta-warning.patch')
 

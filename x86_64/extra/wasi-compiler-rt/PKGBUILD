@@ -6,7 +6,7 @@ arch=('x86_64')
 url='https://compiler-rt.llvm.org/'
 depends=('wasi-libc')
 makedepends=('cmake' 'ninja' 'llvm' 'clang' 'lld')
-source=("https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/compiler-rt-${pkgver}.src.tar.xz"{,.sig}
+source=("https://github.com/llvm/llvm-project/releases/download/llvmorg-${pkgver}/compiler-rt-${pkgver}.src.tar.xz"
 	WASI.cmake
 	wasi-toolchain.cmake)
 options=('staticlibs')

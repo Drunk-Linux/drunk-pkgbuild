@@ -1,6 +1,6 @@
 pkgname=filesystem
 pkgver=1
-pkgrel=7
+pkgrel=8
 arch=('x86_64')
 backup=(etc/dircolors.sh
         etc/extrapaths.sh

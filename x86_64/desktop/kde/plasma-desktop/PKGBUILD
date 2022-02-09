@@ -1,13 +1,16 @@
 pkgname=plasma-desktop
-pkgver=5.23.4
+pkgver=5.23.5
 pkgrel=1
 arch=('x86_64')
-depends=(gawk kdelibs4support polkit-kde-agent kmenuedit systemsettings
-	baloo accountsservice xdg-user-dirs kwin)
-source=(https://download.kde.org/stable/plasma/$pkgver/)
+depends=(gawk kdelibs4support polkit-kde-agent kmenuedit systemsettings baloo accountsservice xdg-user-dirs)
+makedepends=(extra-cmake-modules kdoctools xf86-input-evdev xf86-input-synaptics xf86-input-libinput
+	scim kdesignerplugin intltool qt5 kinit)
+source=(https://download.kde.org/stable/plasma/$pkgver/$pkgname-$pkgver.tar.xz
+	https://invent.kde.org/plasma/plasma-workspace/-/commit/efddc639.patch)
 
 build() {
-	cd $pkgname-$pkgver/build
+	cd $pkgname-$pkgver
+	mkdir -p build && cd build
 
 	cmake				\
 	-D CMAKE_INSTALL_PREFIX=/usr	\
@@ -22,4 +25,9 @@ package() {
 	cd $pkgname-$pkgver/build
 
 	make DESTDIR=$pkgdir install
+
+        # Hacky way but its how i deal with it for now
+        mkdir -p $pkgdir/usr/lib64 && mkdir -p $pkgdir/usr/lib && touch $pkgdir/usr/lib64/ignore
+        cp -rf $pkgdir/usr/lib64/* $pkgdir/usr/lib/
+        rm -rf $pkgdir/usr/lib64 $pkgdir/usr/lib/ignore
 }

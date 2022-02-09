@@ -4,7 +4,7 @@ pkgrel=1
 arch=(x86_64)
 depends=(ksystemstats)
 makedepends=(extra-cmake-modules kdoctools)
-source=(https://download.kde.org/stable/$pkgname/$pkgver/$pkgname-$pkgver.tar.xz{,.sig})
+source=(https://download.kde.org/stable/$pkgname/$pkgver/$pkgname-$pkgver.tar.xz)
 
 build() {
 	cmake -B build -S $pkgname-$pkgver \
