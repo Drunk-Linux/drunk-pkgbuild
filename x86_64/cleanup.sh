@@ -4,7 +4,7 @@ set +e
 echo " "
 echo "[*]: Moving pkg's to pkg dir"
 echo " "
-mv */*/*pkg.t* ../pkgs/
+mv */*/*pkg.t* ../../pkgs/
 
 set -e
 echo " "
@@ -31,6 +31,11 @@ cd linux-modules
 rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
 cd ..
 
+echo " "
+echo "[*]: Cleaning up games"
+cd games
+rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
+cd ..
 
 echo " "
 echo "[*]: Cleaning up multilib"
@@ -41,7 +46,7 @@ cd ..
 echo " "
 echo "[*]: Cleaning up desktop/*"
 cd desktop
-mv */*/*pkg.t* ../../pkgs/
+mv */*/*pkg.t* ../../../pkgs/
 cd xfce
 rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
 cd ../kde

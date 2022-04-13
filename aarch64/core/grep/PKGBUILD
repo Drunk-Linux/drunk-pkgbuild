@@ -1,0 +1,18 @@
+pkgname=grep
+pkgver=3.7
+pkgrel=1
+arch=('aarch64')
+depends=(glibc)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz)
+
+build() {
+        cd $pkgname-$pkgver
+
+        ./configure --host=aarch64-linux-gnu --prefix=/usr --bindir=/bin
+        make
+}
+
+package() {
+	cd $pkgname-$pkgver
+        make DESTDIR=$pkgdir install
+}

@@ -1,0 +1,47 @@
+pkgname=qemu
+pkgver=5.1.0
+pkgrel=2
+arch=(x86_64)
+depends=(alsa-lib cairo curl cdrtools gcc gdk-pixbuf glib2
+    gnutls gtk3+ jack2 libaio libcacard libepoxy libiscsi
+    libpng pulseaudio libseccomp libssh libusb libx11 libxkbcommon
+    lzo mesa meson ncurses ndctl numactl linux-pam python3 sdl2
+    snappy spice-protocol systemd
+    zlib zstd)
+makedepends=(curl)
+options=(!strip !emptydirs)
+source=(http://download.qemu-project.org/$pkgname-$pkgver.tar.xz
+	65-kvm.rules
+	qemu-guest-agent.service)
+install=qemu.install
+
+prepare() {
+	mkdir -p $pkgname-$pkgver/build
+}
+
+build() {
+	cd $pkgname-$pkgver/build
+
+	./../configure \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--localstatedir=/var \
+	--enable-linux-user \
+	--audio-drv-list=alsa \
+
+	make
+}
+
+package() {
+	cd $pkgname-$pkgver/build
+
+	make DESTDIR=$pkgdir install
+
+	install -vDm 644 $srcdir/qemu-guest-agent.service -t "$pkgdir/usr/lib/systemd/system/"
+
+	# systemd stuff
+	install -Dm644 $srcdir/65-kvm.rules "$pkgdir/usr/lib/udev/rules.d/65-kvm.rules"
+
+	# Binfmt support ( Non static )
+	install -Dm644 $srcdir/qemu-binfmt.conf $pkgdir/usr/lib/binfmt.d/qemu-binfmt.conf
+}

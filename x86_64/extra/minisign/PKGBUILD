@@ -1,0 +1,23 @@
+pkgname=minisign
+pkgver=0.10
+pkgrel=1
+arch=('x86_64')
+makedepends=('cmake' 'libsodium')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/jedisct1/minisign/archive/$pkgver.tar.gz")
+
+prepare() {
+    mkdir -p build
+}
+
+build() {
+    cd build
+
+    cmake ../minisign-$pkgver \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release
+    make
+}
+
+package() {
+    make -C build DESTDIR="$pkgdir" install
+}

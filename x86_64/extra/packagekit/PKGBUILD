@@ -1,0 +1,38 @@
+pkgname=packagekit
+pkgver=1.2.5
+pkgrel=1
+arch=('x86_64')
+makedepends=('polkit' 'sqlite3' 'gobject-introspection' 'intltool'
+             'bash-completion' 'vala' 'meson')
+options=('!emptydirs')
+source=("https://www.freedesktop.org/software/PackageKit/releases/PackageKit-${pkgver}.tar.xz"
+        '0001-build-fix-overall-sysconfdir-handling-so-it-can-work.patch')
+backup=('var/lib/PackageKit/transactions.db'
+    'etc/PackageKit/alpm.d/pacman.conf'
+    'etc/PackageKit/alpm.d/repos.list')
+
+prepare() {
+        patch -d PackageKit-$pkgver -p1 < 0001-build-fix-overall-sysconfdir-handling-so-it-can-work.patch
+}
+
+build() {
+    meson "PackageKit-$pkgver" build \
+    --prefix=/usr \
+    -Dcron=false \
+    -Ddbus_sys=/usr/share/dbus-1/system.d \
+    -Dgstreamer_plugin=false \
+    -Dgtk_doc=false \
+    -Dgtk_module=false \
+    -Dpackaging_backend=alpm \
+    -Dsystemd=true
+
+    ninja -C build
+}
+
+package_packagekit() {
+        # install directory with root owner, polkit group and
+        # correct permission
+        install -d -o root -g 102 -m 750 "${pkgdir}/usr/share/polkit-1/rules.d"
+
+        DESTDIR="$pkgdir" meson install -C build
+}

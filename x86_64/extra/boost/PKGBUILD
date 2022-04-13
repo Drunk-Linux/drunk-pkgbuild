@@ -1,6 +1,6 @@
 pkgname=boost
 pkgver=1.78.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(which icu)
 source=(https://boostorg.jfrog.io/artifactory/main/release/$pkgver/source/boost_1_78_0.tar.bz2)

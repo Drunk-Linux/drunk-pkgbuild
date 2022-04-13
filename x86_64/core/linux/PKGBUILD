@@ -1,12 +1,14 @@
 pkgname=linux
-pkgver=5.15.13
-pkgrel=3
+pkgver=5.17.1
+pkgrel=1
 pkgdesc='Linux'
 arch=('x86_64')
 options=('!strip')
-depends=(rsync)
+makedepends=(rsync)
 source=(https://www.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
         config)
+
+# Deprecated as we ship modules/headers in 1 pkg now
 replaces=(linux-api-headers)
 
 export KBUILD_BUILD_HOST=drunk-linux
@@ -35,7 +37,7 @@ build() {
 	make all -j4
 
 	echo "[!]: Making headers"
-	make headers -j4
+	make headers -j6
 }
 
 package() {

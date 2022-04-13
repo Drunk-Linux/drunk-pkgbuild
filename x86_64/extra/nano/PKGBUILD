@@ -1,13 +1,8 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=nano
-pkgver=5.9
+pkgver=6.2
 pkgrel=1
 arch=('x86_64')
-source=(https://nano-editor.org/dist/v5/$pkgname-$pkgver.tar.gz)
+source=(https://nano-editor.org/dist/v6/$pkgname-$pkgver.tar.gz)
 
 build() {
         cd $pkgname-$pkgver
@@ -21,6 +16,7 @@ build() {
 
 package() {
 	cd $pkgname-$pkgver
+
 	make DESTDIR=$pkgdir install
 	
 	install -v -m644 doc/{nano.html,sample.nanorc} $pkgdir/usr/share/doc/nano

@@ -1,6 +1,6 @@
 pkgname=kcolorpicker
 pkgver=0.1.6
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 makedepends=(cmake)
 depends=(qt5)

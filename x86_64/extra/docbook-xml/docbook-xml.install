@@ -4,6 +4,12 @@ post_install() {
   elif [ ! -e etc/xml/catalog ]; then
     xmlcatalog --noout --create etc/xml/catalog
   fi
+
+  # Failsafe incase older one fucks up
+  if [ ! -e etc/xml/catalog ]; then
+    xmlcatalog --noout --create /etc/xml/catalog
+  fi
+
   xmlcatalog --noout --add "delegatePublic" \
     "-//OASIS//ENTITIES DocBook XML" \
     "file:///etc/xml/docbook-xml" \

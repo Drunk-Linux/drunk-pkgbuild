@@ -1,6 +1,6 @@
 pkgname=wine
 pkgver=7.0rc6
-pkgrel=1
+pkgrel=2
 _pkgbasever=${pkgver/rc/-rc}
 source=(https://dl.winehq.org/wine/source/7.0/$pkgname-$_pkgbasever.tar.xz{,.sign}
 	30-win32-aliases.conf
@@ -54,10 +54,10 @@ build() {
 	--prefix=/usr \
 	--libdir=/usr/lib \
 	--with-x \
-	--without-gstreamer \
+	--with-gstreamer \
 	--enable-win64
 
-	make -j6
+	make -j2
 
 	_wine32opts=(
 	--libdir=/usr/lib32
@@ -74,7 +74,7 @@ build() {
 	--without-gstreamer \
 	"${_wine32opts[@]}"
 
-	make -j6
+	make -j2
 }
 
 package() {

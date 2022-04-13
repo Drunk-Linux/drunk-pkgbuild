@@ -1,6 +1,6 @@
 pkgname=lib32-vulkan-icd-loader
 pkgver=1.2.202
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 pkgdesc="Vulkan Installable Client Driver (ICD) Loader (32-bit)"
 url="https://www.khronos.org/vulkan/"

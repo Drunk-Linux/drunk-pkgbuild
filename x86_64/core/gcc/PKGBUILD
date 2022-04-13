@@ -1,36 +1,49 @@
 pkgname=gcc
 pkgver=11.2.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver/$pkgname-$pkgver.tar.xz)
+options=(!emptydirs !lto !strip)
+depends=(binutils mpfr mpc glibc libxcrypt zstd flex)
 
 prepare() {
 	cd $pkgname-$pkgver
 
 	# link isl for in-tree build
-	ln -s ../isl-${_islver} isl
+	ln -sf ../isl-${_islver} isl
 
 	# Do not run fixincludes
 	sed -i 's@\./fixinc\.sh@-c true@' gcc/Makefile.in
-}
-
-build() {
-	cd $pkgname-$pkgver
 
 	sed -e '/m64=/s/lib64/lib/' \
-	        -i.orig gcc/config/i386/t-linux64
+		-i.orig gcc/config/i386/t-linux64
+}
+
+build1() {
+	cd $pkgname-$pkgver
 
 	mkdir -pv build
 	cd       build
 
-	SED=sed								\
-	../configure							\
-	--prefix=/usr            					\
-	--enable-languages=c,c++,fortran,go,lto,objc,obj-c++,d		\
-	--with-system-zlib       					\
-	--enable-multilib						\
-	--disable-werror						\
+	SED=sed \
+	../configure \
+	--prefix=/usr \
+	--enable-languages=c,c++,fortran,go,lto,objc,obj-c++,d \
+	--with-system-zlib \
+	--enable-multilib \
+	--enable-lto \
+	--enable-default-pie \
+	--enable-plugin \
+	--enable-shared \
+	--enable-threads=posix \
+	--disable-werror \
 	--with-arch_32=i686
+
+	make
+}
+
+build() {
+	cd $pkgname-$pkgver/build
 
 	make
 }
@@ -46,9 +59,9 @@ package() {
 	    $pkgdir/usr/lib/gcc/*linux-gnu/$pkgver/include{,-fixed}
 
 	mkdir -p $pkgdir/lib
-	ln -sv ../usr/bin/cpp $pkgdir/lib
+	ln -sfv ../usr/bin/cpp $pkgdir/lib
 
-	ln -sv gcc $pkgdir/usr/bin/cc
+	ln -sfv gcc $pkgdir/usr/bin/cc
 
 	install -v -dm755 $pkgdir/usr/lib/bfd-plugins
 	ln -sfv ../../libexec/gcc/$(gcc -dumpmachine)/$pkgver/liblto_plugin.so \

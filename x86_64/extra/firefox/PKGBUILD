@@ -1,12 +1,12 @@
 pkgname=firefox
-pkgver=96.0.3
-fver=96.0.3
-pkgrel=3
+pkgver=97.0.1
+fver=97.0.1
+pkgrel=1
 arch=('x86_64')
 depends=(dbus-glib gtk+ gtk2+ libnotify pulseaudio alsa-lib python3 sqlite3 unzip
-	zip startup-notification pulseaudio icu libevent pixman libjpeg libpng)
+	zip startup-notification pulseaudio icu libevent pixman libjpeg libpng xmessage)
 makedepends=(autoconf cbindgen nodejs nasm yasm lld wasi-compiler-rt wasi-libc wasi-libc++
-	llvm mesa rust clang nodejs autoconf2.13 imake)
+	llvm mesa rust clang nodejs autoconf2.13 imake m4 python3 python2 python3-pip)
 source=(https://archive.mozilla.org/pub/$pkgname/releases/$pkgver/source/$pkgname-$pkgver.source.tar.xz
 	mozconfig
 	firefox.desktop
@@ -19,8 +19,10 @@ prepare() {
 
 	patch -Np1 -i ../0001-Use-remoting-name-for-GDK-application-names.patch
 
-	echo " " > google-key
+	echo "AIzaSyAss8ARlk1f9fNj8KbaBkhXBreclxG7JyY" > google-key
 	echo " " > mozilla-key
+
+	pip install setuptools
 }
 
 build() {
@@ -45,35 +47,34 @@ build() {
 
 	./mach build -j5
 
-	echo "Profiling instrumented browser..."
-
-	./mach package
-	LLVM_PROFDATA=llvm-profdata \
-	JARLOG_FILE="$PWD/jarlog" \
-	xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
-	./mach python build/pgo/profileserver.py
-
-	stat -c "Profile data found (%s bytes)" merged.profdata
-	test -s merged.profdata
-
-	stat -c "Jar log found (%s bytes)" jarlog
-	test -s jarlog
-
-	echo "Removing instrumented browser..."
-
-	./mach clobber
-
-	echo "Building optimized browser..."
-	cat >.mozconfig ../mozconfig - <<END
-ac_add_options --enable-lto=cross
-ac_add_options --enable-profile-use=cross
-ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
-ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
-END
-	./mach build
-
-	echo "Building symbol archive..."
-	./mach buildsymbols
+#	echo "Profiling instrumented browser..."
+#
+#	./mach package
+#	LLVM_PROFDATA=llvm-profdata \
+#	JARLOG_FILE="$PWD/jarlog" \
+#	xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
+#	./mach python build/pgo/profileserver.py
+#
+#	stat -c "Profile data found (%s bytes)" merged.profdata
+#	test -s merged.profdata
+#
+#	stat -c "Jar log found (%s bytes)" jarlog
+#	test -s jarlog
+#
+#	echo "Removing instrumented browser..."
+#
+#	./mach clobber
+#
+#	echo "Building optimized browser..."
+#	cat >.mozconfig ../mozconfig - <<END
+#ac_add_options --enable-profile-use=cross
+#ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
+#ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
+#END
+#	./mach build
+#
+#	echo "Building symbol archive..."
+#	./mach buildsymbols
 }
 
 package() {
@@ -105,6 +106,23 @@ END
 	mkdir -pv $pkgdir/usr/share/pixmaps
 
 	cp $srcdir/firefox.desktop $pkgdir/usr/share/applications/
-	ln -sfv $pkgdir/usr/lib/firefox/browser/chrome/icons/default/default128.png \
-		$pkgdir/usr/share/pixmaps/firefox.png
+
+	#
+	# ICONS
+	#
+
+	local o theme=official
+	for o in 16 22 24 32 48 64 128 256; do
+        install -Dvm644 browser/branding/$theme/default$o.png \
+            "$pkgdir/usr/share/icons/hicolor/${o}x${o}/apps/$pkgname.png"
+    done
+
+    install -Dvm644 browser/branding/$theme/content/about-logo.png \
+        "$pkgdir/usr/share/icons/hicolor/192x192/apps/$pkgname.png"
+
+    install -Dvm644 browser/branding/$theme/content/about-logo@2x.png \
+        "$pkgdir/usr/share/icons/hicolor/384x384/apps/$pkgname.png"
+
+    install -Dvm644 browser/branding/$theme/content/about-logo.svg \
+        "$pkgdir/usr/share/icons/hicolor/scalable/apps/$pkgname.svg"
 }

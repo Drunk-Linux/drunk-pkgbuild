@@ -1,0 +1,13 @@
+pkgname=drunk-home
+pkgver=2022.1
+pkgrel=1
+arch=('x86_64')
+depends=(drunk-desktop-plasma)
+
+build() {
+	echo "[*]: It's a metapackage"
+}
+
+package() {
+	echo "[*]: It's a metapackage"
+}

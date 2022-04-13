@@ -1,6 +1,6 @@
 pkgname=libxml2
 pkgver=2.9.12
-pkgrel=4
+pkgrel=5
 arch=('x86_64')
 depends=(icu readline zlib ncurses xz)
 makedepends=(python3)

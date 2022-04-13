@@ -27,10 +27,10 @@ package() {
   mkdir -p "$pkgdir/etc/xml"
   xmlcatalog --noout --create "$pkgdir/etc/xml/docbook-xml"
 
-  mkdir docbook-xml-4.1.2
+  mkdir -p docbook-xml-4.1.2
   bsdtar -C docbook-xml-4.1.2 -xf docbkx412.zip
   for ver in ${_vers[@]}; do
-    mkdir docbook-xml-$ver
+    mkdir -p docbook-xml-$ver
     bsdtar -C docbook-xml-$ver -xf docbook-xml-$ver.zip
   done
 

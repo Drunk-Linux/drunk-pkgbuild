@@ -1,9 +1,11 @@
 pkgname=ca-certificates
 pkgver=20220120
-pkgrel=1
+pkgrel=7
 arch=('x86_64')
 source=(https://curl.se/ca/cacert.pem)
 
 package() {	
 	install -Dm644 $pkgdir/../../cacert.pem $pkgdir/etc/ssl/cert.pem
+	install -Dm644 $pkgdir/../../cacert.pem $pkgdir/etc/ssl/ca-bundle.pem
+	install -Dm644 $pkgdir/../../cacert.pem $pkgdir/etc/ssl/certs/ca-certificates.cr
 }

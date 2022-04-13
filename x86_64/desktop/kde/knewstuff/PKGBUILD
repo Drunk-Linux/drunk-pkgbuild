@@ -1,8 +1,8 @@
 pkgname=knewstuff
 pkgver=5.89.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-depends=(kio kpackage attica syndication)
+depends=(kio kpackage attica syndication appstream)
 makedepends=(cmake extra-cmake-modules qt5)
 durl=https://download.kde.org/stable/frameworks/5.89
 source=($durl/$pkgname-$pkgver.tar.xz)

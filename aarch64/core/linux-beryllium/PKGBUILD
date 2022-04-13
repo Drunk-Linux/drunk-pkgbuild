@@ -1,0 +1,129 @@
+pkgname=linux-beryllium
+pkgver=5.17.0
+pkgrel=1
+pkgdesc='Linux - Beryllium'
+arch=('aarch64')
+options=('!strip')
+depends=(rsync)
+branch=sdm845/pre-5.18
+fname=linux-sdm845-pre-5.18
+source=(https://gitlab.com/sdm845-mainline/linux/-/archive/$branch/$fname.tar.gz
+	config)
+
+export KBUILD_BUILD_HOST=drunk-linux
+export KBUILD_BUILD_USER=$pkgbase
+export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
+
+prepare() {
+	cd $fname
+
+	export ARCH=arm64
+	export CROSS_COMPILE=aarch64-linux-gnu-
+
+	echo "[!]: Cleaning src base"
+	make clean
+
+	echo "[!]: Running mrproper"
+	make mrproper
+}
+
+build() {
+	cd $fname
+
+	export ARCH=arm64
+	export CROSS_COMPILE=aarch64-linux-gnu-
+
+	echo "[!]: Making beryllium config"
+	cp -f $srcdir/config arch/arm64/configs/beryllium_defconfig
+	make beryllium_defconfig
+
+	echo "[!]: Running menuconfig"
+	make menuconfig
+
+	echo "[!]: Started making all"
+	make all -j4
+
+	echo "[!]: Making headers"
+	make headers -j4
+}
+
+package() {
+	export ARCH=arm64
+	export CROSS_COMPILE=aarch64-linux-gnu-
+
+    cd $fname
+
+	echo "[!]: Installing modules"
+	make INSTALL_MOD_PATH=$pkgdir INSTALL_MOD_STRIP=1 modules_install
+	rm $pkgdir/lib/modules/$pkgver-sdm845/{source,build}
+
+	mkdir -p $pkgdir/boot
+
+	echo "[!]: Installing vmlinuz"
+
+	cat arch/arm64/boot/Image.gz arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb > $pkgdir/boot/vmlinuz-sdm845
+
+	cp .config $pkgdir/boot/config-sdm845
+	echo $pkgver > $pkgdir/lib/modules/KERNEL_VERSION
+
+	echo "[!]: Installing build files..."
+	local builddir="$pkgdir/lib/modules/$pkgver-sdm845/build"
+	install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
+		vmlinux
+
+	install -Dt "$builddir/kernel" -m644 kernel/Makefile
+	install -Dt "$builddir/arch/arm64" -m644 arch/arm64/Makefile
+	cp -t "$builddir" -a scripts
+
+	# add objtool for external module building and enabled VALIDATION_STACK option
+	#install -Dt "$builddir/tools/objtool" tools/objtool/objtool
+
+	# add xfs and shmem for aufs building
+	mkdir -p "$builddir"/{fs/xfs,mm}
+
+	echo "[!]: Installing headers"
+	cp -t "$builddir" -a include
+	cp -t "$builddir/arch/arm64" -a arch/arm64/include
+	install -Dt "$builddir/arch/arm64/kernel" -m644 arch/arm64/kernel/asm-offsets.s
+
+	install -Dt "$builddir/drivers/md" -m644 drivers/md/*.h
+	install -Dt "$builddir/net/mac80211" -m644 net/mac80211/*.h
+
+	install -Dt "$builddir/drivers/media/i2c" -m644 drivers/media/i2c/msp3400-driver.h
+
+	install -Dt "$builddir/drivers/media/usb/dvb-usb" -m644 drivers/media/usb/dvb-usb/*.h
+	install -Dt "$builddir/drivers/media/dvb-frontends" -m644 drivers/media/dvb-frontends/*.h
+	install -Dt "$builddir/drivers/media/tuners" -m644 drivers/media/tuners/*.h
+
+	install -Dt "$builddir/drivers/iio/common/hid-sensors" -m644 drivers/iio/common/hid-sensors/*.h
+
+	# Also insall with make ( Just to be sure that headers match with kernel )
+	make headers_install INSTALL_HDR_PATH=$pkgdir/usr
+
+	echo "[!]: Installing KConfig files"
+	find . -name 'Kconfig*' -exec install -Dm644 {} "$builddir/{}" \;
+
+	echo "[!]: Removing unneeded architectures"
+	local arch
+	for arch in "$builddir"/arch/*/; do
+		[[ $arch = */arm64/ ]] && continue
+		echo "Removing $(basename "$arch")"
+		rm -r "$arch"
+	done
+
+	echo "[!]: Removing documentation"
+	rm -r "$builddir/Documentation"
+
+	echo "[!]: Removing broken symlinks"
+	find -L "$builddir" -type l -printf 'Removing %P\n' -delete
+
+	echo "[!]: Removing loose objects"
+	find "$builddir" -type f -name '*.o' -printf 'Removing %P\n' -delete
+
+	echo "[!]: Stripping vmlinux"
+	aarch64-linux-gnu-strip -v $STRIP_STATIC "$builddir/vmlinux"
+
+	echo "[!]: Adding src symlink to /usr/src/linux"
+	mkdir -p "$pkgdir/usr/src"
+	ln -sr "$builddir" "$pkgdir/usr/src/linux"
+}
