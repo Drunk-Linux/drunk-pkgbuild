@@ -1,0 +1,20 @@
+pkgname=fontforge
+pkgver=20220308
+pkgrel=1
+arch=(x86_64)
+depends=('libtool' 'pango' 'giflib' 'libtiff' 'libxml2' 'python3'
+         'woff2' 'gtk3+' 'libuninameslist')
+makedepends=('cmake')
+source=(https://github.com/$pkgname/$pkgname/archive/refs/tags/$pkgver.tar.gz)
+
+build() {
+	cd $pkgname-$pkgver
+
+	
+}
+
+package() {
+	cd $pkgname-$pkgver
+
+	
+}
