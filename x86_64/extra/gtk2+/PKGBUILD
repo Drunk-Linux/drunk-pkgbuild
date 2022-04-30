@@ -1,6 +1,6 @@
 pkgname=gtk2+
 pkgver=2.24.33
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(at-spi2-atk gdk-pixbuf libepoxy pango gtk-doc cairo libxkbcommon)
 makedepends=(meson wayland wayland-protocols)
@@ -13,8 +13,7 @@ build() {
 	--prefix=/usr			\
 	--sysconfdir=/etc		\
 	--enable-wayland-backend	\
-	--enable-x11-backend		\
-	--disable-cairo
+	--enable-x11-backend
 
 	make
 }

@@ -1,7 +1,7 @@
 opkgname=gtk+
 pkgname=gtk3+
-pkgver=3.24.31
-pkgrel=3
+pkgver=3.24.33
+pkgrel=4
 arch=('x86_64')
 depends=(at-spi2-atk gdk-pixbuf libepoxy pango adwaita-icon-theme
 	hicolor-icon-theme iso-codes libxkbcommon sassc gobject-introspection
@@ -26,8 +26,8 @@ build() {
 	-D broadway_backend=true	\
 	-D tracker3=false		\
 	-D colord=yes			\
-	-D man=true			\
-	-D gtk_doc=true			\
+	-D man=false			\
+	-D gtk_doc=false		\
 	../$opkgname-$pkgver
 
 	meson compile

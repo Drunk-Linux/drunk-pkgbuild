@@ -17,13 +17,14 @@ build() {
 
 	./configure \
 	--prefix=/usr    \
-	--disable-static \
 	--with-history   \
 	--with-icu \
 	--with-threads \
-	--with-python=/usr/bin/python
+	--with-python=/usr/bin/python3
 
 	make
+
+	find doc -type f -exec chmod -c 0644 {} +
 }
 
 package() {

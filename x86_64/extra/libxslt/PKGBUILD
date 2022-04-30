@@ -1,23 +1,14 @@
-# Maintainer: Eric Belanger <eric@archlinux.org>
-# Contributor: John Proctor <jproctor@prium.net>
-
 pkgname=libxslt
 pkgver=1.1.34
 pkgrel=1
-pkgdesc="XML stylesheet transformation library"
-url="http://xmlsoft.org/XSLT/"
 arch=(x86_64)
-license=(custom)
 depends=(libxml2 libgcrypt)
 makedepends=(git docbook-xsl)
 checkdepends=(docbook-xml python3)
-_commit=3653123f992db24cec417d12600f4c67388025e3  # tags/v1.1.34^0
-source=("git+https://gitlab.gnome.org/GNOME/libxslt.git#commit=$_commit"
+commitid=3653123f992db24cec417d12600f4c67388025e3  # tags/v1.1.34^0
+source=("git+https://gitlab.gnome.org/GNOME/libxslt.git#commit=$commitid"
         0001-Make-generate-id-deterministic.patch
         0002-Fix-manpage.patch)
-sha256sums=('SKIP'
-            '80ffc45016b2c0b8edeb332ba587a8523ea5ed856229e7f531edd0af9742bab3'
-            'd7dea109c91958e2231c06d9b841853855a666f93b001a1999beab42c3345203')
 
 pkgver() {
   cd $pkgname
@@ -43,14 +34,15 @@ prepare() {
 }
 
 build() {
-  cd $pkgname
-  ./configure --prefix=/usr --without-python --disable-static
-  sed -i -e 's/ -shared / -Wl,-O1,--as-needed\0/g' libtool
-  make
+    cd $pkgname
+
+    ./configure --prefix=/usr --without-python
+
+    make
 }
 
 package() {
-  cd $pkgname
-  make DESTDIR="$pkgdir" install
-  install -Dm644 COPYING "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+    cd $pkgname
+
+    make DESTDIR="$pkgdir" install
 }

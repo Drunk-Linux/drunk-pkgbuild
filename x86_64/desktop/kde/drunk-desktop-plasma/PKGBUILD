@@ -1,8 +1,9 @@
 pkgname=drunk-desktop-plasma
-pkgver=2022.1
-pkgrel=4
+pkgver=2022.2
+pkgrel=1
 arch=('x86_64')
-depends=(# Framework + desktop
+depends=(
+	# Framework + desktop
 	ark kauth kdav kdesu ki18n kjobwidgets kparts ksystemstats kxmlrpcclient plasma-desktop
 	purpose attica kbookmarks kdbusaddons kdewebkit kiconthemes kjs kpeople ktexteditor
 	layer-shell-qt plasma-framework qca-qt5 baloo kcalendarcore kdeclarative kdnssd kidletime kjsembed kplotting
@@ -19,10 +20,10 @@ depends=(# Framework + desktop
 	systemsettings discover kcrash kdesignerplugin khtml kitemviews kpackage ksysguard kxmlgui prison threadweaver
 
 	# Applications
-	konsole kmix spectacle dolphin kate firefox
+	konsole pspectacle dolphin kate firefox
 
 	# Other
-	powerdevil plasma-nm)
+	powerdevil plasma-pa plasma-nm)
 
 build() {
 	echo "[*]: It's a metapackage"

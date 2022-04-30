@@ -1,6 +1,6 @@
 pkgname=firefox
-pkgver=97.0.1
-fver=97.0.1
+pkgver=99.0.1
+fver=99.0.1
 pkgrel=1
 arch=('x86_64')
 depends=(dbus-glib gtk+ gtk2+ libnotify pulseaudio alsa-lib python3 sqlite3 unzip
@@ -9,15 +9,12 @@ makedepends=(autoconf cbindgen nodejs nasm yasm lld wasi-compiler-rt wasi-libc w
 	llvm mesa rust clang nodejs autoconf2.13 imake m4 python3 python2 python3-pip)
 source=(https://archive.mozilla.org/pub/$pkgname/releases/$pkgver/source/$pkgname-$pkgver.source.tar.xz
 	mozconfig
-	firefox.desktop
-	0001-Use-remoting-name-for-GDK-application-names.patch)
+	firefox.desktop)
 
 prepare() {
 	mkdir -p mozbuild
 
 	cd $pkgname-$fver
-
-	patch -Np1 -i ../0001-Use-remoting-name-for-GDK-application-names.patch
 
 	echo "AIzaSyAss8ARlk1f9fNj8KbaBkhXBreclxG7JyY" > google-key
 	echo " " > mozilla-key
@@ -46,35 +43,6 @@ build() {
 	mkdir -p $srcdir/$pkgname-$fver/obj
 
 	./mach build -j5
-
-#	echo "Profiling instrumented browser..."
-#
-#	./mach package
-#	LLVM_PROFDATA=llvm-profdata \
-#	JARLOG_FILE="$PWD/jarlog" \
-#	xvfb-run -s "-screen 0 1920x1080x24 -nolisten local" \
-#	./mach python build/pgo/profileserver.py
-#
-#	stat -c "Profile data found (%s bytes)" merged.profdata
-#	test -s merged.profdata
-#
-#	stat -c "Jar log found (%s bytes)" jarlog
-#	test -s jarlog
-#
-#	echo "Removing instrumented browser..."
-#
-#	./mach clobber
-#
-#	echo "Building optimized browser..."
-#	cat >.mozconfig ../mozconfig - <<END
-#ac_add_options --enable-profile-use=cross
-#ac_add_options --with-pgo-profile-path=${PWD@Q}/merged.profdata
-#ac_add_options --with-pgo-jarlog=${PWD@Q}/jarlog
-#END
-#	./mach build
-#
-#	echo "Building symbol archive..."
-#	./mach buildsymbols
 }
 
 package() {

@@ -1,9 +1,9 @@
 pkgname=oxygen-icons5
-pkgver=5.89.0
+pkgver=5.91.0
 pkgrel=1
 arch=('x86_64')
 makedepends=(qt5 cmake extra-cmake-modules)
-durl=https://download.kde.org/stable/frameworks/5.89
+durl=https://download.kde.org/stable/frameworks/5.91
 source=($durl/$pkgname-$pkgver.tar.xz)
 
 prepare() {

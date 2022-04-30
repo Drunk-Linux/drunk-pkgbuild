@@ -8,8 +8,9 @@ function build_extras_S() {
 		mkdir -p "$d"                
 		cd "$d"
 		$@
-                cd ..
-        done
+		sudo pacman -U *x86_64*tar.gz --noconfirm
+	        cd ..
+	        done
 }
 
 build_extras_S "makepkg --skipint"

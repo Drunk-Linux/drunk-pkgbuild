@@ -10,6 +10,8 @@ build() {
 	cd $pkgname-$pkgver
 
 	./configure	\
+	CFLAGS=-w \
+	CXXFLAGS=-w \
 	--prefix=/usr
 
 	make

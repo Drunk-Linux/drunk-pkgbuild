@@ -1,8 +1,8 @@
 pkgname=kmix
-pkgver=21.12.2
+pkgver=22.04.0
 pkgrel=1
 arch=(x86_64)
-depends=(knotifications kxmlgui solid kcompletion hicolor-icon-theme)
+depends=(knotifications kxmlgui solid kcompletion hicolor-icon-theme pulseaudio)
 makedepends=(extra-cmake-modules kdoctools)
 source=(https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz)
 

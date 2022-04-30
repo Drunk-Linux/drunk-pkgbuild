@@ -2,6 +2,8 @@ pkgname=syslinux
 pkgver=6.03
 pkgrel=1
 arch=('x86_64')
+depends=(dosfstools efibootmgr gptfdisk mtools util-linux)
+makedepends=(git nasm python3 upx asciidoc)
 source=(http://www.kernel.org/pub/linux/utils/boot/$pkgname/$pkgname-$pkgver.tar.xz
         $pkgname-$pkgver-sysmacros.patch)
 
@@ -12,11 +14,11 @@ build() {
 
 	patch -p1 -i ../../$pkgname-$pkgver-sysmacros.patch
 
-	make OPTFLAGS="$CFLAGS" installer
+	make OPTFLAGS="$CFLAGS" bios efi64 efi32 installer
 }
 
 package() {
         cd $pkgname-$pkgver
 
-	make OPTFLAGS="$CFLAGS" INSTALLROOT=$pkgdir MANDIR=/usr/share/man install
+	make OPTFLAGS="$CFLAGS" INSTALLROOT=$pkgdir AUXDIR=/usr/lib/syslinux MANDIR=/usr/share/man install bios efi64 efi32
 }

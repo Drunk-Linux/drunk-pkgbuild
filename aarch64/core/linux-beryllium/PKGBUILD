@@ -1,12 +1,13 @@
 pkgname=linux-beryllium
 pkgver=5.17.0
 pkgrel=1
+mver=5.17.0
 pkgdesc='Linux - Beryllium'
 arch=('aarch64')
 options=('!strip')
 depends=(rsync)
-branch=sdm845/pre-5.18
-fname=linux-sdm845-pre-5.18
+branch=sdm845-5.17.0-r1
+fname=linux-sdm845-5.17.0-r1
 source=(https://gitlab.com/sdm845-mainline/linux/-/archive/$branch/$fname.tar.gz
 	config)
 
@@ -41,10 +42,10 @@ build() {
 	make menuconfig
 
 	echo "[!]: Started making all"
-	make all -j4
+	make all -j6
 
 	echo "[!]: Making headers"
-	make headers -j4
+	make headers -j6
 }
 
 package() {
@@ -55,7 +56,7 @@ package() {
 
 	echo "[!]: Installing modules"
 	make INSTALL_MOD_PATH=$pkgdir INSTALL_MOD_STRIP=1 modules_install
-	rm $pkgdir/lib/modules/$pkgver-sdm845/{source,build}
+	rm $pkgdir/lib/modules/$mver-sdm845/{source,build}
 
 	mkdir -p $pkgdir/boot
 
@@ -64,10 +65,10 @@ package() {
 	cat arch/arm64/boot/Image.gz arch/arm64/boot/dts/qcom/sdm845-xiaomi-beryllium-ebbg.dtb > $pkgdir/boot/vmlinuz-sdm845
 
 	cp .config $pkgdir/boot/config-sdm845
-	echo $pkgver > $pkgdir/lib/modules/KERNEL_VERSION
+	echo $mver > $pkgdir/lib/modules/KERNEL_VERSION
 
 	echo "[!]: Installing build files..."
-	local builddir="$pkgdir/lib/modules/$pkgver-sdm845/build"
+	local builddir="$pkgdir/lib/modules/$mver-sdm845/build"
 	install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map \
 		vmlinux
 

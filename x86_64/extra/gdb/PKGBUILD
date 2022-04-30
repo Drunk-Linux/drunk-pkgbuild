@@ -1,6 +1,6 @@
 pkgname=gdb
 pkgver=11.1
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 depends=(expat xz)
 source=(https://ftp.gnu.org/gnu/gdb/$pkgname-$pkgver.tar.xz)
@@ -14,7 +14,9 @@ build() {
 	../configure				\
 	--prefix=/usr				\
 	--disable-nls				\
-	--with-python=/usr/bin/python		\
+	--with-system-readline			\
+	--disable-source-highlight		\
+	--with-python=/usr/bin/python3		\
 	--with-system-gdbinit=/etc/gb/gdbinit	\
 
 	make
@@ -31,6 +33,4 @@ package() {
 
 	install -dm 755 $pkgdir/etc/gdb
 	touch $pkgdir/etc/gdb/gdbinit
-
-	rm -rf $pkgdir/usr/share/gdb/
 }

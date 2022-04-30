@@ -1,10 +1,10 @@
 pkgname=kcontacts
-pkgver=5.89.0
+pkgver=5.91.0
 pkgrel=1
 arch=('x86_64')
 depends=(kcoreaddons kconfig ki18n kcodecs iso-codes)
 makedepends=(cmake extra-cmake-modules qt5)
-durl=https://download.kde.org/stable/frameworks/5.89
+durl=https://download.kde.org/stable/frameworks/5.91
 source=($durl/$pkgname-$pkgver.tar.xz)
 
 prepare() {

@@ -1,8 +1,8 @@
 pkgname=glibc
 pkgver=2.35
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
-depends=(libxcrypt filesystem)
+depends=(libxcrypt filesystem lib32-libxcrypt)
 makedepends=(python3)
 options=(!strip !emptydirs staticlibs)
 backup=(etc/gai.conf
@@ -69,10 +69,7 @@ package() {
         mkdir -pv $pkgdir/var/cache/nscd
 
         mkdir -pv $pkgdir/usr/lib/locale
-        make install_root=$pkgdir localedata/install-locales
-
-	# Provided by libxcrypt; keep the old shared library for backwards compatibility
-	rm -f "$pkgdir"/usr/include/crypt.h "$pkgdir"/usr/lib/libcrypt.{a,so}        
+        make install_root=$pkgdir localedata/install-locales -j2
 
 	# 32bit
 	cd ../build32	
@@ -80,9 +77,9 @@ package() {
 	rm -rf DESTDIR	
 	mkdir -p DESTDIR/usr/lib32/
 	sleep 10
-	ls DESTDIR
+	#ls DESTDIR
 	make install_root=$('pwd')/DESTDIR install
-	ls DESTDIR/
+	#ls DESTDIR/
 	
 	install -vdm755 $pkgdir/usr/lib32
 	install -vdm755 $pkgdir/include/gnu
@@ -90,6 +87,9 @@ package() {
 	
 	mkdir -vp $pkgdir/usr/lib32/
 	cp -Rv DESTDIR/usr/lib32/* $pkgdir/usr/lib32/
+
+	# Provided by libxcrypt; keep the old shared library for backwards compatibility
+        rm -f "$pkgdir"/usr/include/crypt.h "$pkgdir"/usr/{lib,lib32}/libcrypt.{a,so}
 
 	mkdir -vp $pkgdir/etc/ld.so.conf.d
 	mkdir -vp $pkgdir/lib/

@@ -11,35 +11,59 @@ depends=('bash' 'desktop-file-utils' 'diffutils' 'hicolor-icon-theme' 'curl' 'db
     'lib32-amdvlk' 'amdvlk' 'lib32-sdl2' 'sdl2'
     'lib32-pulseaudio' 'lib32-alsa-lib' 'lib32-alsa-plugins')
 source=(https://repo.steampowered.com/${pkgname}/pool/${pkgname}/s/${pkgname}/${pkgname}_${pkgver}.tar.gz
-    steam.sh)
+	steam-runtime.sh
+	steam-native.sh)
 
 prepare() {
 	cd ${pkgname}-launcher
 
+	 # apply roundups for udev rules
+	sed -r 's|("0666")|"0660", TAG+="uaccess"|g' -i subprojects/steam-devices/60-steam-input.rules
+	sed -r 's|("misc")|\1, OPTIONS+="static_node=uinput"|g' -i subprojects/steam-devices/60-steam-input.rules
+	sed -r 's|(, TAG\+="uaccess")|, MODE="0660"\1|g' -i subprojects/steam-devices/60-steam-vr.rules
+
 	# separated runtime/native desktop files
 	sed -r 's|(Name=Steam)|\1 (Runtime)|' -i steam.desktop
 	sed -r 's|(/usr/bin/steam)|\1-runtime|' -i steam.desktop
+
+	cp /usr/share/applications/steam.desktop steam-native.desktop
+	sed -r 's|(Name=Steam) \(Runtime\)|\1 (Native)|' -i steam-native.desktop
+	sed -r 's|(/usr/bin/steam)-runtime|\1-native|' -i steam-native.desktop
+	sed '/^Icon=.*/i StartupWMClass=Steam' -i steam-native.desktop
 }
 
 package() {
 	cd ${pkgname}-launcher
+
 	make DESTDIR="${pkgdir}" install
 
+	install -Dm 755 "${srcdir}/steam-runtime.sh" "${pkgdir}/usr/bin/steam-runtime"
 	install -d "${pkgdir}/usr/lib/steam"
 	mv "${pkgdir}/usr/bin/steam" "${pkgdir}/usr/lib/steam/steam"
-
-	install -Dm 755 "${srcdir}/steam.sh" "${pkgdir}/usr/bin/steam"
-	ln -sf steam "${pkgdir}/usr/bin/steam-runtime"
-        chmod +x "${pkgdir}/usr/bin/steam"
+	ln -sf /usr/bin/steam-runtime "${pkgdir}/usr/bin/steam"
 
 	install -Dm 644 COPYING steam_subscriber_agreement.txt -t "${pkgdir}/usr/share/licenses/${pkgname}"
 	install -Dm 644 debian/changelog -t "${pkgdir}/usr/share/doc/${pkgname}"
 
 	# blank steamdeps because apt-get
-	ln -sf /usr/bin/true "${pkgdir}/usr/bin/steamdeps"
+	 ln -sf /usr/bin/true "${pkgdir}/usr/bin/steamdeps"
 
 	install -Dm 644 subprojects/steam-devices/60-steam-input.rules \
-	"${pkgdir}/usr/lib/udev/rules.d/70-steam-input.rules"
+		"${pkgdir}/usr/lib/udev/rules.d/70-steam-input.rules"
 	install -Dm 644 subprojects/steam-devices/60-steam-vr.rules \
-	"${pkgdir}/usr/lib/udev/rules.d/70-steam-vr.rules"
+		"${pkgdir}/usr/lib/udev/rules.d/70-steam-vr.rules"
+
+	install -Dm 644 steam-native.desktop -t "${pkgdir}/usr/share/applications"
+	install -Dm 755 $srcdir/steam-native.sh "${pkgdir}/usr/bin/steam-native"
+
+	install -d "${pkgdir}/usr/lib/steam"
+	ln -sf /usr/lib/libcurl.so.3 "${pkgdir}/usr/lib/steam/libcurl.so.3"
+	ln -sf /usr/lib/libcurl.so.4.2.0 "${pkgdir}/usr/lib/steam/libcurl.so.4"
+	ln -sf /usr/lib/libcurl.so.4.2.0 "${pkgdir}/usr/lib/steam/libcurl.so.4.2.0"
+	if [ "${CARCH}" == "x86_64" ]; then
+		install -d "${pkgdir}/usr/lib32/steam"
+		ln -sf /usr/lib32/libcurl.so.3 "${pkgdir}/usr/lib32/steam/libcurl.so.3"
+		ln -sf /usr/lib32/libcurl.so.4.2.0 "${pkgdir}/usr/lib32/steam/libcurl.so.4"
+		ln -sf /usr/lib32/libcurl.so.4.2.0 "${pkgdir}/usr/lib32/steam/libcurl.so.4.2.0"
+	fi
 }
