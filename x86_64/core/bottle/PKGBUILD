@@ -1,0 +1,35 @@
+pkgname=bottle
+pkgver=1.0.0
+pkgrel=1
+arch=('x86_64')
+depends=(zstd bash glibc libarchive curl)
+commitid=043396b8ebfe7f665be14976d3e0de8378879d46
+replaces=(pacman)
+source=(git+https://git.it-kuny.ch/drunk/source-code/bottle#commit=$commitid)
+
+build() {
+        cd $pkgname
+
+	meson \
+	--prefix=/usr \
+	-D doxygen=enabled \
+	-D scriptlet-shell=/bin/bash \
+	-D ldconfig=/usr/bin/ldconfig \
+	build
+
+	ninja -C build
+}
+
+package() {
+	cd $pkgname
+	
+	mkdir -vp $pkgdir
+	export DESTDIR=$pkgdir/
+	
+	ninja -C build install
+
+	# copy our own bottle.conf that has proper server list
+	cp -f ../../bottle.conf $pkgdir/etc/bottle.conf
+	mkdir -p $pkgdir/etc/bottle.d
+	touch $pkgdir/etc/bottle.d/mirrorlist
+}
