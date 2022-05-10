@@ -1,11 +1,10 @@
 pkgname=directx-headers
 pkgdesc="DirectX headers for using D3D12"
-pkgver=1.4.9
+pkgver=1.602.0
 pkgrel=1
 arch=('x86_64')
 makedepends=('meson')
-commitid=980971e835876dc0cde415e8f9bc646e64667bf7
-source=(git+https://github.com/microsoft/DirectX-Headers#commit=$commitid)
+source=(https://github.com/microsoft/DirectX-Headers/archive/refs/tags/v$pkgver.tar.gz)
 
 build() {
 	# LTO breaks mesa...
@@ -13,7 +12,7 @@ build() {
 
 	meson				\
 	--prefix=/usr			\
-	DirectX-Headers build	\
+	DirectX-Headers-$pkgver build	\
 	-Dbuild-test=false
 
 	ninja -C build

@@ -1,5 +1,5 @@
 pkgname=wine
-pkgver=7.7
+pkgver=7.8
 pkgrel=1
 _pkgbasever=${pkgver/rc/-rc}
 source=(https://dl.winehq.org/wine/source/7.x/$pkgname-$_pkgbasever.tar.xz{,.sign}
@@ -56,7 +56,7 @@ makedepends=(
 	sdl2				lib32-sdl2
 	cups				lib32-cups
 #	libgphoto2
-#	sane
+	sane
 #	gsm
 	vulkan-headers
 #	samba

@@ -1,5 +1,5 @@
 pkgname=go
-pkgver=1.17.6
+pkgver=1.18.1
 pkgrel=1
 arch=('x86_64')
 makedepends=(git perl)

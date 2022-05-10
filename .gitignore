@@ -1,0 +1,19 @@
+# Ignore available pkg files
+**/*.pkg.tar.gz
+
+# Now ignore other things that are not needed to be included in .git
+**/pkg
+**/src
+**/*xz*
+**/*tar.gz
+**/*tar.bz2
+**/*.zip
+**/*/
+**/*tgz
+**/*tar.zst
+**/*sign*
+**/*sig*
+**/*asc*
+
+# Also ignore this
+**/key

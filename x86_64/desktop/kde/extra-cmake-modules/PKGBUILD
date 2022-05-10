@@ -1,5 +1,5 @@
 pkgname=extra-cmake-modules
-pkgver=5.91.0
+pkgver=5.93.0
 pkgrel=1
 arch=('x86_64')
 source=("https://download.kde.org/stable/frameworks/${pkgver%.*}/$pkgname-$pkgver.tar.xz"

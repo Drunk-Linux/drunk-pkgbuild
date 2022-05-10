@@ -3,19 +3,30 @@ pkgver=2.9.12
 pkgrel=5
 arch=('x86_64')
 depends=(icu readline zlib ncurses xz)
+install=libxml2.install
 makedepends=(python3)
-source=(http://xmlsoft.org/sources/$pkgname-$pkgver.tar.gz)
+source=(http://xmlsoft.org/sources/$pkgname-$pkgver.tar.gz
+	libxml2-2.9.8-python3-unicode-errors.patch
+	no-fuzz.diff)
 
-build() {
+prepare() {
+	mkdir -p build
+
 	cd $pkgname-$pkgver
 
-	# fix a problem generating the Python3 module with Python-3.9.0 and later
-	sed -i '/if Py/{s/Py/(Py/;s/)/))/}' python/{types.c,libxml.c}
+	# https://src.fedoraproject.org/rpms/libxml2/tree/rawhide
+	patch -p1 -i ../libxml2-2.9.8-python3-unicode-errors.patch
 
-	# ensure that the Python module can be built by Python-3.9.0
-	sed -i '/_PyVerify_fd/,+1d' python/types.c
+	# Do not run fuzzing tests
+	patch -p1 -i ../no-fuzz.diff
 
-	./configure \
+	autoreconf -fiv
+}
+
+build() {
+	cd build
+
+	./../$pkgname-$pkgver/configure \
 	--prefix=/usr    \
 	--with-history   \
 	--with-icu \
@@ -28,7 +39,7 @@ build() {
 }
 
 package() {
-        cd $pkgname-$pkgver
+        cd build
 
 	make DESTDIR=$pkgdir install
 

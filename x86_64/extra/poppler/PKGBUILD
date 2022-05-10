@@ -13,7 +13,7 @@ prepare() {
 	mkdir -p build
 	
 	# poppler-data
-	cd $pkgname-data-0.4.11
+	cd ../$pkgname-data-0.4.11
 	mkdir -p build
 }
 

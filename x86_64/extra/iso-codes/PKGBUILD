@@ -1,7 +1,7 @@
 pkgname=iso-codes
 pkgver=4.8.0
-pkgrel=1
-arch=('any')
+pkgrel=2
+arch=('x86_64')
 source=(https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v$pkgver/iso-codes-v$pkgver.tar.gz)
 
 build() {

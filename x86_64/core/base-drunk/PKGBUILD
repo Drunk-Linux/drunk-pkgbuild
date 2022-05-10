@@ -1,6 +1,6 @@
 pkgname=base-drunk
-pkgver=2022.1
-pkgrel=4
+pkgver=2022.2
+pkgrel=1
 arch=('x86_64')
 source=(os-release)
 depends=(accountsservice ca-certificates diffutils file gnu-efi kmod libnl linux-pam pciutils procps-ng tar xz
@@ -9,8 +9,11 @@ depends=(accountsservice ca-certificates diffutils file gnu-efi kmod libnl linux
 	cpio duktape fuse2 icu libcap libtool ncurses shadow util-linux
 	bash curl e2fsprogs gawk inetutils libevent libx11 openssl pkgconf squashfs-tools wget
 	binutils dbus gettext intltool libffi libxcrypt p11-kit polkit syslinux which
-	bzip2 dhcpcd expat glib2 iproute2 libgudev libxml2 pacman popt systemd wpa_supplicant
-	findutils nghttp2)
+	bzip2 dhcpcd expat glib2 iproute2 libgudev libxml2 popt systemd wpa_supplicant
+	findutils nghttp2
+
+	# pkg manager
+	bottle)
 
 build() {
 	mkdir -p $pkgname-$pkgver

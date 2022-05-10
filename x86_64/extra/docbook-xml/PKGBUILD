@@ -5,15 +5,10 @@ _vers=(4.{2..5})
 
 pkgname=docbook-xml
 pkgver=${_vers[-1]}
-pkgrel=9
-pkgdesc="A widely used XML scheme for writing documentation and help"
-url="https://www.oasis-open.org/docbook/"
-arch=(any)
-license=(MIT)
-depends=(libxml2)
+pkgrel=10
+arch=(x86_64)
 install=docbook-xml.install
-source=(https://docbook.org/xml/4.1.2/docbkx412.zip
-        LICENSE)
+source=(https://docbook.org/xml/4.1.2/docbkx412.zip)
 noextract=(docbkx412.zip)
 
 for _ver in ${_vers[@]}; do
@@ -27,10 +22,10 @@ package() {
   mkdir -p "$pkgdir/etc/xml"
   xmlcatalog --noout --create "$pkgdir/etc/xml/docbook-xml"
 
-  mkdir -p docbook-xml-4.1.2
+  mkdir docbook-xml-4.1.2
   bsdtar -C docbook-xml-4.1.2 -xf docbkx412.zip
   for ver in ${_vers[@]}; do
-    mkdir -p docbook-xml-$ver
+    mkdir docbook-xml-$ver
     bsdtar -C docbook-xml-$ver -xf docbook-xml-$ver.zip
   done
 
@@ -96,8 +91,6 @@ package() {
         ;;&
     esac
   done
-
-  install -Dt "$pkgdir/usr/share/licenses/$pkgname" -m644 LICENSE
 
   # Fix permissions
   find "$pkgdir" -type f -exec chmod -c a-x {} +

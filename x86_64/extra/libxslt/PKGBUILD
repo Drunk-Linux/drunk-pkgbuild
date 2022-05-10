@@ -10,11 +10,6 @@ source=("git+https://gitlab.gnome.org/GNOME/libxslt.git#commit=$commitid"
         0001-Make-generate-id-deterministic.patch
         0002-Fix-manpage.patch)
 
-pkgver() {
-  cd $pkgname
-  git describe --tags | sed 's/^v//;s/-/+/g'
-}
-
 prepare() {
   cd $pkgname
 
@@ -36,7 +31,7 @@ prepare() {
 build() {
     cd $pkgname
 
-    ./configure --prefix=/usr --without-python
+    ./configure --prefix=/usr
 
     make
 }

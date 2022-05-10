@@ -1,8 +1,8 @@
 pkgname=plasma-workspace
-pkgver=5.23.5
-pkgrel=2
+pkgver=5.24.4
+pkgrel=1
 arch=('x86_64')
-depends=(knotifyconfig ktexteditor xrdb kholidays xmessage prison
+depends=(knotifyconfig ktexteditor xrdb kholidays xmessage prison libqalculate
 	kpeople kactivities-stats kquickcharts ksysguard kwin kscreen libxft sddm)
 makedepends=(extra-cmake-modules kdoctools baloo networkmanager-qt plasma-wayland-protocols
 	kunitconversion kinit sddm)

@@ -1,5 +1,5 @@
 pkgname=kdeplasma-addons
-pkgver=5.24.1
+pkgver=5.24.4
 pkgrel=1
 arch=('x86_64')
 depends=(plasma-workspace kunitconversion)

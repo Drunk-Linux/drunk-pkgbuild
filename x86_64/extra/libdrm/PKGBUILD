@@ -1,13 +1,8 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=libdrm
-pkgver=2.4.107
-pkgrel=2
+pkgver=2.4.110
+pkgrel=1
 arch=('x86_64')
-depends=('libxcb' 'libxau' 'xorgproto' 'pciaccess')
+depends=('libxcb' 'libxau' 'xorgproto' 'libpciaccess')
 source=(https://dri.freedesktop.org/$pkgname/$pkgname-$pkgver.tar.xz)
 
 build() {

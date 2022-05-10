@@ -5,7 +5,7 @@ arch=('x86_64')
 license=('LGPL')
 depends=('dconf' 'gtk3+' 'hicolor-icon-theme' 'libnotify' 'iso-codes' 'librsvg')
 makedepends=('gobject-introspection' 'vala' 'intltool' 'gtk-doc' 'gtk2+' 'gnome-common'
-    'qt5' 'git' 'unicode-character-database' 'unicode-cldr' 'unicode-emoji')
+    'qt5' 'git' 'unicode-character-database' 'unicode-cldr' 'unicode-emoji' 'iso-codes')
 options=('!emptydirs')
 _commit=cfb263f04f82a83dd94f6eedcd5017d40a4a1a05  # 1.5.25
 source=("git+https://github.com/ibus/ibus#commit=$_commit")

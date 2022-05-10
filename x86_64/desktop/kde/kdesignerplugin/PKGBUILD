@@ -1,10 +1,10 @@
 pkgname=kdesignerplugin
-pkgver=5.91.0
+pkgver=5.93.0
 pkgrel=1
 arch=('x86_64')
 depends=(kconfig kcoreaddons)
 makedepends=(cmake qt5 extra-cmake-modules docbook-xml docbook-xsl)
-durl=https://download.kde.org/stable/frameworks/5.91/portingAids
+durl=https://download.kde.org/stable/frameworks/5.93/portingAids
 source=($durl/$pkgname-$pkgver.tar.xz)
 
 prepare() {
