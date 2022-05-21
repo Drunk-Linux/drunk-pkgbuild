@@ -3,21 +3,21 @@
 for t in core cross-tools extra extra32 games layers proprietary server
 do
  echo " "
- echo "Processing $t pkgs"
+ echo "[*]: Processing $t pkgs"
 
  # in case where dev dosent have proper dev area
  mkdir -p ../repository/x86_64/pkgs/$t/
 
- mv pkgs/$t/*pkg.tar.gz ../repository/x86_64/pkgs/$t/
+ mv pkgs/$t/*pkg.tar.gz ../repository/x86_64/pkgs/$t/ &> /dev/null
 done
 
 for t in gnome kde xfce
 do
  echo " "
- echo "Processing $t pkgs"
+ echo "[*]: Processing $t pkgs"
 
  # in case where dev dosent have proper dev area
  mkdir -p ../repository/x86_64/pkgs/$t/
 
- mv pkgs/desktop/$t/*pkg.tar.gz ../repository/x86_64/pkgs/desktop/$t/
+ mv pkgs/desktop/$t/*pkg.tar.gz ../repository/x86_64/pkgs/desktop/$t/ &> /dev/null
 done

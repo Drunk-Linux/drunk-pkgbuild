@@ -8,7 +8,7 @@ remove_leftovers() {
     set +e
     echo " "
     echo "[*]: Moving $iam pkgs to proper place"
-    mv */*pkg.t* ../../pkgs/$iam/
+    mv */*pkg.t* ../../pkgs/$iam/ &> /dev/null
     set -e
     echo "[*]: Cleaning up $iam"
 
@@ -36,10 +36,9 @@ remove_leftovers_desktop() {
     set +e
     echo " "
     echo "[*]: Moving desktop/$iam pkgs to proper place"
-    mv */*pkg.t* ../../../pkgs/desktop/$iam/
+    mv */*pkg.t* ../../../pkgs/desktop/$iam/ &> /dev/null
     set -e
 
-    echo " "
     echo "[*]: Cleaning up $iam"
 
     rm -rf */pkg/ */src/ */*pkg* */*xz* */*tar.gz */*tar.bz2 */*.zip */*/ */*tgz */*tar.zst */*sign* */*sig* */*asc*
