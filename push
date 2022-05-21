@@ -1,4 +1,5 @@
 #!/bin/bash
+
 echo "Remember to add new files by youreself as this only commits/updates known files"
 
 sleep 3
