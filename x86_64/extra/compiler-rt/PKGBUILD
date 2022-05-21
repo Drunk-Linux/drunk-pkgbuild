@@ -1,6 +1,6 @@
 pkgname=compiler-rt
-pkgver=13.0.0
-pkgrel=2
+pkgver=13.0.1
+pkgrel=1
 makedepends=('cmake' 'python3' 'llvm')
 arch=('x86_64')
 psource=https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver

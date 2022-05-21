@@ -1,8 +1,3 @@
-# Description: Manipulate efi boot managers
-# URL:         
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  efivar pciutils
-
 pkgname=efibootmgr
 pkgver=17
 pkgrel=1

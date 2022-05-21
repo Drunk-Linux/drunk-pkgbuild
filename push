@@ -1,5 +1,8 @@
 #!/bin/bash
 echo "Remember to add new files by youreself as this only commits/updates known files"
-git commit -a -m "Changes here and there..."
+
+sleep 3
+
+git commit -a -m "[ DRUNK ]: Changes here and there..."
 
 git push

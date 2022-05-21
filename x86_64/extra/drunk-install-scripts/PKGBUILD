@@ -1,20 +1,18 @@
-# Description: Utilities to administer Access Control Lists, which are used to define more fine-grained discretionary access rights for files and directories
-# URL:         http://savannah.nongnu.org/projects/acl
-# Maintainer:  Emmett1, emmett1 dot 2miligrams at gmail dot com
-# Depends on:  
-
 pkgname=drunk-install-scripts
-pkgver=24
+pkgver=25
 pkgrel=1
 arch=('x86_64')
-source=(http://server01.netkas.me:3000/Drunk-Distro/$pkgname/archive/master.tar.gz)
+commitid=004952595d79e06066fa1b3c7c3c156b8a16bb2e
+source=($pkgname.tar.gz::https://git.it-kuny.ch/drunk/source-code/$pkgname/-/archive/$commitid/$pkgname-$commitid.tar.gz)
 
 build() {
-        cd $pkgname
+        cd $pkgname-$commitid
+
         make
 }
 
 package() {
-	cd $pkgname
+	cd $pkgname-$commitid
+
 	make DESTDIR=$pkgdir install
 }

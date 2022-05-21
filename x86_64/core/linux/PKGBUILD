@@ -1,49 +1,46 @@
 pkgname=linux
-pkgver=5.17.1
+pkgver=5.17.8
 pkgrel=1
 pkgdesc='Linux'
 arch=('x86_64')
-options=('!strip')
+options=('!strip' 'emptydirs')
 makedepends=(rsync)
-source=(https://www.kernel.org/pub/linux/kernel/v5.x/linux-$pkgver.tar.xz
-        config)
+source=(https://github.com/Drunk-Linux/Linux/archive/refs/heads/$pkgver-drunk.tar.gz)
 
 # Deprecated as we ship modules/headers in 1 pkg now
 replaces=(linux-api-headers)
 
 export KBUILD_BUILD_HOST=drunk-linux
-export KBUILD_BUILD_USER=$pkgbase
+export KBUILD_BUILD_USER=$pkgname
 export KBUILD_BUILD_TIMESTAMP="$(date -Ru${SOURCE_DATE_EPOCH:+d @$SOURCE_DATE_EPOCH})"
 
 prepare() {
-	cd linux-$pkgver
+	cd Linux-$pkgver-drunk
 
 	echo "[!]: Cleaning src base"
 	make clean
 
 	echo "[!]: Running mrproper"
 	make mrproper
-
-	cp -f $srcdir/config ./.config
 }
 
 build() {
-	cd linux-$pkgver
+	cd Linux-$pkgver-drunk
 
-	echo "[!]: Running menuconfig"
-	make menuconfig
+	echo "[!]: Getting up default config of drunk"
+	make drunk_defconfig
 
 	echo "[!]: Started making all"
-	make all -j4
+	make all -j7
 
 	echo "[!]: Making headers"
-	make headers -j6
+	make headers -j7
 }
 
 package() {
 	pkgdesc="The Linux kernel, modules and headers package"
 
-        cd linux-$pkgver
+        cd Linux-$pkgver-drunk
 
 	echo "[!]: Installing modules"
 	make INSTALL_MOD_PATH=$pkgdir INSTALL_MOD_STRIP=1 modules_install

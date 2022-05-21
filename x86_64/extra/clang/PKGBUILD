@@ -1,6 +1,6 @@
 pkgname=clang
-pkgver=13.0.0
-pkgrel=3
+pkgver=13.0.1
+pkgrel=1
 makedepends=('cmake' 'python3' 'llvm')
 depends=('llvm' 'compiler-rt')
 arch=('x86_64')
@@ -9,7 +9,8 @@ source=($psource/$pkgname-$pkgver.src.tar.xz
 	$psource/clang-tools-extra-$pkgver.src.tar.xz
 	$psource/llvm-$pkgver.src.tar.xz
 	01.patch
-	02.patch)
+	02.patch
+	03.patch)
 
 prepare() {
 	cd $pkgname-$pkgver.src
@@ -19,6 +20,7 @@ prepare() {
 
 	patch -Np2 -i ../01.patch
 	patch -Np2 -i ../02.patch
+	patch -Np2 -i ../03.patch
 	
 	2to3 -wn --no-diffs \
 	tools/extra/clang-include-fixer/find-all-symbols/tool/run-find-all-symbols.py
@@ -27,16 +29,16 @@ prepare() {
 build() {
         cd $pkgname-$pkgver.src/build
 	
-#	cmake .. -G Ninja		\
-#	-DCMAKE_BUILD_TYPE=Release	\
-#	-DCMAKE_INSTALL_PREFIX=/usr	\
-#	-DCLANG_LINK_CLANG_DYLIB=ON	\
-#	-DLLVM_LINK_LLVM_DYLIB=ON	\
-#	-DLLVM_ENABLE_RTTI=ON		\
-#	-DLLVM_EXTERNAL_LIB=/usr/bin/lit	\
-#	-DLLVM_MAIN_SRC_DIR="$srcdir/llvm-$pkgver.src"
+	cmake .. -G Ninja		\
+	-DCMAKE_BUILD_TYPE=Release	\
+	-DCMAKE_INSTALL_PREFIX=/usr	\
+	-DCLANG_LINK_CLANG_DYLIB=ON	\
+	-DLLVM_LINK_LLVM_DYLIB=ON	\
+	-DLLVM_ENABLE_RTTI=ON		\
+	-DLLVM_EXTERNAL_LIB=/usr/bin/lit	\
+	-DLLVM_MAIN_SRC_DIR="$srcdir/llvm-$pkgver.src"
 	
-#	ninja
+	ninja
 }
 
 python_optimize() {

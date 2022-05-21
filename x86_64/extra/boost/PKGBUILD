@@ -1,11 +1,15 @@
 pkgname=boost
 pkgver=1.78.0
-pkgrel=2
+pkgrel=3
 arch=('x86_64')
 depends=(which icu)
 source=(https://boostorg.jfrog.io/artifactory/main/release/$pkgver/source/boost_1_78_0.tar.bz2)
 
 build() {
+	echo 1
+}
+
+build1() {
 	cd boost_1_78_0
 
 	./bootstrap.sh			\
@@ -24,5 +28,6 @@ package() {
 
 	./b2 install
 
-	cp -rf $srcdir/fkinstall/* $pkgdir/
+	mkdir -p $pkgdir/usr
+	cp -rf $srcdir/fkinstall/* $pkgdir/usr/
 }

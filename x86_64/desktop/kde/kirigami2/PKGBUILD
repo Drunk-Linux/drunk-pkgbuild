@@ -1,6 +1,6 @@
 pkgname=kirigami2
 pkgver=5.93.0
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(qt5)
 makedepends=(kpackage cmake extra-cmake-modules)

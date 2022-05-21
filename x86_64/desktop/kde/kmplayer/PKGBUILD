@@ -1,0 +1,40 @@
+pkgname=kmplayer
+pkgver=0.12.0b
+pkgrel=1
+commitid=8f0274149804a283008c252c9e2779bdf4b4b8a4
+arch=('x86_64')
+depends=(kmediaplayer kdelibs4support phonon hicolor-icon-theme)
+makedepends=(cmake extra-cmake-modules kinit kdesignerplugin)
+source=(git+https://invent.kde.org/multimedia/kmplayer#commit=$commitid
+	simple_fix.patch)
+
+prepare() {
+	cd $pkgname
+
+	mkdir -p build
+
+	patch -p0 -i ../simple_fix.patch
+}
+
+build() {
+	cd $pkgname/build
+
+	CFLAGS=" -w -std=c11" \
+	cmake				\
+	-D CMAKE_INSTALL_PREFIX=/usr	\
+	-D CMAKE_BUILD_TYPE=Release	\
+	-Wno-dev ..
+
+	make -j7
+}
+
+package() {
+	cd $pkgname/build
+
+	make DESTDIR=$pkgdir install
+
+	# Hacky way but its how i deal with it for now
+	mkdir -p $pkgdir/usr/lib64 && mkdir -p $pkgdir/usr/lib && touch $pkgdir/usr/lib64/ignore
+	cp -rf $pkgdir/usr/lib64/* $pkgdir/usr/lib/
+	rm -rf $pkgdir/usr/lib64 $pkgdir/usr/lib/ignore
+}

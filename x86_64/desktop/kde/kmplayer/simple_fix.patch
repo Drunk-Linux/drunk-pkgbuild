@@ -1,0 +1,15 @@
+--- src/backends/npp/npplayer.cpp	2022-05-20 23:12:11.809771993 +0300
++++ src/backends/npp/npplayer.cpp	2022-05-20 23:12:47.485179425 +0300
+@@ -9,7 +9,6 @@
+ http://devedge-temp.mozilla.org/library/manuals/2002/plugin/1.0/
+ http://dbus.freedesktop.org/doc/dbus/libdbus-tutorial.html
+ */
+-extern "C" {
+ #include <unistd.h>
+ #include <string.h>
+ #include <stdio.h>
+@@ -2001,4 +2000,3 @@
+ 
+     return 0;
+ }
+-}

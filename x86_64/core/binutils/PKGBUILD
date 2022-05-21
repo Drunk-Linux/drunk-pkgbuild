@@ -1,8 +1,9 @@
 pkgname=binutils
-pkgver=2.36.1
-pkgrel=2
+pkgver=2.38
+pkgrel=1
 arch=('x86_64')
-depends=(glibc zlib elfutils flex)
+depends=(glibc zlib readline elfutils flex)
+makedepends=(bc git)
 source=(https://ftp.gnu.org/gnu/binutils/$pkgname-$pkgver.tar.xz)
 
 build() {
@@ -17,6 +18,9 @@ build() {
     --enable-ld=default \
     --enable-plugins    \
     --enable-shared     \
+    --enable-gold       \
+    --enable-targets=all \
+    --with-pic          \
     --disable-werror    \
     --enable-64-bit-bfd \
     --with-system-zlib  \
