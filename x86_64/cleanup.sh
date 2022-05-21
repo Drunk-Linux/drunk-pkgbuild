@@ -50,10 +50,8 @@ remove_leftovers_desktop() {
 cd desktop
 
 remove_leftovers_desktop xfce
-
 remove_leftovers_desktop kde
-
-remove_leftovers_desktop server
+remove_leftovers_desktop gnome
 
 echo " "
 echo "[*]: Done"
