@@ -4,6 +4,6 @@ echo "Remember to add new files by youreself as this only commits/updates known 
 
 sleep 3
 
-git commit -a -m "[ DRUNK ]: Changes here and there..."
+git commit -a -m "[ DRUNK - PKGBUILD ]: Changes here and there..."
 
 git push
