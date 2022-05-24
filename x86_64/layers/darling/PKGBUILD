@@ -27,10 +27,10 @@ makedepends=(
 
 prepare() {
 	# Delete old darling if present somehow
-	rm -rf darling
+	#rm -rf darling
 
 	# Clone darling separately so modules and etc can be worked easily
-	git clone --recursive https://github.com/darlinghq/darling.git
+	#git clone --recursive https://github.com/darlinghq/darling.git
 
 	cd darling
 
@@ -44,6 +44,9 @@ prepare() {
 	git submodule init
 
 	git submodule update
+
+	# Change erroring part of lkm out with newer
+	sed -i 's/do_exit/make_task_dead/g' src/external/lkm/osfmk/duct/duct_kern_thread_act.c
 }
 
 build() {
@@ -76,18 +79,18 @@ package() {
 	#
 
 	darling_srcdest="$pkgdir/usr/src/darling-mach-$pkgver"
-    darling_installdest="/usr/src/darling-mach-$pkgver"
+	darling_installdest="/usr/src/darling-mach-$pkgver"
 
-    echo "Installing darling module sources for DKMS."
-    install -dm755 $(dirname "$darling_srcdest")
-    cp -r "$srcdir/$pkgname/src/external/lkm"			"$darling_srcdest"
-    cp -r "$srcdir/$pkgname/build/src/external/lkm"		"$darling_srcdest/migdir"
+	echo "Installing darling module sources for DKMS."
+	install -dm755 $(dirname "$darling_srcdest")
+	cp -r "$srcdir/$pkgname/src/external/lkm"			"$darling_srcdest"
+	cp -r "$srcdir/$pkgname/build/src/external/lkm"		"$darling_srcdest/migdir"
 
-    # Copy missing header rtsig.h
-    cp "$srcdir/$pkgname/build/src/startup/rtsig.h"		"$darling_srcdest/include"
+	# Copy missing header rtsig.h
+	cp "$srcdir/$pkgname/build/src/startup/rtsig.h"		"$darling_srcdest/include"
 
-    echo "Set configuration for DKMS..."
-    install -Dm644 "$srcdir/dkms.conf"					"$darling_srcdest"
-    sed -i "s|@PKGVER@|$pkgver|g"						"$darling_srcdest/dkms.conf"
-    sed -i "s|@SRCDEST@|$darling_installdest|g"			"$darling_srcdest/dkms.conf"
+	echo "Set configuration for DKMS..."
+	install -Dm644 "$srcdir/dkms.conf"					"$darling_srcdest"
+	sed -i "s|@PKGVER@|$pkgver|g"						"$darling_srcdest/dkms.conf"
+	sed -i "s|@SRCDEST@|$darling_installdest|g"			"$darling_srcdest/dkms.conf"
 }

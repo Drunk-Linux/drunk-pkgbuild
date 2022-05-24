@@ -1,8 +1,9 @@
 pkgname=spirv-llvm-translator
-pkgver=13.0.0
+pkgver=13.0.1
 pkgrel=1
 arch=('x86_64')
-makedepends=('cmake' 'python3' 'git' 'ninja')
+depends=(llvm)
+makedepends=('cmake' 'glslang' 'python3' 'git' 'ninja')
 source=('https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/llvm_release_130.zip')
 
 prepare() {

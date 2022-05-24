@@ -1,9 +1,9 @@
 pkgname=bottle
-pkgver=1.0.0
-pkgrel=2
+pkgver=2022.2
+pkgrel=3
 arch=('x86_64')
 depends=(zstd bash glibc libarchive curl gpgme libassuan)
-commitid=043396b8ebfe7f665be14976d3e0de8378879d46
+commitid=0afa04bebe735a2738af92b6665764609cddf8ec
 replaces=(pacman)
 source=(git+https://git.it-kuny.ch/drunk/source-code/bottle#commit=$commitid)
 

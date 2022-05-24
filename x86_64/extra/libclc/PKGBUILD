@@ -1,7 +1,7 @@
 pkgname=libclc
-pkgver=13.0.0
+pkgver=13.0.1
 pkgrel=1
-arch=('any')
+arch=(x86_64)
 makedepends=('clang' 'llvm' 'cmake' 'ninja' 'python3' 'spirv-llvm-translator')
 source=(https://github.com/llvm/llvm-project/releases/download/llvmorg-$pkgver/$pkgname-$pkgver.src.tar.xz)
 

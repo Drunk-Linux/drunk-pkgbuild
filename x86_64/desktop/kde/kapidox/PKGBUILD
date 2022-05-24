@@ -7,25 +7,17 @@ durl=https://download.kde.org/stable/frameworks/5.93
 source=($durl/$pkgname-$pkgver.tar.xz)
 
 prepare() {
-	cd $pkgname-$pkgver
-
-	mkdir -p build
+	pip3 install build installer wheel setuptools jinja2
 }
 
 build() {
-	cd $pkgname-$pkgver/build
+	cd $pkgname-$pkgver
 
-	cmake				\
-	-D CMAKE_INSTALL_PREFIX=/usr	\
-	-D CMAKE_BUILD_TYPE=Release	\
-	-Wno-dev ..
-
-	make
-	
+	python -m build --wheel --no-isolation
 }
 
 package() {
-	cd $pkgname-$pkgver/build
+	cd $pkgname-$pkgver
 
-	make DESTDIR=$pkgdir install
+	python -m installer --destdir="$pkgdir" dist/*.whl
 }

@@ -1,6 +1,6 @@
 pkgname=dkms
 pkgver=3.0.3
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
 depends=(gcc glibc coreutils gawk sed kmod make patch)
 makedepends=(git gcc)

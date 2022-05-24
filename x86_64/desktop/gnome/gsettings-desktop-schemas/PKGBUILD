@@ -1,6 +1,6 @@
 pkgname=gsettings-desktop-schemas
-pkgver=40.0
-gver=40
+pkgver=41.0
+gver=41
 pkgrel=1
 arch=('x86_64')
 depends=(glib2 gobject-introspection)

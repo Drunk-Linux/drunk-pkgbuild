@@ -1,8 +1,8 @@
 pkgname=drunk-install-scripts
 pkgver=25
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-commitid=004952595d79e06066fa1b3c7c3c156b8a16bb2e
+commitid=d7e5454bee5be767f2800bdc565e9ddeac48ac85
 source=($pkgname.tar.gz::https://git.it-kuny.ch/drunk/source-code/$pkgname/-/archive/$commitid/$pkgname-$commitid.tar.gz)
 
 build() {
