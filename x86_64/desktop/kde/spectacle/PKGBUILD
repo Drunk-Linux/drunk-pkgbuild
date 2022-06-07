@@ -1,5 +1,5 @@
 pkgname=spectacle
-pkgver=21.12.2
+pkgver=22.04.1
 pkgrel=1
 arch=(x86_64)
 depends=(xcb-util-cursor libkipi purpose knewstuff kwayland qt5 kimageannotator)

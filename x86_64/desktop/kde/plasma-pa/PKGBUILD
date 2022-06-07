@@ -15,4 +15,6 @@ build() {
 
 package() {
     DESTDIR="$pkgdir" cmake --install build
+
+    ln -sf kcms/kcm_pulseaudio.so $pkgdir/usr/lib/qt/plugins/kcm_pulseaudio.so
 }

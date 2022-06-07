@@ -18,9 +18,10 @@ depends=(
 	kdeplasma-addons kholidays kirigami2 knotifyconfig kscreenlocker kwin phonon polkit-qt syntax-highlighting
 	karchive kcoreaddons khotkeys kitemmodels kservice kwindowsystem phonon-backend-gstreamer
 	systemsettings discover kcrash kdesignerplugin khtml kitemviews kpackage ksysguard kxmlgui prison threadweaver
+	kwayland-integration
 
 	# Applications
-	konsole pspectacle dolphin kate firefox
+	konsole spectacle dolphin kate firefox
 
 	# Other
 	powerdevil plasma-pa plasma-nm)

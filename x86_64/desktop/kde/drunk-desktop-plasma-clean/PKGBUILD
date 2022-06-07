@@ -1,5 +1,5 @@
 pkgname=drunk-desktop-kde-clean
-pkgver=2022.1
+pkgver=2022.2
 pkgrel=1
 arch=('x86_64')
 depends=(# Framework + desktop
@@ -13,12 +13,13 @@ depends=(# Framework + desktop
 	kdecoration khotkeys kjsembed kross kwidgetsaddons plasma-desktop syndication kcmutils kded khtml kmediaplayer krunner kwin plasma-framework syntax-highlighting
 	discover kcodecs kdelibs4support ki18n kmenuedit kscreen kwindowsystem plasma-wayland-protocols systemsettings
 	kcompletion kdesignerplugin kiconthemes knewstuff kscreenlocker kxmlgui plasma-workspace threadweaver
+	kwayland-integration
 
 	# Applications
-	konsole kmix spectacle
+	konsole spectacle
 
 	# Other
-	powerdevil)
+	powerdevil plasma-pa plasma-nm)
 
 build() {
 	echo "[*]: Its a metapackage"

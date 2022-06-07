@@ -1,45 +1,40 @@
 pkgname=qt5-webengine
-pkgver=5.15.2
+pkgver=5.15.4
 pkgrel=1
 arch=('x86_64')
 depends=(qt5 nodejs nss pciutils)
 makedepends=(extra-cmake-modules)
-source=(https://anduin.linuxfromscratch.org/BLFS/qtwebengine/qtwebengine-5.15.8.tar.xz
-	https://www.linuxfromscratch.org/patches/blfs/svn/qtwebengine-5.15.8-build_fixes-1.patch)
+commitid_engine=0d4ca9cfb0d6e538172005e1c4b0b3a021b1c18c # 5.15.4
+commitid_engine_chromium=552906b0f222c5d5dd11b9fd73829d510980461a # 5.14.2 + 83.0.4103.122
+commitid_chromium=395a627b8ad8b48dc4119fb6d309d29ec5d5fda0 #
+url=https://invent.kde.org/qt/qt/
+source=(
+	# Engine
+	git+$url/qtwebengine#commit=$commitid_engine
 
+	# Engine_chromium
+	git+$url/qtwebengine-chromium#commit=$commitid_engine_chromium
+
+	# Chromium
+	git+https://chromium.googlesource.com/catapult#commit=$commitid_chromium)
 prepare() {
-	cd qtwebengine-5.15.8
+	exit
+	cd qt5
 
-	patch -Np1 -i ../qtwebengine-5.15.8-build_fixes-1.patch
+	# Fix .git after our clone and sync/update submodules
+	git remote remove origin
+	git remote add origin $url
 
-	mkdir -pv .git src/3rdparty/chromium/.git
+	# Init submodule
+	git submodule init qtwebview qtdeclarative qtbase
 
-	#Fake to be 5.15.2
-	sed -e '/^MODULE_VERSION/s/5.*/5.15.2/' -i .qmake.conf
-
-	find -type f -name "*.pr[io]" |
-		xargs sed -i -e 's|INCLUDEPATH += |&$$QTWEBENGINE_ROOT/include |'
-
-	sed -e '/link_pulseaudio/s/false/true/' \
-		-i src/3rdparty/chromium/media/media_options.gni
-
-	sed -i 's/NINJAJOBS/NINJA_JOBS/' src/core/gn_run.pro
+	git submodule sync && git submodule update --recursive
 }
 
 build() {
-	cd qtwebengine-5.15.8
-	mkdir -p build && cd build
-
-#	qmake .. -- -system-ffmpeg -webengine-icu
-	echo "[!]: Configure done"
-
-#	make
-	echo "[!]: build done"
+	cd qt5
 }
 
 package() {
-	cd qtwebengine-5.15.8/build
-
-	mkdir -p $pkgdir/usr
-	make INSTALL_ROOT=$pkgdir install
+	cd qt5/qtwebview
 }

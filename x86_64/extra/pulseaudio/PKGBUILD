@@ -29,6 +29,7 @@ build() {
 	--buildtype=release				\
 	-D database=gdbm				\
 	-D systemd=enabled				\
+	-D gsettings=enabled				\
 	-D doxygen=true					\
 	-D webrtc-aec=enabled				\
 	-D pulsedsp-location='/usr/\$LIB/pulseaudio'	\
@@ -70,4 +71,8 @@ package() {
 	cp -vf $srcdir/daemon.conf $pkgdir/etc/pulse/
 	cp -vf $srcdir/default.pa $pkgdir/etc/pulse/
 	cp -vf $srcdir/system.pa $pkgdir/etc/pulse/
+
+	# Install gsettings rule for kde / plasma-pa
+	mkdir -p $pkgdir/usr/share/glib-2.0/schemas/
+	cp -f ../src/modules/gsettings/org.freedesktop.pulseaudio.gschema.xml $pkgdir/usr/share/glib-2.0/schemas/
 }

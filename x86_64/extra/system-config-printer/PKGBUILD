@@ -1,8 +1,8 @@
 pkgname=system-config-printer
 pkgver=1.5.16
-pkgrel=1
+pkgrel=2
 arch=(x86_64)
-depends=(libnotify gtk3+ cairo cups)
+depends=(libnotify gtk3+ cairo cups cups-pk-helper)
 makedepends=(xmlto docbook-xsl desktop-file-utils libsecret)
 source=(https://github.com/OpenPrinting/system-config-printer/releases/download/v${pkgver}/system-config-printer-${pkgver}.tar.xz)
 

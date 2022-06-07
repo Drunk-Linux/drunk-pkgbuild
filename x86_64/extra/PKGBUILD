@@ -9,11 +9,11 @@ source=()
 build() {
 	cd $pkgname-$pkgver
 
-	
+
 }
 
 package() {
 	cd $pkgname-$pkgver
 
-	
+
 }

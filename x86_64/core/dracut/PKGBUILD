@@ -1,9 +1,9 @@
 pkgname=dracut
-pkgver=055
-pkgrel=4
+pkgver=056
+pkgrel=1
 arch=('x86_64')
-depends=(cpio bash coreutils filesystem findutils grep gzip kmod pkgconf
-	procps-ng sed systemd util-linux xz)
+depends=(cpio sed bash coreutils lvm2 filesystem findutils grep gzip kmod pkgconf
+	procps-ng binutils sed systemd util-linux xz)
 source=(https://kernel.org/pub/linux/utils/boot/$pkgname/$pkgname-$pkgver.tar.gz)
 
 build() {

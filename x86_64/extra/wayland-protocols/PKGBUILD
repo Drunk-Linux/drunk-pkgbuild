@@ -1,5 +1,5 @@
 pkgname=wayland-protocols
-pkgver=1.24
+pkgver=1.25
 pkgrel=2
 arch=('x86_64')
 depends=('base-drunk' 'wayland')

@@ -17,9 +17,12 @@ build() {
     --disable-crypto-openssl \
     --disable-implicit-crypto \
     --enable-show-failed-test-output \
-    --enable-doc-maintenance
+    --disable-doc-maintenance \
+    --disable-html-doc \
+    --disable-pdf-doc \
+    --disable-oss-fuzz
 
-    make doc-dist DOC_DEST=doc
+    make doc-dist DOC_DEST=doc all
 }
 
 package_qpdf() {

@@ -1,5 +1,5 @@
 pkgname=weston
-pkgver=9.0.91
+pkgver=10.0.0
 pkgrel=1
 arch=('x86_64')
 depends=(wayland libdrm cairo libpng pango glib2 mesa systemd dbus lcms libxcb libx11 libxcursor)
