@@ -1,9 +1,9 @@
 pkgname=xfdesktop
 pkgver=4.16.0
 xver=4.16
-pkgrel=3
+pkgrel=4
 arch=('x86_64')
-depends=(exo libwnck libxdamage)
+depends=(exo libwnck libxdamage libnotify startup-notification garcon thunar)
 makedepends=(gcc)
 source=(https://archive.xfce.org/src/xfce/$pkgname/$xver/$pkgname-$pkgver.tar.bz2)
 

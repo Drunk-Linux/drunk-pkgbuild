@@ -1,6 +1,6 @@
 pkgname=firefox
-pkgver=99.0.1
-fver=99.0.1
+pkgver=101.0.1
+fver=101.0.1
 pkgrel=1
 arch=('x86_64')
 depends=(dbus-glib gtk+ gtk2+ libnotify pulseaudio alsa-lib python3 sqlite3 unzip
@@ -62,7 +62,7 @@ END
 	install -Dvm644 /dev/stdin "$distini" <<END
 [Global]
 id=drunklinux
-version=1.0
+version=2022.2
 about=Mozilla Firefox for Drunk Linux
 [Preferences]
 app.distributor=drunklinux
@@ -73,7 +73,7 @@ END
 	mkdir -pv $pkgdir/usr/share/applications
 	mkdir -pv $pkgdir/usr/share/pixmaps
 
-	cp $srcdir/firefox.desktop $pkgdir/usr/share/applications/
+	install -Dvm644 $srcdir/firefox.desktop $pkgdir/usr/share/applications/$pkgname.desktop
 
 	#
 	# ICONS

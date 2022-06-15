@@ -1,8 +1,9 @@
 pkgname=cups
-pkgver=2.4.1
+pkgver=2.4.2
 pkgrel=1
 arch=('x86_64')
-depends=(libtiff cups-filters libpng acl linux-pam xdg-utils gnutls bc colord gzip autoconf libusb dbus hicolor-icon-theme systemd)
+depends=(libtiff cups-filters libpng acl linux-pam xdg-utils gnutls bc colord gzip
+	autoconf libusb dbus hicolor-icon-theme systemd samba)
 makedepends=(git)
 source=(https://github.com/OpenPrinting/cups/releases/download/v$pkgver/cups-$pkgver-source.tar.gz
 		cups.logrotate
@@ -19,15 +20,6 @@ prepare() {
 	sed -e "s/format-truncation//" \
 		-i configure \
 		config-scripts/cups-compiler.m4
-
-	# bug fixes
-
-	# https://github.com/OpenPrinting/cups/issues/53
-	# use IP_FREEBIND, because cupsd cannot bind to not yet existing IP address
-	patch -Np1 -i "${srcdir}"/cups-freebind.patch
-
-	# FS#56818 - https://github.com/apple/cups/issues/5236
-	patch -Np1 -i "${srcdir}"/guid.patch
 
 	# Rebuild configure script
 	aclocal -I config-scripts

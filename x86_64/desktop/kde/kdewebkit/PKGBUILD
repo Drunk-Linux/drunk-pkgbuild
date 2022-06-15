@@ -4,7 +4,7 @@ pkgrel=1
 arch=('x86_64')
 depends=(kparts qt5-webkit)
 makedepends=(cmake extra-cmake-modules docbook-xml docbook-xsl)
-durl=https://download.kde.org/stable/frameworks/5.93/portingAids
+durl=https://download.kde.org/stable/frameworks/5.94/portingAids
 source=($durl/$pkgname-$pkgver.tar.xz)
 
 prepare() {

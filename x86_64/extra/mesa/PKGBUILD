@@ -1,11 +1,11 @@
 pkgname=mesa
-pkgver=22.0.3
+pkgver=22.1.1
 pkgrel=1
 arch=('x86_64')
 depends=('libxcb' 'fontconfig' 'libdrm' 'libx11' 'libxext' 'libxfixes' 'libxshmfence' 'libxrender'
 	'wayland' 'wayland-protocols' 'vulkan-icd-loader' 'libomxil-bellagio' 'libclc' 'libglvnd'
 	'valgrind' 'libunwind' 'vulkan-icd-loader' 'libpciaccess' 'libxxf86vm' 
-	'vdpau' 'glslang' 'libva' 'llvm' 'libxvmc')
+	'vdpau' 'glslang' 'libva' 'llvm' 'libxvmc' 'lm-sensors')
 makedepends=('directx-headers' 'vulkan-headers' 'libglvnd')
 source=(https://mesa.freedesktop.org/archive/$pkgname-$pkgver.tar.xz)
 makedepends=('clang' 'cmake')

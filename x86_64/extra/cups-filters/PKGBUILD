@@ -2,7 +2,8 @@ pkgname=cups-filters
 pkgver=1.28.15
 pkgrel=1
 arch=('x86_64')
-depends=('lcms' 'poppler' 'cups' 'systemd')
+depends=('lcms' 'poppler' 'cups' 'systemd' 'libpng'
+	'libtiff' 'libjpeg' 'qpdf')
 makedepends=('python3')
 backup=(etc/cups/cups-browsed.conf)
 source=(https://www.openprinting.org/download/cups-filters/$pkgname-$pkgver.tar.xz)

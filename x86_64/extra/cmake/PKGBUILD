@@ -1,9 +1,9 @@
 pkgname=cmake
-pkgver=3.21.2
+pkgver=3.23.2
 pkgrel=1
 arch=('x86_64')
-depends=('libuv' 'libarchive' 'gcc')
-source=(https://cmake.org/files/v3.21/$pkgname-$pkgver.tar.gz)
+depends=('curl' 'hicolor-icon-theme' 'expat' 'nghttp2' 'jsoncpp' 'libuv' 'libarchive' 'gcc' 'zstd')
+source=(https://cmake.org/files/v3.23/$pkgname-$pkgver.tar.gz)
 
 build() {
         cd $pkgname-$pkgver
@@ -13,10 +13,15 @@ build() {
 	./configure		\
 	--prefix=/usr		\
 	--system-libs		\
-	--no-system-jsoncpp	\
+	--system-zstd		\
+	--system-zlib		\
+	--system-jsoncpp	\
+	--system-curl		\
+	--system-nghttp2	\
+	--no-qt-gui		\
 	--no-system-librhash
 
-        make
+        make -j6
 }
 
 package() {

@@ -1,7 +1,8 @@
-pkgname=python-cairo
+pkgname=python3-cairo
 pkgver=1.21.0
 pkgrel=1
 arch=('x86_64')
+replace=(python-cairo)
 depends=(cairo python3)
 makedepends=(python3-pip)
 source=(https://github.com/pygobject/pycairo/releases/download/v$pkgver/pycairo-$pkgver.tar.gz)

@@ -1,6 +1,6 @@
 pkgname=sddm
 pkgver=0.19.0
-pkgrel=4
+pkgrel=5
 arch=(x86_64)
 depends=(xauth qt5 xorg-server xorg-fonts)
 makedepends=(extra-cmake-modules python3 qt5)
@@ -55,6 +55,10 @@ package() {
 	install -Dm644 Xsession "$pkgdir"/usr/share/sddm/scripts/Xsession
 	install -Dm644 tty.conf "$pkgdir"/etc/sddm.conf.d/tty.conf
 	install -Dm644 wayland-session "$pkgdir"/usr/share/sddm/scripts/wayland-session
+
+	# Double chmod scripts to be executable!!!
+	# Forgetting that will make sessions unusable
+	chmod +x "$pkgdir"/usr/share/sddm/scripts/*
 
 	install -d "$pkgdir"/usr/lib/sddm/sddm.conf.d
 	"$pkgdir"/usr/bin/sddm --example-config > "$pkgdir"/usr/lib/sddm/sddm.conf.d/default.conf

@@ -1,14 +1,14 @@
 pkgname=calamares
 pkgver=3.2.56
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 depends=('kconfig' 'kcoreaddons' 'kiconthemes' 'ki18n' 'kio' 'solid' 'yaml' 'dracut'
          'boost' 'qt5' 'polkit-qt' 'plasma-framework' 'yaml-cpp' 'double-conversion'
          'squashfs-tools' 'libpwquality' 'appstream' 'kpmcore')
 makedepends=('extra-cmake-modules' 'qt5' 'git')
 commitid=1c49648fc5f9264fe4611e5cb17f287f508bfc60 # 3.2.56
-source=($pkgname::"git+https://github.com/calamares/calamares.git#commit=$commitid"
-	{bootloader,welcome,settings,packages,partition}.conf)
+source=($pkgname::"git+https://git.it-kuny.ch/drunk/source-code/calamares.git#commit=$commitid"
+	$pkgname-conf::"git+https://git.it-kuny.ch/drunk/source-code/calamares-conf.git")
 
 prepare() {
 	cd ${srcdir}/calamares
@@ -37,6 +37,5 @@ package() {
 	make DESTDIR="$pkgdir" install
 
 	# Rewrite stock configs with ours
-	cp -f $srcdir/settings.conf $pkgdir/usr/share/calamares/settings.conf
-	cp -f $srcdir/{bootloader,welcome,packages,partition}.conf $pkgdir/usr/share/calamares/modules/
+	cp -rf $srcdir/calamares-conf/calamares/* $pkgdir/usr/share/$pkgname/
 }

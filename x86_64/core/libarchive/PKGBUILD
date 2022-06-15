@@ -1,15 +1,13 @@
 pkgname=libarchive
-pkgver=3.5.2
+pkgver=3.6.1
 pkgrel=1
 arch=('x86_64')
-depends=(acl bzip2 expat lz4 openssl xz zlib zstd)
+depends=(acl bzip2 expat lz4 openssl xz zlib zstd libxml2 nettle expat)
 source=(https://github.com/libarchive/libarchive/releases/download/v$pkgver/libarchive-$pkgver.tar.xz
 	0001-unescape-when-extracting-link.patch)
 
 prepare() {
 	cd $pkgname-$pkgver
-
-	patch -Np1 -i ../0001-unescape-when-extracting-link.patch
 }
 
 build() {
@@ -17,8 +15,10 @@ build() {
 
         ./configure		\
 	--prefix=/usr		\
-	--without-xml2		\
-	--without-nettle
+	--with-xml2		\
+	--with-lzo2		\
+	--with-zstd		\
+	--with-nettle
 
         make
 }

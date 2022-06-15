@@ -7,13 +7,19 @@ makedepends=()
 source=()
 
 prepare() {
+	cd $pkgname-$pkgver
+
 	
 }
 
 build() {
+	cd $pkgname-$pkgver
+
 	
 }
 
 package() {
+	cd $pkgname-$pkgver
+
 	
 }

@@ -25,7 +25,10 @@ remove_leftovers extra
 remove_leftovers extra32
 remove_leftovers games
 remove_leftovers layers
+remove_leftovers pentest
+remove_leftovers perl
 remove_leftovers proprietary
+remove_leftovers python
 remove_leftovers server
 
 remove_leftovers_desktop() {

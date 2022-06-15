@@ -8,5 +8,6 @@ Terminal=false
 Type=Application
 Icon=firefox
 Categories=GNOME;GTK;Network;WebBrowser;
-MimeType=text/xml;text/mml;application/xhtml+xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;x-scheme-handler/http;x-scheme-handler/https
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;application/x-xpinstall;application/pdf;application/json;
+StartupWMClass=firefox
 StartupNotify=true

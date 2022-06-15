@@ -1546,6 +1546,7 @@ get_packages() {
             has kiss       && tot kiss l
             has cpt-list   && tot cpt-list
             has pacman-key && tot pacman -Qq --color never
+	    has bottle-key && tot bottle -Qq --color never
             has dpkg       && tot dpkg-query -f '.\n' -W
             has xbps-query && tot xbps-query -l
             has apk        && tot apk info
@@ -1667,6 +1668,7 @@ get_packages() {
             case $kernel_name in
                 CYGWIN*) has cygcheck && tot cygcheck -cd ;;
                 MSYS*)   has pacman   && tot pacman -Qq --color never ;;
+		MSYS*)   has bottle   && tot bottle -Qq --color never ;;
             esac
 
             # Scoop environment throws errors if `tot scoop list` is used

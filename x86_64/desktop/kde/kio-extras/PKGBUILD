@@ -1,8 +1,9 @@
 pkgname=kio-extras
 pkgver=22.04.0
-pkgrel=1
+pkgrel=3
 arch=('x86_64')
-depends=(kio libmtp phonon syntax-highlighting libxcursor)
+depends=(kio libmtp phonon syntax-highlighting libxcursor samba
+	kdsoap-ws-discovery-client)
 makedepends=(extra-cmake-modules kdoctools gperf kactivities-stats)
 source=(https://download.kde.org/stable/release-service/$pkgver/src/$pkgname-$pkgver.tar.xz)
 
