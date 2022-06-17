@@ -8,9 +8,10 @@ source=(https://download.savannah.gnu.org/releases/$pkgname/$pkgname-$pkgver.tar
 build() {
         cd $pkgname-$pkgver
 
-        ./configure --prefix=/usr     \
-	            --bindir=/bin     \
-	            --sysconfdir=/etc
+        ./configure \
+        --prefix=/usr \
+        --bindir=/bin \
+        --sysconfdir=/etc
         make
 }
 
@@ -19,7 +20,5 @@ package() {
 
         make DESTDIR=$pkgdir install
 
-        mkdir -p $pkgdir/lib
-        mv -v $pkgdir/usr/lib/libattr.so.* $pkgdir/lib
         ln -sfv ../../lib/$(readlink $pkgdir/usr/lib/libattr.so) $pkgdir/usr/lib/libattr.so
 }

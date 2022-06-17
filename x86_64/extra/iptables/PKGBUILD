@@ -1,5 +1,5 @@
 pkgname=iptables
-pkgver=1.8.7
+pkgver=1.8.8
 pkgrel=1
 arch=(x86_64)
 depends=(libnftnl libpcap libcap libnfnetlink bash)
@@ -14,6 +14,8 @@ prepare() {
 
 	# use system one
 	rm include/linux/types.h
+
+	ln -rs libiptc/linux_list.h include/libiptc
 }
 
 build() {
@@ -22,11 +24,10 @@ build() {
 	../$pkgname-$pkgver/configure \
 	--prefix=/usr \
 	--sysconfdir=/etc \
-	--sbindir=/usr/bin \
 	--libexecdir=/usr/lib \
 	--enable-bpf-compiler \
-	--enable-devel \
 	--enable-libipq \
+	--enable-devel \
 	--enable-shared
 
 	make
@@ -34,14 +35,6 @@ build() {
 
 package() {
 	DESTDIR="$pkgdir" make -C build install
-
-	for _x in {arp,eb,ip,ip6}tables{,-restore,-save} iptables-apply iptables-xml; do
-		if [[ $1 = nft || $_x = ip* ]]; then
-			ln -sf xtables-$1-multi "$pkgdir/usr/bin/$_x"
-		else
-			rm "$pkgdir/usr/bin/$_x"
-		fi
-	done
 
 	install -Dt "$pkgdir/usr/lib/systemd/system" -m644 {ip,ip6}tables.service
 	install -D iptables-legacy-flush "$pkgdir/usr/lib/systemd/scripts/iptables-flush"

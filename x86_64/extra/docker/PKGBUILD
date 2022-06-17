@@ -1,6 +1,6 @@
 pkgname=docker
 pkgver=20.10.12
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(glibc sqlite3 systemd libseccomp libtool runc containerd iptables)
 makedepends=(git go btrfs-progs cmake systemd go-md2man sed)

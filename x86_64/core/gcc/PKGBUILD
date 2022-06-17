@@ -1,8 +1,8 @@
 pkgname=gcc
-pkgver=11.2.0
+pkgver=12.1.0
 pkgrel=2
 arch=('x86_64')
-source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver/$pkgname-$pkgver.tar.xz)
+source=(https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver/$pkgname-$pkgver.tar.gz)
 options=(!emptydirs !lto !strip)
 depends=(binutils mpfr mpc glibc libxcrypt zstd flex)
 
@@ -19,11 +19,11 @@ prepare() {
 		-i.orig gcc/config/i386/t-linux64
 }
 
-build1() {
+build() {
 	cd $pkgname-$pkgver
 
 	mkdir -pv build
-	cd       build
+	cd build
 
 	SED=sed \
 	../configure \
@@ -39,11 +39,7 @@ build1() {
 	--disable-werror \
 	--with-arch_32=i686
 
-	make
-}
-
-build() {
-	cd $pkgname-$pkgver/build
+	touch /usr/include/gnu/stubs-32.h
 
 	make
 }
@@ -69,4 +65,7 @@ package() {
 
 	mkdir -pv $pkgdir/usr/share/gdb/auto-load/usr/lib
 	mv -v $pkgdir/usr/lib/*gdb.py $pkgdir/usr/share/gdb/auto-load/usr/lib
+
+	# Dummy include
+	touch $pkgdir/usr/include/gnu/stubs-32.h
 }

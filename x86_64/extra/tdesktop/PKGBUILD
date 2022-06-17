@@ -1,16 +1,17 @@
 pkgname=tdesktop
-pkgver=3.7.5
+pkgver=3.7.6
 pkgrel=1
 pkgdesc='Official Telegram Desktop client'
 arch=('x86_64')
 url="https://github.com/telegramdesktop/tdesktop"
-commitid=36b8d03b1d455f9cca8d32ae5b33c419a104d6fa
+commitid=7a9273eca9d6ce639b5ad5ceb3a0159dfb451334
 depends=('ffmpeg' 'hicolor-icon-theme' 'lz4' 'minizip' 'openal'
     'qt6' 'glibmm' 'rnnoise' 'pipewire' 'libxtst' 'libxrandr'
     'abseil-cpp' 'tg_owt' 'webkit2gtk')
 makedepends=('cmake' 'git' 'ninja' 'python3' 'meson'
     'extra-cmake-modules' 'wayland-protocols' 'plasma-wayland-protocols')
-source=("git+https://github.com/telegramdesktop/tdesktop.git")
+source=("git+https://github.com/telegramdesktop/tdesktop.git"
+	"lib_ui-animations-header-fix.patch")
 
 prepare() {
     cd $pkgname
@@ -25,26 +26,30 @@ prepare() {
 
     # Reset all submodules to original changes
     git submodule foreach --recursive git reset --hard
-}
 
-build() {
-    cd $pkgname
+    # Patches
+    patch -p0 -i $srcdir/lib_ui-animations-header-fix.patch
 
-    #
+    ##
     # API ID/HASH is only and only allowed to be used by DrunkOS developers
     # Killing or using our trust for something else will mean hidden api keys in the future!!!
+    ##
 
     export CXXFLAGS+=" -Wp,-U_GLIBCXX_ASSERTIONS"
     cmake \
     -B build \
     -G Ninja \
     -D CMAKE_INSTALL_PREFIX="/usr" \
-    -D DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION=on \
+    -D DESKTOP_APP_DISABLE_WAYLAND_INTEGRATION=off \
     -D DESKTOP_APP_QT6=TRUE \
     -D DESKTOP_APP_USE_PACKAGED_FONTS=true \
     -D CMAKE_BUILD_TYPE=Release \
     -D TDESKTOP_API_ID=12851169 \
     -D TDESKTOP_API_HASH=bc117a073c479e6d4f19c141cc9ac75f
+}
+
+build() {
+    cd $pkgname
 
     ninja -C build
 }
