@@ -1,12 +1,18 @@
 pkgname=system-config-printer
 pkgver=1.5.16
-pkgrel=3
+pkgrel=4
 arch=(x86_64)
 depends=(libnotify gtk3+ cairo cups cups-pk-helper
 	python3-pysmbc python3-gobject python3-cairo
 	python3-pycups python3-pycurl)
 makedepends=(xmlto docbook-xsl desktop-file-utils libsecret)
 source=(https://github.com/OpenPrinting/system-config-printer/releases/download/v${pkgver}/system-config-printer-${pkgver}.tar.xz)
+
+prepare() {
+	cd $pkgname-$pkgver
+
+	./bootstrap
+}
 
 build() {
 	cd $pkgname-$pkgver
@@ -19,12 +25,19 @@ build() {
 	--with-udev-rules
 
 	make
+
+	python setup.py build
 }
 
 package() {
 	cd $pkgname-$pkgver
 
 	make DESTDIR="$pkgdir" install
+
+	rm -rf $pkgdir/usr/lib/python3.10
+
+	# Install cupshelpers manually
+	python setup.py install --root=${pkgdir}
 
 	# Compile all py files
 	find "$pkgdir" -name '*.py' -exec python -mpy_compile {} +

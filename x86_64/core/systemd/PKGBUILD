@@ -1,15 +1,15 @@
 pkgname=systemd
-pkgver=250.2
-pkgrel=2
+pkgver=251
+pkgrel=1
 arch=('x86_64')
-depends=('acl' 'docbook-xsl' 'gperf' 'lz4' 'xz' 'linux-pam' 'elfutils'
-	'intltool' 'kmod' 'libcap' 'libidn2' 'libgcrypt'
+depends=('acl' 'gperf' 'lz4' 'xz' 'linux-pam' 'elfutils'
+	'kmod' 'libcap' 'libidn2' 'libgcrypt'
 	'libxslt' 'util-linux'
-	'shadow' 'gnu-efi' 'git'
-	'meson' 'libxkbcommon'
-	'bash-completion' 'p11-kit' 'rsync'
+	'shadow' 'gnu-efi'
+	'libxkbcommon'
+	'bash-completion' 'p11-kit'
 	'gnutls')
-makedepends=(python3-pip)
+makedepends=('meson' 'docbook-xsl' 'git' 'rsync' 'intltool' 'python3-pip')
 source=("https://github.com/systemd/systemd-stable/archive/refs/tags/v${pkgver}.tar.gz"
 	'drunk.conf'
 	'initrd-drunk.conf'
@@ -36,9 +36,9 @@ backup=(etc/pam.d/systemd-user
 	etc/systemd/networkd.conf)
 
 prepare() {
-	pip install setuptools
+	pip3 install setuptools
 
-	pip install jinja2
+	pip3 install jinja2
 
         cd $pkgname-stable-$pkgver
         
@@ -50,26 +50,28 @@ prepare() {
 
 build() {
 	cd $pkgname-stable-$pkgver        
-        mkdir -p build
-	cd build
+	mkdir -p build && cd build
+
 	export PATH=/bin:/sbin:/usr/bin:/usr/sbin:$PATH	
-	LANG=en_US.UTF-8						\
-	meson								\
-		--prefix=/usr						\
-		--sysconfdir=/etc					\
-		--localstatedir=/var					\
-		--buildtype=release					\
-		-D blkid=true						\
-		-D mode=release						\
-		-D default-hierarchy=unified				\
-		-D install-tests=false					\
-		-D docdir=/usr/share/doc/systemd-249			\
-		-D dbuspolicydir=/usr/share/dbus-1/system.d		\
-		-D sbat-distro='drunk'					\
-		-D sbat-distro-summary='Drunk Linux'			\
-		-D sbat-distro-pkgname="${pkgname}"			\
-		-D sbat-distro-version="${pkgver}"			\
-		-D sbat-distro-url="http://drunk.epizy.com/"		\
+	LANG=en_US.UTF-8 \
+	meson \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--buildtype=release \
+		-D blkid=true \
+		-D mode=release \
+		-D default-hierarchy=unified \
+		-D install-tests=false \
+		-D tests=false \
+		-D dns-servers='1.1.1.1#cloudflare-dns.com 1.0.0.1#cloudflare-dns.com 2606:4700:4700::1111#cloudflare-dns.com 2606:4700:4700::1001#cloudflare-dns.com' \
+		-D docdir=/usr/share/doc/systemd \
+		-D dbuspolicydir=/usr/share/dbus-1/system.d \
+		-D sbat-distro='drunk' \
+		-D sbat-distro-summary='Drunk Linux'\
+		-D sbat-distro-pkgname="${pkgname}" \
+		-D sbat-distro-version="${pkgver}" \
+		-D sbat-distro-url="http://drunk.epizy.com/" \
 		..
 
 	ninja
@@ -79,7 +81,7 @@ package() {
 	# Install bootctl conf file examples
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/drunk.conf
 	install -D -m0644 drunk.conf "$pkgdir"/usr/share/systemd/bootctl/initrd-drunk.conf
-        install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
+	install -D -m0644 loader.conf "$pkgdir"/usr/share/systemd/bootctl/loader.conf
 
 	cd $pkgname-stable-$pkgver/build
 	

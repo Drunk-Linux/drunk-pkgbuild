@@ -104,7 +104,8 @@ package() {
 	ln -sv ../usr/lib32/ld-linux.so.2 $pkgdir/lib/ld-lsb.so.3
 	ln -sv ../lib/locale $pkgdir/usr/lib32/locale
 
-	install -Dm644 "$srcdir/lib32-glibc.conf" "$pkgdir/etc/ld.so.conf.d/lib32-glibc.conf"
+	mkdir -p $pkgdir/etc/ld.so.conf.d
+	echo "/usr/lib32" > "$pkgdir/etc/ld.so.conf.d/lib32-glibc.conf"
 
 	cat > $pkgdir/etc/nsswitch.conf << "EOF"
 # Begin /etc/nsswitch.conf

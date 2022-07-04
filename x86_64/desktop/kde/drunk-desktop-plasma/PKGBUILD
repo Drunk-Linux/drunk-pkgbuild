@@ -1,8 +1,12 @@
 pkgname=drunk-desktop-plasma
-pkgver=2022.2
+pkgver=2022.3
 pkgrel=1
 arch=('x86_64')
+install=plasma.install
 depends=(
+	# Login ( suggest sddm as wayland can be launched here + theming )
+	sddm
+
 	# Framework + desktop
 	ark kauth kdav kdesu ki18n kjobwidgets kparts ksystemstats kxmlrpcclient plasma-desktop
 	purpose attica kbookmarks kdbusaddons kdewebkit kiconthemes kjs kpeople ktexteditor
@@ -24,7 +28,8 @@ depends=(
 	konsole spectacle dolphin kate firefox
 
 	# Other
-	powerdevil plasma-pa plasma-nm)
+	powerdevil plasma-pa plasma-nm plymouth
+	avahi print-manager)
 
 build() {
 	echo "[*]: It's a metapackage"

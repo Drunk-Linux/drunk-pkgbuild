@@ -1,8 +1,9 @@
 pkgname=wayland
-pkgver=1.20.91
+pkgver=1.20.92
 pkgrel=1
 arch=('x86_64')
-depends=('base-drunk')
+depends=('expat' 'glibc' 'libffi' 'libxml2')
+makedepends=('docbook-xsl' 'docbook-xml' 'libxslt' 'meson' 'xmlto')
 source=(https://gitlab.freedesktop.org/wayland/wayland/-/releases/$pkgver/downloads/$pkgname-$pkgver.tar.xz)
 options=(!strip)
 
@@ -11,10 +12,10 @@ build() {
 
         mkdir -p build && cd build
 
-	meson			\
-	--prefix=/usr		\
-	--buildtype=release	\
-	-Ddocumentation=false	\
+	meson \
+	--prefix=/usr \
+	--buildtype=release \
+	-D documentation=true \
 
 	ninja
 }

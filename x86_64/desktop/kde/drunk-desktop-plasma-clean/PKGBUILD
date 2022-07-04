@@ -1,8 +1,12 @@
-pkgname=drunk-desktop-kde-clean
-pkgver=2022.2
+pkgname=drunk-desktop-plasma-clean
+pkgver=2022.3
 pkgrel=1
 arch=('x86_64')
-depends=(# Framework + desktop
+depends=(
+	# Login ( suggest sddm as wayland can be launched here + theming )
+	sddm
+
+	# Framework + desktop
 	extra-cmake-modules kconfig kdesu kidletime knotifications kservice kxmlrpcclient plasma-workspace-wallpapers
 	frameworkintegration kconfigwidgets kdewebkit kimageformats knotifyconfig ksysguard layer-shell-qt polkit-kde-agent
 	kactivities kcontacts kdnssd kinit ksystemstats libkscreen polkit-qt attica kactivities-stats kcoreaddons kdoctools

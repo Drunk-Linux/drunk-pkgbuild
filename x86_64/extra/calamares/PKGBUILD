@@ -7,8 +7,7 @@ depends=('kconfig' 'kcoreaddons' 'kiconthemes' 'ki18n' 'kio' 'solid' 'yaml' 'dra
          'squashfs-tools' 'libpwquality' 'appstream' 'kpmcore')
 makedepends=('extra-cmake-modules' 'qt5' 'git')
 commitid=1c49648fc5f9264fe4611e5cb17f287f508bfc60 # 3.2.56
-source=($pkgname::"git+https://git.it-kuny.ch/drunk/source-code/calamares.git#commit=$commitid"
-	$pkgname-conf::"git+https://git.it-kuny.ch/drunk/source-code/calamares-conf.git")
+source=($pkgname::"git+https://git.it-kuny.ch/drunk/source-code/calamares.git#commit=$commitid")
 
 prepare() {
 	cd ${srcdir}/calamares
@@ -35,7 +34,4 @@ package() {
 	cd calamares/build
 
 	make DESTDIR="$pkgdir" install
-
-	# Rewrite stock configs with ours
-	cp -rf $srcdir/calamares-conf/calamares/* $pkgdir/usr/share/$pkgname/
 }

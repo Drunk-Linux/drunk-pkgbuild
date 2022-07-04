@@ -1,14 +1,14 @@
 opkgname=gtk+
 pkgname=gtk3+
 pkgver=3.24.34
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 install=gtk3.install
 depends=(atk cairo libxcursor libxinerama libxrandr libxi libepoxy gdk-pixbuf
 	dconf libxcomposite libxdamage pango shared-mime-info at-spi2-atk
 	wayland libxkbcommon adwaita-icon-theme json-glib librsvg
 	desktop-file-utils mesa cantarell-fonts colord rest cups
-	fribidi iso-codes)
+	fribidi iso-codes ibus)
 makedepends=(gobject-introspection gtk-doc git glib2 sassc meson
 	wayland-protocols)
 source=(https://download.gnome.org/sources/$opkgname/3.24/$opkgname-$pkgver.tar.xz

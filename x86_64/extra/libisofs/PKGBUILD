@@ -1,8 +1,16 @@
 pkgname=libisofs
 pkgver=1.5.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-source=(https://dev.lovelyhq.com/libburnia/libisofs/archive/release-$pkgver.tar.gz)
+depends=(glibc)
+source=(https://dev.lovelyhq.com/libburnia/libisofs/archive/release-$pkgver.tar.gz
+	efi_boot_size.patch)
+
+prepare() {
+	cd $pkgname
+
+	patch -p0 -i ../efi_boot_size.patch
+}
 
 build() {
         cd $pkgname

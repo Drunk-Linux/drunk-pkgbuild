@@ -1,9 +1,9 @@
 pkgname=glib2
-pkgver=2.70.2
-pkgrel=5
+pkgver=2.72.2
+pkgrel=1
 arch=('x86_64')
-depends=('base-drunk' 'libxslt')
-makedepends=('gtk-doc')
+depends=('libffi' 'pcre' 'util-linux' 'zlib' 'elfutils' 'libxslt' 'libxml2')
+makedepends=('gtk-doc' 'python3-pip' 'dbus' 'gettext' 'git' 'meson' 'docbook-xml' 'docbook-xsl')
 source=(git+https://gitlab.gnome.org/GNOME/glib.git#tag=$pkgver
 	noisy-glib-compile-schemas.diff
 	glib-compile-schemas.hook
@@ -12,6 +12,8 @@ source=(git+https://gitlab.gnome.org/GNOME/glib.git#tag=$pkgver
 prepare() {
 	cd glib
 	git apply -3 ../noisy-glib-compile-schemas.diff
+
+	pip3 install pygments
 }
 
 build() {

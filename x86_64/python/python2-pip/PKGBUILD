@@ -2,7 +2,7 @@ pkgname=python2-pip
 pkgver=18.0
 pkgrel=1
 arch=('x86_64')
-depends=('python2')
+depends=('python2' 'python2-setuptools')
 source=(https://github.com/pypa/pip/archive/$pkgver.tar.gz)
 
 build() {

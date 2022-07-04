@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for t in core cross-tools extra extra32 games layers proprietary server
+for t in core cross-tools extra extra32 games layers proprietary server perl python pentest
 do
  echo " "
  echo "[*]: Processing $t pkgs"

@@ -3,21 +3,21 @@ pkgver=9.56.1
 pkgrel=1
 arch=(x86_64)
 depends=(libxt cups fontconfig zlib libpng libjpeg libtiff
-	lcms dbus libpaper openjpeg2 libidn)
+	lcms dbus libpaper openjpeg libidn jbig2dec)
 makedepends=(gtk3+ gnutls glu freeglut)
 source=(https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs${pkgver//./}/ghostpdl-$pkgver.tar.xz)
 
 prepare() {
-	cd ghostpdl-$pkgver
+    cd ghostpdl-$pkgver
 
-	# Force usage of system libs
-	rm -rf cups/libs expat ijs jbig2dec jpeg lcms2mt libpng openjpeg tiff zlib
-	rm -rf gpdl
+    # Force usage of system libs
+    rm -rf cups/libs expat ijs jbig2dec jpeg lcms2mt libpng openjpeg tiff zlib
+    rm -rf gpdl
 
-	# https://bugs.ghostscript.com/show_bug.cgi?id=704405
-	sed -i "s/gscms_transformm_color_const/gscms_transform_color_const/" base/gsicc_lcms2.c
+    # https://bugs.ghostscript.com/show_bug.cgi?id=704405
+    sed -i "s/gscms_transformm_color_const/gscms_transform_color_const/" base/gsicc_lcms2.c
 
-	./configure \
+    ./configure \
     --prefix=/usr \
     --enable-dynamic \
     --with-ijs \
@@ -35,13 +35,13 @@ prepare() {
 }
 
 build() {
-	cd $pkgname-$pkgver
+    cd ghostpdl-$pkgver
 
-    make
+    make -j4
 }
 
 package() {
-	cd $pkgname-$pkgver
+    cd ghostpdl-$pkgver
 
     make DESTDIR=$pkgdir install
 }

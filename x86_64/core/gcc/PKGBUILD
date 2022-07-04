@@ -17,10 +17,6 @@ prepare() {
 
 	sed -e '/m64=/s/lib64/lib/' \
 		-i.orig gcc/config/i386/t-linux64
-}
-
-build() {
-	cd $pkgname-$pkgver
 
 	mkdir -pv build
 	cd build
@@ -38,16 +34,20 @@ build() {
 	--enable-threads=posix \
 	--disable-werror \
 	--with-arch_32=i686
+}
 
-	touch /usr/include/gnu/stubs-32.h
+build() {
+	cd $pkgname-$pkgver/build
 
-	make
+	#make -j4
 }
 
 package() {
 	cd $pkgname-$pkgver
 	cd build
-	make -j1 DESTDIR=$pkgdir install
+
+	# Lets use install-strip so we get pre-stripped binaries
+	make -j1 DESTDIR=$pkgdir install-strip
 
 	rm -rf $pkgdir/usr/lib/gcc/$(gcc -dumpmachine)/$pkgver/include-fixed/bits/
 
@@ -66,6 +66,7 @@ package() {
 	mkdir -pv $pkgdir/usr/share/gdb/auto-load/usr/lib
 	mv -v $pkgdir/usr/lib/*gdb.py $pkgdir/usr/share/gdb/auto-load/usr/lib
 
-	# Dummy include
-	touch $pkgdir/usr/include/gnu/stubs-32.h
+	# Move / Rename some things ( mainly as of conflicts with other pkg's )
+	mv $pkgdir/usr/bin/go $pkgdir/usr/bin/gcc-go
+	mv $pkgdir/usr/bin/gofmt $pkgdir/usr/bin/gcc-gofmt
 }

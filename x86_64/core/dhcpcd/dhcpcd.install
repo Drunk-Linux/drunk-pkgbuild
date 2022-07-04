@@ -1,0 +1,14 @@
+post_upgrade() {
+  if [ -d /var/lib/dhcpcd ]; then
+    chown root:root /var/lib/dhcpcd
+    chmod 0750 /var/lib/dhcpcd
+  fi
+
+  echo "###"
+  echo "# Please enable and start dhcpcd if no NetworkManager is installed or enabled"
+  echo "###"
+}
+
+post_install() {
+  post_upgrade
+}

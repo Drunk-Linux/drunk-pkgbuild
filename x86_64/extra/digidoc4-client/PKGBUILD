@@ -1,0 +1,24 @@
+pkgname=digidoc4-client
+rname=DigiDoc4-Client
+pkgver=4.2.11
+pkgrel=1
+arch=(x86_64)
+depends=(qt5 libdigidocpp openldap pcsc-lite opensc)
+makedepends=(cmake make)
+
+prepare() {
+	git clone --recursive https://github.com/open-eid/DigiDoc4-Client -b v$pkgver
+}
+
+build() {
+	cd $rname
+
+	cmake -B build -G Ninja \
+	-D CMAKE_INSTALL_PREFIX=/usr
+}
+
+package() {
+	cd $rname
+
+	DESTDIR=$pkgdir ninja -C build install
+}

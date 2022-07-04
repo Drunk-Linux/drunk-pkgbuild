@@ -1,15 +1,26 @@
 pkgname=dhcpcd
 pkgver=9.4.1
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
 depends=(glibc systemd libgudev)
-source=(https://roy.marples.name/downloads/dhcpcd/dhcpcd-$pkgver.tar.xz)
+install=$pkgname.install
+source=(https://roy.marples.name/downloads/dhcpcd/dhcpcd-$pkgver.tar.xz
+	dhcpcd.install
+	dhcpcd_.service
+	dhcpcd.service
+	dhcpcd.sysusers
+	dhcpcd.tmpfiles)
 
 build() {
 	cd $pkgname-$pkgver
 
-	./configure --libexecdir=/lib/dhcpcd \
-                    --dbdir=/var/lib/dhcpcd
+	./configure \
+	--prefix=/usr \
+	--sysconfdir=/etc \
+	--dbdir=/var/lib/dhcpcd \
+	--runstatedir=/run \
+	--privsepuser=dhcpcd
+
 	make
 }
 
@@ -18,12 +29,8 @@ package() {
 
 	make DESTDIR=$pkgdir install
 
-	mkdir -p $pkgdir/etc/sysconfig/
-	cat > $pkgdir/etc/sysconfig/ifconfig.eth0 << "EOF"
-ONBOOT="no"
-IFACE="eth0"
-SERVICE="dhcpcd"
-#DHCP_START="-b -q <insert appropriate start options here>"
-#DHCP_STOP="-k <insert additional stop options here>"
-EOF
+	install -Dm644 "$srcdir/dhcpcd_.service" "$pkgdir/usr/lib/systemd/system/dhcpcd@.service"
+	install -Dm644 "$srcdir/dhcpcd.service" "$pkgdir/usr/lib/systemd/system/dhcpcd.service"
+	install -Dm644 "$srcdir/dhcpcd.sysusers" "$pkgdir/usr/lib/sysusers.d/dhcpcd.conf"
+	install -Dm644 "$srcdir/dhcpcd.tmpfiles" "$pkgdir/usr/lib/tmpfiles.d/dhcpcd.conf"
 }

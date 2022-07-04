@@ -1,5 +1,5 @@
 pkgname=print-manager
-pkgver=22.04.1
+pkgver=22.04.2
 pkgrel=1
 arch=('x86_64')
 depends=(kcmutils kirigami2 system-config-printer)

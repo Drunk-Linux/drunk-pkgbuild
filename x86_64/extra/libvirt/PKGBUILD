@@ -2,7 +2,8 @@ pkgname=libvirt
 pkgver=8.0.0
 pkgrel=1
 arch=('x86_64')
-depends=('libpciaccess' 'yajl' 'fuse2' 'gnutls' 'parted' 'libssh' 'libxml2' 'numactl' 'polkit')
+depends=('libpciaccess' 'yajl' 'fuse2' 'gnutls' 'parted' 'libssh' 'libxml2' 'numactl' 'polkit'
+	'ceph')
 makedepends=('meson' 'libxslt' 'lvm2' 'python3-pip'
             'bash-completion' 'rpcsvc-proto' 'dnsmasq' 'iproute2' 'qemu')
 export PATH=$PATH:/home/$(whoami)/.local/bin/

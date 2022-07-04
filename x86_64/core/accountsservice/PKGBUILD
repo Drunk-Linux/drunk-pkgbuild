@@ -1,9 +1,10 @@
 pkgname=accountsservice
-pkgver=0.6.55
-pkgrel=4
+pkgver=22.08.8
+pkgrel=1
 arch=('x86_64')
 depends=(glib2 polkit systemd shadow)
-makdedepends=(gtk-doc gobject-introspection meson docbook-xsl xmlto vala)
+makedepends=(gtk-doc gobject-introspection meson docbook-xsl docbook-xml
+	xmlto vala python3-pygments)
 source=(https://freedesktop.org/software/$pkgname/$pkgname-$pkgver.tar.xz
 	40-adm.rules)
 
@@ -14,10 +15,11 @@ prepare() {
 build() {
 	cd $pkgname-$pkgver/build
 
-	meson			\
-	--prefix=/usr		\
-	-D admin_group=adm	\
-	-D systemd=true
+	meson \
+	--prefix=/usr \
+	-D admin_group=adm \
+	-D gtk_doc=true \
+	-D docbook=true
 
 	ninja
 }

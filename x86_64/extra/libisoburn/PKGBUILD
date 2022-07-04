@@ -1,9 +1,16 @@
 pkgname=libisoburn
 pkgver=1.5.4
-pkgrel=1
+pkgrel=2
 arch=('x86_64')
-source=(https://dev.lovelyhq.com/libburnia/libisoburn/archive/release-$pkgver.tar.gz)
 depends=('libburn' 'libisofs')
+source=(https://dev.lovelyhq.com/libburnia/libisoburn/archive/release-$pkgver.tar.gz
+	efi_size_change.patch)
+
+prepare() {
+	cd $pkgname
+
+	patch -p0 -i ../efi_size_change.patch
+}
 
 build() {
         cd $pkgname
