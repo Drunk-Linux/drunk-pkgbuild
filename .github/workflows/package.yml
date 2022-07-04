@@ -54,3 +54,4 @@ jobs:
       
         # Build the packages in docker env
         ./drunk -d -b -c $(cat list)
+        sudo docker exec --tty drunk_dev ping 8.8.8.8
