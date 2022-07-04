@@ -1,6 +1,6 @@
 pkgname=bash
 pkgver=5.1.16
-pkgrel=2
+pkgrel=1
 arch=('x86_64')
 depends=(readline glibc ncurses)
 backup=(etc/bash.bash{rc,_logout}
