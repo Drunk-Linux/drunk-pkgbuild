@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 
-split() {
-  # Usage: split "string" "output" "delimiter"
-  # Retuns: output (array)
-  IFS=$'\n' read -d "" -ra "$2" <<< "${1//$3/$'\n'}"
-}
+#
+# Autohor: darkmaster | https://github.com/grm34
+#
 
 get_pkg_list() {
   # Usage: get_pkg_list "$@"
@@ -12,7 +10,7 @@ get_pkg_list() {
   pkg_list=()
   local entry pkg
   for entry in "$@"; do
-    split "$entry" "pkg" "\/"
+    IFS=$'\n' read -d "" -ra pkg <<< "${entry//\//$'\n'}"
     if [[ ${pkg[-1]} == "PKGBUILD" ]] && [[ ${#pkg[@]} -gt 3 ]]; then
       pkg_list+=("${pkg[-2]}")
     fi
@@ -20,9 +18,9 @@ get_pkg_list() {
 }
 
 # Run
-output="$(git diff-tree --name-only --no-commit-id -r HEAD)"
+git diff-tree --name-only --no-commit-id -r HEAD > temp
+mapfile -t output < "temp"; rm -f temp
 
-split "$output" "output" "\n"
 get_pkg_list "${output[@]}"
 
 # Test
