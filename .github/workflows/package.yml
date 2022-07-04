@@ -64,10 +64,5 @@ jobs:
       
         cat list
       
-        # Import docker image
-        sudo docker pull hilledkinged/drunk:latest
-        
-        ls setup/checks
-      
         # Build the packages in docker env
         ./drunk -d -b -c $(cat list)
