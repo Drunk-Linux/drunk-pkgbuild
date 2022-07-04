@@ -40,7 +40,7 @@ jobs:
         sudo rm -rf /opt/hostedtoolcache /usr/local /usr/share/dotnet /usr/share/swift
       
         # Install required packages
-        sudo apt install -yq docker docker-engine docker.io containerd runc
+        sudo apt install -yq docker docker.io containerd runc
       
         # Now prepare drunk build env
         # As were running in ubuntu env then we need to bypass normal checks of script
